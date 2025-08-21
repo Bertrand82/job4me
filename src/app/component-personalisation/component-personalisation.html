@@ -1,0 +1,28 @@
+<h2><i class="fa-solid fa-sliders"></i> Personnalisation</h2>
+<form class="customization-form">
+  <label>
+    Ton/style :
+    <select (change)="onPersonnaliteChange($event)"  [(ngModel)]="personnalite" name="personnalite" >
+      <option *ngFor="let personnalite of personnalites" [value]="personnalite">{{ personnalite }}</option>
+    </select>
+
+  </label>
+  <label>
+    Points forts à mettre en avant :
+    <input
+      type="text"
+      placeholder="ex : gestion de projet, leadership..."
+      [(ngModel)]="competence"
+      name="competence"
+    />
+  </label>
+  <label>
+    Objectifs de la candidature :
+    <input
+      type="text"
+      placeholder="ex : évoluer dans le secteur tech..."
+      [(ngModel)]="objectif"
+      name="objectif"
+    />
+  </label>
+</form>

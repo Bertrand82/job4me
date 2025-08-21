@@ -1,5 +1,20 @@
+:root {
+  --primary: #3F51B5;
+  --accent: #00BFAE;
+  --bg: #f7f9fc;
+  --card-bg: #fff;
+  --border: #e0e5ea;
+  --text: #222;
+  --muted: #6c757d;
+}
 
-
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
 
 .container {
   width: 96%;

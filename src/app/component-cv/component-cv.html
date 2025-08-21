@@ -1,0 +1,9 @@
+<h2><i class="fa-solid fa-file-arrow-up"></i> Importer / Coller votre CV</h2>
+
+<div class="cv-actions">
+  <label class="upload-btn">
+    <input type="file" accept=".pdf" (change)="onFileSelected($event)" hidden />
+    <i class="fa-solid fa-upload"></i> Importer un PDF
+  </label>
+  <textarea placeholder="Ou collez ici le contenu de votre CV..." (input)="onTextareaChange($event)"></textarea>
+</div>

@@ -1,5 +1,15 @@
-
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>BgOffreEmploiRepondeur</title>
+  <!-- Google Fonts & FontAwesome CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
   <!-- Header -->
   <header>
     <div class="container header-flex">
@@ -17,12 +27,8 @@
   </header>
 
   <main>
-
     <div class="container grid-main">
 
-      <section class="card">
-          <app-component-cv  #cv/>
-      </section>
       <!-- Section CV -->
       <section class="card">
         <h2><i class="fa-solid fa-file-arrow-up"></i> Importer / Coller votre CV</h2>
@@ -42,13 +48,7 @@
           </ul>
         </div>
       </section>
-      <section class="card">
-        <offre-emploi #offreEmploi></offre-emploi>
-      </section>
 
-      <section class="card">
-        <personalisation #personalisation></personalisation>
-      </section>
       <!-- Section Offre d'emploi -->
       <section class="card">
         <h2><i class="fa-solid fa-briefcase"></i> Offre d'emploi</h2>
@@ -85,7 +85,7 @@
       <!-- Génération lettre de motivation -->
       <section class="card letter-section">
         <h2><i class="fa-solid fa-envelope-open-text"></i> Génération de la lettre de motivation</h2>
-        <button class="primary" style="margin-bottom:1em;"  (click)="generateLetter()"><i class="fa-solid fa-wand-magic-sparkles" ></i> Générer la lettre</button>
+        <button class="primary" style="margin-bottom:1em;"><i class="fa-solid fa-wand-magic-sparkles"></i> Générer la lettre</button>
         <textarea class="letter-output" placeholder="La lettre générée apparaîtra ici..." rows="9"></textarea>
         <div class="letter-actions">
           <button title="Copier"><i class="fa-solid fa-copy"></i> Copier</button>
@@ -138,4 +138,5 @@
       </div>
     </div>
   </footer>
-
+</body>
+</html>
