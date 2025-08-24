@@ -17,6 +17,15 @@
     />
   </label>
   <label>
+    Nombre de mots maximum :
+    <input
+      type="number"
+      [(ngModel)]="nombreDeMotsMax"
+      name="nombreDeMotsMax"
+      min="30"
+      max="1000"
+    />
+  <label>
     Objectifs de la candidature :
     <input
       type="text"
@@ -25,4 +34,4 @@
       name="objectif"
     />
   </label>
-</form>
+

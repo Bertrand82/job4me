@@ -19,6 +19,7 @@ export class ComponentCV {
   componentCV!: ComponentCV;
   cvItemSelected!: CV;
   cvItems: CV[] = [];
+  showCvInputTextarea: boolean = false;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
     this.componentCV = this;

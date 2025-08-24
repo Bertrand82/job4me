@@ -38,7 +38,15 @@ export const responseShemaGemini_v1 = {
 
     "niveauDeCorrespondanceDe1A10": { "type": "number" },
     "lettreMotivation": { "type": "string" },
-    "motsClésCommunsOffreEtCV": { "type": "string" }
+    "motsClésCommunsOffreEtCV": { "type": "string" },
+    "nombreDeMots": { "type": "number","description":"renseigne le nombre de mots dans la lettre de motivation" },
+    "cv.nom": { "type": "string", "description":"renseigne le nom de la personne identifiée dans le CV" },
+    "cv.prenom": { "type": "string", "description":"renseigne le prénom de la personne identifiée dans le CV" },
+    "cv.nationalite": { "type": "string", "description":"renseigne la nationalité de la personne identifiée dans le CV" },
+    "cv.age": { "type": "number", "description":"renseigne l'âge de la personne identifiée dans le CV" },
+    "cv.experience": { "type": "string", "description":"renseigne l'expérience de la personne identifiée dans le CV" },
+    "langue": { "type": "string" , "enum": ["fr", "en"] },
+
   },
   "required": ["niveauDeCorrespondanceDe1A10", "lettreMotivation", "motsClésCommunsOffreEtCV"],
   "propertyOrdering": ["niveauDeCorrespondanceDe1A10", "lettreMotivation", "motsClésCommunsOffreEtCV"]
@@ -47,20 +55,18 @@ export const responseShemaGemini_v1 = {
 export const reponseAnalyseOffreEmploi = {
   "type": "object",
   "properties": {
-    "cv.nom": { "type": "string", "description":"renseigne le nom de la personne identifiée dans le CV" },
-    "cv.prenom": { "type": "string", "description":"renseigne le prénom de la personne identifiée dans le CV" },
-    "cv.nationalite": { "type": "string", "description":"renseigne la nationalité de la personne identifiée dans le CV" },
-    "cv.age": { "type": "number", "description":"renseigne l'âge de la personne identifiée dans le CV" },
-    "cv.experience": { "type": "string", "description":"renseigne l'expérience de la personne identifiée dans le CV" },
-    "langue": { "type": "string" , "enum": ["fr", "en"] },
-    "offre.resume": { "type": "string" , "maxLength": 500 },
+    "offre.titre": { "type": "string" ,"description":"récupérer le titre de l’offre d'emploi ou si il n'y en a pas, générer un titre rsumant les compétences demandées" },
+    "offre.date": { "type": "string" ,"description":"renseigne la date de l’offre. Si il n'y a pas de date, indiquez ''" },
+    "offre.resume": { "type": "string" , "maxLength": 80 },
     "offre.societe": { "type": "string" ,"description":"renseigne le nom de la société identifiée dans l’offre"},
     "offre.personne": { "type": "string", "description":"renseigne le nom de la personne identifiée dans l’offre" },
     "offre.email": { "type": "string", "description":"renseigne l'email de la personne identifiée dans l’offre" },
     "offre.lieu": { "type": "string","description":"renseigne le lieu du poste identifié dans l’offre" },
     "offre.pays": { "type": "string","description":"renseigne le pays du poste identifié dans l’offre" },
     "offre.freelance": { "type": "boolean","description":"Dans l'offre d'emploi,précise si le poste est en freelance ou non" },
-  },
-  "required": ["langue", "resume", "societe", "personne", "lieu", "freelance"],
-  "propertyOrdering": ["langue", "resume", "societe", "personne", "lieu", "freelance"]
+    "offre.langue": { "type": "string", "enum": ["fr", "en","es"] }
+
+   },
+  "required": ["offre.titre","offre.date","offre.langue", "offre.resume", "offre.societe", "offre.personne", "offre.lieu", "offre.freelance"]
+
 };

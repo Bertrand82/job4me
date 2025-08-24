@@ -1,3 +1,9 @@
 <h2><i class="fa-solid fa-briefcase"></i> Offre d'emploi</h2>
- <textarea placeholder="Collez ici l’offre d’emploi..." (input)="onTextareaChange($event)"></textarea>
+ <textarea placeholder="Collez ici l’offre d’emploi..." (input)="onTextareaChange($event)" [(ngModel)]="offreEmploiContent"></textarea>
+<button (click)="onSaveOffreEmploi()" title="Add Offre Emploi"><i class="fa-solid fa-upload"> </i>  Add Offre Emploi</button>
+    <div class="saved-cvs-list">
+    <div *ngFor="let offreEmploi of listOffreEmploi">
+       <app-offre-emploi-item [componentOffreEmploi]="componentOffreEmploi" [offreEmploi]="offreEmploi"></app-offre-emploi-item>
+    </div>
+  </div>
 

@@ -4,6 +4,7 @@ import {
   ViewChild,
   ChangeDetectorRef,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 // Update the import path to the correct relative path or install the package if missing
@@ -18,6 +19,7 @@ import { BgGemini, responseShemaGemini_v1 } from './services/bg-gemini';
     ComponentOffreEmploi,
     ComponentPersonalisation,
     FormsModule,
+    CommonModule
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -34,7 +36,7 @@ export class App {
   httpStatus: any;
   texteLettre!: string;
   prompt!: string;
-
+  nombreDeMots = 0;
   constructor(
     private gemini: BgGemini,
     private changeDetectorRef: ChangeDetectorRef
@@ -53,13 +55,19 @@ export class App {
     this.askGemini(prompt2);
   }
   makePrompt(data: any) {
-    return (
-      "genere une lettre de motivation pour une offre d'emploi en francais avec les informations suivantes : " +
-      JSON.stringify(this.makePromptMock())
-    );
+
+     const p = "génère une lettre de motivation pour une offre d'emploi en francais avec les informations suivantes : " +
+      "\n Personnalité : " + this.componentPersonalisation.personnalite +
+      "\n Nombre de mots maximum : " + this.componentPersonalisation.nombreDeMotsMax +
+      "\n Objectif : " + this.componentPersonalisation.objectif +
+      "\n Compétence : " + this.componentPersonalisation.competence +
+      "\n Offre emploi : " +this.componentOffreEmploi.getOffreEmploiSelected().toString2() +
+      " CV : " +   JSON.stringify(this.componentCV.getCvSelected())
+    ;
+    return p;
     // return `Génére une lettre de motivation pour repondre à l'offre d'emploi avec les données suivante : ${JSON.stringify(data)}`;
   }
-  makePromptMock(): any {
+  makePromptMock_v1(): any {
     const dataMock: any = {
       cv: this.componentCV.getCvSelected(),
       offreEmploi: 'Job developpeur backend',
@@ -94,6 +102,7 @@ export class App {
         const obj = JSON.parse(text);
         console.log('obj :', obj);
         this.texteLettre = obj.lettreMotivation;
+        this.nombreDeMots = obj.nombreDeMots;
         this.changeDetectorRef.detectChanges();
         this.alertOnResult();
       },
@@ -115,5 +124,6 @@ export class App {
   }
   displayPrompt() {
     alert("prompt :"+this.prompt);
+    navigator.clipboard.writeText(this.prompt);
   }
 }

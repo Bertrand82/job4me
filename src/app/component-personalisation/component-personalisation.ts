@@ -15,6 +15,8 @@ export class ComponentPersonalisation {
   competence: any;
   objectif: any;
 
+  nombreDeMotsMax: number = 100;
+
   onPersonnaliteChange($event: Event) {
     const select = $event.target as HTMLSelectElement;
     const selectedValue = select.value;

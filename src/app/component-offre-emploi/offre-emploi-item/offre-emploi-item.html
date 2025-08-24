@@ -1,0 +1,29 @@
+<div class="saved-cv-card">
+  <div class="cv-info">
+    <i class="fa-solid fa-id-badge"></i>
+    <div>
+      <div class="oe-title">{{offreEmploi.titre}}</div>
+      <div class="oe-date">{{offreEmploi.date}}</div>
+      <div class="oe-societe">{{offreEmploi.societe}} - {{offreEmploi.lieu}} </div>
+    </div>
+    <div>
+      <div class="cv-actions2">
+        <input
+          type="checkbox"
+          [(ngModel)]="offreEmploi.selected"
+          (change)="selectionnerOffreEmploi()"
+        />
+        <button title="Télécharger" (click)="telechargerOffreEmploi()">
+          <i class="fa-solid fa-download"></i>
+        </button>
+        <button title="Voir" (click)="voirOffreEmploi()">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+        <button title="Supprimer" (click)="deleteOffreEmploi()">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

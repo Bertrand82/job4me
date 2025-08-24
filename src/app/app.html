@@ -41,6 +41,7 @@
         class="primary"
         style="margin-bottom: 1em"
         (click)="generateLetter()"
+        [disabled]="isProcessing"
       >
         <i class="fa-solid fa-wand-magic-sparkles"></i> Générer
       </button>
@@ -50,6 +51,8 @@
         placeholder="La lettre générée apparaîtra ici..."
         rows="9"
       ></textarea>
+      <div *ngIf="nombreDeMots > 0" style="margin-top: 0.5em; font-size: 0.9em; color: #555;">
+        Nombre de mots : {{ nombreDeMots }}</div>
       <div class="letter-actions">
         <button title="Copier" (click)="copyLetter()">
           <i class="fa-solid fa-copy"></i> Copier
