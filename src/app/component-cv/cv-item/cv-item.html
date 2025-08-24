@@ -1,0 +1,30 @@
+<div class="saved-cv-card">
+  <div class="cv-info">
+    <i class="fa-solid fa-id-badge"></i>
+    <div>
+      <div class="cv-title">{{cvItem.title}}</div>
+      <div class="cv-date">{{cvItem.date}}</div>
+       <div class="cv-tags">
+        <span *ngFor="let tag of cvItem.tags"> {{tag}} </span>
+      </div>
+    </div>
+    <div>
+      <div class="cv-actions2">
+        <input
+          type="checkbox"
+          [(ngModel)]="cvItem.selected"
+          (change)="selectionnerCV()"
+        />
+        <button title="Télécharger" (click)="telechargerCV()">
+          <i class="fa-solid fa-download"></i>
+        </button>
+        <button title="Voir" (click)="voirCV()">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+        <button title="Supprimer" (click)="deleteCV()">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

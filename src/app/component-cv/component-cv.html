@@ -5,5 +5,17 @@
     <input type="file" accept=".pdf" (change)="onFileSelected($event)" hidden />
     <i class="fa-solid fa-upload"></i> Importer un PDF
   </label>
-  <textarea placeholder="Ou collez ici le contenu de votre CV..." (input)="onTextareaChange($event)"></textarea>
+  <div>
+    <textarea placeholder="Ou collez ici le contenu de votre CV..." [(ngModel)]="cvContent"></textarea>
+
+    <button class="upload2-textarea" (click)="onSaveTextArea()" title="Add CV"><i class="fa-solid fa-upload"> </i>  Add CV</button>
+  </div>
+
+  <div>
+    <div class="saved-cvs-list">
+    <div *ngFor="let cvItem of cvItems">
+       <cv-item [componentCV]="componentCV" [cvItem]="cvItem"></cv-item>
+    </div>
+  </div>
+</div>
 </div>

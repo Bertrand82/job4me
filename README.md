@@ -8,6 +8,13 @@ L'IA génère alors une lettre de motivation adaptée, et peut éventuellement a
 
 Les documents générés peuvent être copiés, téléchargés ou envoyés automatiquement à un destinataire.
 
+## TODO
+
+-- Récupérer les prompts IA pour la génération de lettres et CV.
+-- repenser design personalisation
+-- permettre un rebouvlage en rajoutant des consignes 
+-- Archivage local
+
 ## Architecture Fonctionnelle
 
 ### 1. **ComponentCV**

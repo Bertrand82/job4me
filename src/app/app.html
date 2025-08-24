@@ -1,141 +1,122 @@
-
-
-  <!-- Header -->
-  <header>
-    <div class="container header-flex">
-      <div class="branding">
-        <i class="fa-solid fa-robot"></i>
-        <span class="app-name">BgOffreEmploiRepondeur</span>
-      </div>
-      <div class="slogan">L’IA au service de votre candidature</div>
-      <nav>
-        <button class="nav-btn">Accueil</button>
-        <button class="nav-btn">Fonctionnalités</button>
-        <button class="nav-btn primary"><i class="fa-regular fa-user"></i> Connexion</button>
-      </nav>
+<!-- Header -->
+<header>
+  <div class="container header-flex">
+    <div class="branding">
+      <i class="fa-solid fa-robot"></i>
+      <span class="app-name">BgOffreEmploiRepondeur</span>
     </div>
-  </header>
+    <div class="slogan">L’IA au service de votre candidature</div>
+    <nav>
+      <button class="nav-btn">Accueil</button>
+      <button class="nav-btn">Fonctionnalités</button>
+      <button class="nav-btn primary">
+        <i class="fa-regular fa-user"></i> Connexion
+      </button>
+    </nav>
+  </div>
+</header>
 
-  <main>
+<main>
+  <div class="container grid-main">
+    <section class="card">
+      <app-component-cv #cv />
+    </section>
 
-    <div class="container grid-main">
+    <section class="card">
+      <offre-emploi #offreEmploi></offre-emploi>
+    </section>
 
-      <section class="card">
-          <app-component-cv  #cv/>
-      </section>
-      <!-- Section CV -->
-      <section class="card">
-        <h2><i class="fa-solid fa-file-arrow-up"></i> Importer / Coller votre CV</h2>
-        <div class="cv-actions">
-          <label class="upload-btn">
-            <input type="file" accept=".pdf" />
-            <i class="fa-solid fa-upload"></i> Importer un PDF
-          </label>
-          <textarea placeholder="Ou collez ici le contenu de votre CV..."></textarea>
-        </div>
-        <div class="cv-summary">
-          <h3><i class="fa-solid fa-list-check"></i> Résumé du CV</h3>
-          <ul>
-            <li><strong>Expériences :</strong> <span class="cv-experiences">Aucune donnée</span></li>
-            <li><strong>Compétences :</strong> <span class="cv-skills">Aucune donnée</span></li>
-            <li><strong>Formation :</strong> <span class="cv-education">Aucune donnée</span></li>
-          </ul>
-        </div>
-      </section>
-      <section class="card">
-        <offre-emploi #offreEmploi></offre-emploi>
-      </section>
+    <section class="card">
+      <personalisation #personalisation></personalisation>
+    </section>
+    <!-- Section Offre d'emploi -->
 
-      <section class="card">
-        <personalisation #personalisation></personalisation>
-      </section>
-      <!-- Section Offre d'emploi -->
-      <section class="card">
-        <h2><i class="fa-solid fa-briefcase"></i> Offre d'emploi</h2>
-        <textarea placeholder="Collez ici l’offre d’emploi..."></textarea>
-        <div class="job-summary">
-          <h3><i class="fa-solid fa-magnifying-glass"></i> Compétences & mots-clés extraits</h3>
-          <div class="job-keywords">Aucun mot-clé détecté</div>
-        </div>
-      </section>
+    <!-- Génération lettre de motivation -->
+    <section class="card letter-section">
+      <h2>
+        <i class="fa-solid fa-envelope-open-text"></i> Génération de la lettre
+        de motivation
+      </h2>
+      <button
+        class="primary"
+        style="margin-bottom: 1em"
+        (click)="generateLetter()"
+      >
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Générer
+      </button>
+      <textarea
+        class="letter-output"
+        [(ngModel)]="texteLettre"
+        placeholder="La lettre générée apparaîtra ici..."
+        rows="9"
+      ></textarea>
+      <div class="letter-actions">
+        <button title="Copier" (click)="copyLetter()">
+          <i class="fa-solid fa-copy"></i> Copier
+        </button>
+        <button title="Prompt" (click)="displayPrompt()">
+          <span style="display: inline-flex; align-items: center">
+            <i class="fa-solid fa-robot" style="margin-right: 2px"></i>
+            <i class="fa-solid fa-copy"></i>
+          </span>
+          Prompt
+        </button>
+      </div>
+    </section>
 
-      <!-- Section Personnalisation -->
-      <section class="card">
-        <h2><i class="fa-solid fa-sliders"></i> Personnalisation</h2>
-        <form class="customization-form">
-          <label>
-            Ton/style :
-            <select>
-              <option value="creatif">Créatif</option>
-              <option value="serieux">Sérieux</option>
-              <option value="dynamique">Dynamique</option>
-            </select>
-          </label>
-          <label>
-            Points forts à mettre en avant :
-            <input type="text" placeholder="ex : gestion de projet, leadership...">
-          </label>
-          <label>
-            Objectifs de la candidature :
-            <input type="text" placeholder="ex : évoluer dans le secteur tech...">
-          </label>
-        </form>
-      </section>
+    <!-- Historique / Archivage -->
+    <section class="card">
+      <h2>
+        <i class="fa-solid fa-clock-rotate-left"></i> Historique / Archivage
+      </h2>
+      <ul class="history-list">
+        <li>
+          <span
+            ><i class="fa-solid fa-file-lines"></i> Lettre “Développeur
+            Front-end” - 21/08/2025</span
+          >
+          <div class="history-actions">
+            <button title="Exporter PDF">
+              <i class="fa-solid fa-file-pdf"></i>
+            </button>
+            <button title="Exporter Word">
+              <i class="fa-solid fa-file-word"></i>
+            </button>
+            <button title="Supprimer"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </li>
+        <li>
+          <span
+            ><i class="fa-solid fa-file-lines"></i> Lettre “Chef de projet IT” -
+            15/08/2025</span
+          >
+          <div class="history-actions">
+            <button title="Exporter PDF">
+              <i class="fa-solid fa-file-pdf"></i>
+            </button>
+            <button title="Exporter Word">
+              <i class="fa-solid fa-file-word"></i>
+            </button>
+            <button title="Supprimer"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </div>
+</main>
 
-      <!-- Génération lettre de motivation -->
-      <section class="card letter-section">
-        <h2><i class="fa-solid fa-envelope-open-text"></i> Génération de la lettre de motivation</h2>
-        <button class="primary" style="margin-bottom:1em;"  (click)="generateLetter()"><i class="fa-solid fa-wand-magic-sparkles" ></i> Générer la lettre</button>
-        <textarea class="letter-output" placeholder="La lettre générée apparaîtra ici..." rows="9"></textarea>
-        <div class="letter-actions">
-          <button title="Copier"><i class="fa-solid fa-copy"></i> Copier</button>
-          <button title="Télécharger PDF"><i class="fa-solid fa-file-pdf"></i> PDF</button>
-          <button title="Télécharger Word"><i class="fa-solid fa-file-word"></i> Word</button>
-          <button title="Envoyer par email"><i class="fa-solid fa-paper-plane"></i> Envoyer</button>
-        </div>
-      </section>
-
-      <!-- Historique / Archivage -->
-      <section class="card">
-        <h2><i class="fa-solid fa-clock-rotate-left"></i> Historique / Archivage</h2>
-        <ul class="history-list">
-          <li>
-            <span><i class="fa-solid fa-file-lines"></i> Lettre “Développeur Front-end” - 21/08/2025</span>
-            <div class="history-actions">
-              <button title="Exporter PDF"><i class="fa-solid fa-file-pdf"></i></button>
-              <button title="Exporter Word"><i class="fa-solid fa-file-word"></i></button>
-              <button title="Supprimer"><i class="fa-solid fa-trash"></i></button>
-            </div>
-          </li>
-          <li>
-            <span><i class="fa-solid fa-file-lines"></i> Lettre “Chef de projet IT” - 15/08/2025</span>
-            <div class="history-actions">
-              <button title="Exporter PDF"><i class="fa-solid fa-file-pdf"></i></button>
-              <button title="Exporter Word"><i class="fa-solid fa-file-word"></i></button>
-              <button title="Supprimer"><i class="fa-solid fa-trash"></i></button>
-            </div>
-          </li>
-        </ul>
-      </section>
-
+<!-- Footer -->
+<footer>
+  <div class="container footer-flex">
+    <div class="footer-links">
+      <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+      <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="#"><i class="fa-brands fa-facebook"></i></a>
     </div>
-  </main>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container footer-flex">
-      <div class="footer-links">
-        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="#"><i class="fa-brands fa-facebook"></i></a>
-      </div>
-      <div>
-        <a href="#">Politique de confidentialité</a> ·
-        <a href="#">Contact</a>
-      </div>
-      <div class="footer-copy">
-        &copy; 2025 BgOffreEmploiRepondeur
-      </div>
+    <div>
+      <a href="#">Politique de confidentialité</a> ·
+      <a href="#">Contact</a>
     </div>
-  </footer>
-
+    <div class="footer-copy">&copy; 2025 BgOffreEmploiRepondeur</div>
+  </div>
+</footer>
