@@ -56,5 +56,6 @@ export class ComponentCVItem {
   selectionnerCV() {
     console.log('selectionnerCV id ', this.cvItem.id);
     this.componentCV.setCvSelected(this.cvItem);
+    this.componentCV.storeCV();
   }
 }

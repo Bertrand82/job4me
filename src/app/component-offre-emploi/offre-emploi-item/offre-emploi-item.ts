@@ -19,7 +19,8 @@ deleteOffreEmploi() {
     this.componentOffreEmploi.deleteOffreEmploi(this.offreEmploi.id);
 }
 voirOffreEmploi() {
-throw new Error('Method not implemented.');
+   const url = this.offreEmploi.url;
+   window.open(url, '_blank');
 }
 telechargerOffreEmploi() {
 throw new Error('Method not implemented.');

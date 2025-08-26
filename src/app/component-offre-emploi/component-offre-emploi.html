@@ -1,9 +1,33 @@
 <h2><i class="fa-solid fa-briefcase"></i> Offre d'emploi</h2>
- <textarea placeholder="Collez ici l’offre d’emploi..." (input)="onTextareaChange($event)" [(ngModel)]="offreEmploiContent"></textarea>
-<button (click)="onSaveOffreEmploi()" title="Add Offre Emploi"><i class="fa-solid fa-upload"> </i>  Add Offre Emploi</button>
-    <div class="saved-cvs-list">
-    <div *ngFor="let offreEmploi of listOffreEmploi">
-       <app-offre-emploi-item [componentOffreEmploi]="componentOffreEmploi" [offreEmploi]="offreEmploi"></app-offre-emploi-item>
-    </div>
+<div>
+  <label>
+    URL
+  <input class="input2"
+      type="text"
+      placeholder="url offre emploi"
+      [(ngModel)]="urlOffreEmploi"
+      (input)="onTextFieldUrlChange($event)"
+      name="urlOffreEmploi"
+    />
+  </label>
+</div>
+<textarea
+  placeholder="Collez ici l’offre d’emploi..."
+  (input)="onTextareaChange($event)"
+  [(ngModel)]="offreEmploiContent"
+></textarea>
+<button
+  class="upload-btn"
+  (click)="onSaveOffreEmploi()"
+  title="Importer Offre Emploi"
+>
+  <i class="fa-solid fa-upload"> </i> Importer Offre Emploi
+</button>
+<div class="saved-cvs-list">
+  <div *ngFor="let offreEmploi of listOffreEmploi">
+    <app-offre-emploi-item
+      [componentOffreEmploi]="componentOffreEmploi"
+      [offreEmploi]="offreEmploi"
+    ></app-offre-emploi-item>
   </div>
-
+</div>

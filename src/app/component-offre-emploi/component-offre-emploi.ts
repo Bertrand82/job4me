@@ -17,6 +17,8 @@ export class ComponentOffreEmploi {
   isProcessing: boolean = false;
   httpStatus: any;
   componentOffreEmploi!: ComponentOffreEmploi;
+  urlOffreEmploi: string = '';
+
   constructor(
     private gemini: BgGemini,
     private changeDetectorRef: ChangeDetectorRef
@@ -27,6 +29,46 @@ export class ComponentOffreEmploi {
 
   onTextareaChange($event: Event) {
     //this.offreEmploiContent = ($event.target as HTMLTextAreaElement).value;
+  }
+
+  onTextFieldUrlChange($event: Event) {
+    const urlOffreEmploi2 = ($event.target as HTMLInputElement).value;
+    console.log('urlOffreEmploi', urlOffreEmploi2);
+    const isValidUrl = this.isValidUrl(urlOffreEmploi2);
+    console.log('isValidUrl ', isValidUrl);
+    if (isValidUrl) {
+      this.urlOffreEmploi = urlOffreEmploi2;
+      this.fetchOffreEmploiFromUrl(urlOffreEmploi2);
+    } else {
+      console.log('URL non valide');
+    }
+  }
+fetchOffreEmploiFromUrl(urlOffreEmploi2: string) {
+  fetch(urlOffreEmploi2)
+    .then((response) => {
+      console.log('response', response);
+      if (!response.ok) {
+        // Trace l’erreur HTTP (ex: 404, 500, etc.)
+        console.error(`Erreur HTTP : ${response.status} ${response.statusText}`);
+        throw new Error(`HTTP error: ${response.status} ${response.statusText}`);
+      }
+      return response.text();
+    })
+    .then((text) => {
+      this.offreEmploiContent = text;
+    })
+    .catch((error) => {
+       console.error('Erreur lors du fetch de l\'offre d\'emploi:', error);
+    });
+}
+
+  isValidUrl(url: string): boolean {
+    try {
+      new URL(url);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   onSaveOffreEmploi() {
@@ -78,7 +120,7 @@ export class ComponentOffreEmploi {
         const obj = JSON.parse(textRetour);
         console.log('isOk:', obj);
 
-        this.offreEmploi = new OffreEmploi(obj, this.offreEmploiContent);
+        this.offreEmploi = new OffreEmploi(obj, this.offreEmploiContent,this.urlOffreEmploi);
         this.listOffreEmploi.push(this.offreEmploi);
         this.storeCV();
         this.offreEmploiContent = '';
@@ -169,8 +211,9 @@ export class OffreEmploi {
   resume: string;
   contentInitial: string;
   selected: boolean = false;
+  url:string ;
   id: number; // Génère un id entre 0 et 999999
-  constructor(data: any, content: string) {
+  constructor(data: any, content: string,url: string) {
     this.titre = data['offre.titre'] || 'Titre non spécifié';
     this.date = data['offre.date'];
     this.langue = data['offre.langue'];
@@ -180,6 +223,7 @@ export class OffreEmploi {
     this.lieu = data['offre.lieu'];
     this.freelance = data['offre.freelance'];
     this.contentInitial = content;
+    this.url = url;
     this.id = Math.floor(Math.random() * 1000000);
   }
   toString2() {

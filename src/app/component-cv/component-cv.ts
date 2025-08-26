@@ -34,11 +34,12 @@ export class ComponentCV {
       // Exemple : upload ou lecture du fichier
 
       const cvItem: CV = new CV();
-      this.parsePdf(file, cvItem);
+
       cvItem.fileName = file.name;
       cvItem.file = file;
       this.cvItems.push(cvItem);
       this.storeCV();
+      this.parsePdf(file, cvItem);
     }
   }
 
@@ -108,6 +109,7 @@ export class ComponentCV {
     cvItem.date = dateLastModified.toLocaleDateString();
     console.log('cvItem:', cvItem);
     this.changeDetectorRef.detectChanges();
+    this.storeCV();
   }
 
   storeCV() {
@@ -122,7 +124,7 @@ export class ComponentCV {
       const listCv: CV[] = cvItems.map((item: any) =>
         Object.assign(new CV(), item)
       );
-      console;
+
       return listCv;
     }
     return [];
@@ -153,12 +155,13 @@ export class CV {
   content!: string;
   fileName!: string;
   file!: File;
-  title: string = 'CV';
-  date: string = '';
-  selected = false;
+  title!: string ;
+  date!: string ;
+  selected :boolean;
   tags: string[] = [];
 
   constructor() {
+    this.selected = false;
     this.id = Math.floor(Math.random() * 1000000); // Génère un id entre 0 et 999999
   }
 }

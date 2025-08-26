@@ -175,7 +175,7 @@ textarea {
   font-size: 1em;
   color: var(--muted);
 }
-.customization-form input, .customization-form select {
+.customization-form input, .customization-form select,.input2 {
   margin-top: 0.3em;
   padding: 0.5em;
   border-radius: 0.4em;

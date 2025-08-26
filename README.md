@@ -10,11 +10,11 @@ Les documents générés peuvent être copiés, téléchargés ou envoyés autom
 
 ## TODO
 
--- Récupérer les prompts IA pour la génération de lettres et CV.
+-- DONE Récupérer les prompts IA pour la génération de lettres et CV.
 -- repenser design personalisation
--- permettre un rebouvlage en rajoutant des consignes 
+-- permettre un rebouclage en rajoutant des consignes 
 -- Archivage local
-
+-- Utilser purge css
 ## Architecture Fonctionnelle
 
 ### 1. **ComponentCV**

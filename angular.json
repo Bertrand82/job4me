@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "bgOffreEmploiRepondeur": {
+    "job4me": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -35,7 +35,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
+                  "maximumWarning": "5kB",
                   "maximumError": "8kB"
                 }
               ],
@@ -53,10 +53,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "bgOffreEmploiRepondeur:build:production"
+              "buildTarget": "job4me:build:production"
             },
             "development": {
-              "buildTarget": "bgOffreEmploiRepondeur:build:development"
+              "buildTarget": "job4me:build:development"
             }
           },
           "defaultConfiguration": "development"
