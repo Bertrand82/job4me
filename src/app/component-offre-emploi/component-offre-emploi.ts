@@ -190,6 +190,7 @@ fetchOffreEmploiFromUrl(urlOffreEmploi2: string) {
     }
     if (this.listOffreEmploi.length == 1) {
       this.listOffreEmploi[0].selected = true;
+      return this.listOffreEmploi[0];
     }
     const offreEmploi = this.listOffreEmploi.find((item) => item.selected);
     if (!offreEmploi) {
@@ -226,7 +227,7 @@ export class OffreEmploi {
     this.url = url;
     this.id = Math.floor(Math.random() * 1000000);
   }
-  toString2() {
+  public toString2() {
     return `Titre: ${this.titre}
 Langue: ${this.langue}
 Société: ${this.societe}

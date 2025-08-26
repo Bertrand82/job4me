@@ -7,11 +7,18 @@ import {
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+
+import { RouterModule } from '@angular/router';
 // Update the import path to the correct relative path or install the package if missing
 import { ComponentCV } from './component-cv/component-cv';
-import { ComponentOffreEmploi } from './component-offre-emploi/component-offre-emploi';
+import {
+  ComponentOffreEmploi,
+  OffreEmploi,
+} from './component-offre-emploi/component-offre-emploi';
 import { ComponentPersonalisation } from './component-personalisation/component-personalisation';
 import { BgGemini, responseShemaGemini_v1 } from './services/bg-gemini';
+import { ComponentArchivage } from './component-archivage/component-archivage';
 @Component({
   selector: 'app-root',
   imports: [
@@ -19,7 +26,8 @@ import { BgGemini, responseShemaGemini_v1 } from './services/bg-gemini';
     ComponentOffreEmploi,
     ComponentPersonalisation,
     FormsModule,
-    CommonModule
+    CommonModule,
+    ComponentArchivage,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -32,6 +40,7 @@ export class App {
   @ViewChild('offreEmploi') componentOffreEmploi!: ComponentOffreEmploi;
   @ViewChild('personalisation')
   componentPersonalisation!: ComponentPersonalisation;
+  @ViewChild('componentArchivage') componentArchivage!: ComponentArchivage;
   isProcessing: boolean = false;
   httpStatus: any;
   texteLettre!: string;
@@ -55,15 +64,23 @@ export class App {
     this.askGemini(prompt2);
   }
   makePrompt(data: any) {
-
-     const p = "génère une lettre de motivation pour une offre d'emploi en francais avec les informations suivantes : " +
-      "\n Personnalité : " + this.componentPersonalisation.personnalite +
-      "\n Nombre de mots maximum : " + this.componentPersonalisation.nombreDeMotsMax +
-      "\n Objectif : " + this.componentPersonalisation.objectif +
-      "\n Compétence : " + this.componentPersonalisation.competence +
-      "\n Offre emploi : " +this.componentOffreEmploi.getOffreEmploiSelected().toString2() +
-      " CV : " +   JSON.stringify(this.componentCV.getCvSelected())
-    ;
+    const offreEmploiSelected: OffreEmploi =
+      this.componentOffreEmploi.getOffreEmploiSelected();
+    console.log('offreEmploiSelected', offreEmploiSelected);
+    const p =
+      "génère une lettre de motivation pour une offre d'emploi en francais avec les informations suivantes : " +
+      '\n Personnalité : ' +
+      this.componentPersonalisation.personnalite +
+      '\n Nombre de mots maximum : ' +
+      this.componentPersonalisation.nombreDeMotsMax +
+      '\n Objectif : ' +
+      this.componentPersonalisation.objectif +
+      '\n Compétence : ' +
+      this.componentPersonalisation.competence +
+      '\n Offre emploi : ' +
+      JSON.stringify(offreEmploiSelected) +
+      ' CV : ' +
+      JSON.stringify(this.componentCV.getCvSelected());
     return p;
     // return `Génére une lettre de motivation pour repondre à l'offre d'emploi avec les données suivante : ${JSON.stringify(data)}`;
   }
@@ -123,7 +140,12 @@ export class App {
     navigator.clipboard.writeText(this.texteLettre);
   }
   displayPrompt() {
-    alert("prompt :"+this.prompt);
+    alert('prompt :' + this.prompt);
     navigator.clipboard.writeText(this.prompt);
+  }
+
+  archiveLetter() {
+    console.log('Archive letter ',this.componentArchivage===null);
+    this.componentArchivage.archiveLetter(this.texteLettre, this.prompt,this.componentOffreEmploi.getOffreEmploiSelected(),this.componentCV.getCvSelected() );
   }
 }

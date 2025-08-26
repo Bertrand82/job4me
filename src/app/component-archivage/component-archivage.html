@@ -1,0 +1,10 @@
+
+<h2><i class="fa-solid fa-clock-rotate-left"></i> Historique / Archivage</h2>
+<div *ngFor="let archivageItem of listArchive">
+    <app-archive-item
+      [componentArchivage]="componentArchivage"
+      [archiveLettre]="archivageItem"
+    ></app-archive-item>
+  </div>
+
+

@@ -1,0 +1,29 @@
+<div class="saved-cv-card">
+  <div class="cv-info">
+    <i class="fa-solid fa-id-badge"></i>
+    <div>
+      <div class="oe-title">{{archiveLettre.offreEmploi.titre}}</div>
+      <div class="oe-date">{{archiveLettre.offreEmploi.date}}</div>
+      <div class="oe-societe">{{archiveLettre.offreEmploi.societe}} - {{archiveLettre.offreEmploi.lieu}} </div>
+    </div>
+    <div>
+      <div class="cv-actions2">
+        <input
+          type="checkbox"
+          [(ngModel)]="archiveLettre.selected"
+
+        />
+        <button title="Télécharger" (click)="telechargerArchiveLettre()">
+          <i class="fa-solid fa-download"></i>
+        </button>
+        <button title="Voir" (click)="voirArchiveLettre()">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+        <button title="Supprimer" (click)="deleteArchiveLettre()">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
