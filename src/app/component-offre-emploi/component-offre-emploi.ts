@@ -3,6 +3,7 @@ import { BgGemini, reponseAnalyseOffreEmploi } from '../services/bg-gemini';
 import { OffreEmploiItem } from './offre-emploi-item/offre-emploi-item';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ProxyApiService } from '../services/proxy-api-service';
 
 @Component({
   selector: 'offre-emploi',
@@ -21,7 +22,8 @@ export class ComponentOffreEmploi {
 
   constructor(
     private gemini: BgGemini,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private proxyApiService: ProxyApiService
   ) {
     this.componentOffreEmploi = this;
     this.listOffreEmploi = this.getOffreEmploiFromLocalStorage();
@@ -43,7 +45,18 @@ export class ComponentOffreEmploi {
       console.log('URL non valide');
     }
   }
-fetchOffreEmploiFromUrl(urlOffreEmploi2: string) {
+  fetchOffreEmploiFromUrl(url:string) {
+    this.proxyApiService.getViaProxy<string>(url).subscribe({
+      next: (response) => {
+        this.offreEmploiContent = response;
+        console.log('Offre d\'emploi récupérée via le proxy:', this.offreEmploiContent);
+      },
+      error: (error) => {
+        console.error('Erreur lors du fetch de l\'offre d\'emploi via le proxy:', error);
+      }
+    });
+  }
+fetchOffreEmploiFromUrl_(urlOffreEmploi2: string) {
   fetch(urlOffreEmploi2)
     .then((response) => {
       console.log('response', response);

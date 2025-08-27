@@ -1,4 +1,8 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 
@@ -11,20 +15,18 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(routes),
     importProvidersFrom(HttpClientModule),
-provideIndexedDb({
+    provideIndexedDb({
       name: 'BgDb',
       version: 1,
       objectStoresMeta: [
         {
-          store: 'people',
+          store: 'offreEmploi',
           storeConfig: { keyPath: 'id', autoIncrement: true },
           storeSchema: [
-            { name: 'name', keypath: 'name', options: { unique: false } }
-          ]
-        }
-      ]
-    })
-  ]
+            { name: 'name', keypath: 'name', options: { unique: false } },
+          ],
+        },
+      ],
+    }),
+  ],
 };
-
-

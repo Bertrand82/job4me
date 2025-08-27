@@ -1,0 +1,181 @@
+[debug] [2025-08-27T12:43:18.182Z] ----------------------------------------------------------------------
+[debug] [2025-08-27T12:43:18.185Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\bertr\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2025-08-27T12:43:18.185Z] CLI Version:   14.14.0
+[debug] [2025-08-27T12:43:18.185Z] Platform:      win32
+[debug] [2025-08-27T12:43:18.185Z] Node Version:  v22.16.0
+[debug] [2025-08-27T12:43:18.185Z] Time:          Wed Aug 27 2025 14:43:18 GMT+0200 (heure d’été d’Europe centrale)
+[debug] [2025-08-27T12:43:18.186Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-08-27T12:43:18.388Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-27T12:43:18.389Z] > authorizing via signed-in user (bertrand.guiral@gmail.com)
+[debug] [2025-08-27T12:43:18.389Z] [iam] checking project job4you-78ed0 for permissions ["cloudconfig.configs.get","cloudconfig.configs.update","cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update",null]
+[debug] [2025-08-27T12:43:18.390Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:18.390Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:18.391Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions [none]
+[debug] [2025-08-27T12:43:18.391Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions x-goog-quota-user=projects/job4you-78ed0
+[debug] [2025-08-27T12:43:18.391Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions {"permissions":["cloudconfig.configs.get","cloudconfig.configs.update","cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update",null]}
+[debug] [2025-08-27T12:43:19.118Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions 200
+[debug] [2025-08-27T12:43:19.118Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions {"permissions":["cloudconfig.configs.get","cloudconfig.configs.update","cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-08-27T12:43:19.119Z] [iam] error while checking permissions, command may fail: Authorization failed. This account is missing the following required permissions on project job4you-78ed0:
+
+  
+[debug] [2025-08-27T12:43:19.119Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:19.119Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:19.119Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/job4you-78ed0/serviceAccounts/job4you-78ed0@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-08-27T12:43:19.119Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/job4you-78ed0/serviceAccounts/job4you-78ed0@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-08-27T12:43:19.803Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/job4you-78ed0/serviceAccounts/job4you-78ed0@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-08-27T12:43:19.803Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/job4you-78ed0/serviceAccounts/job4you-78ed0@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-08-27T12:43:19.804Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:19.804Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:19.804Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/job4you-78ed0 [none]
+[debug] [2025-08-27T12:43:20.101Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/job4you-78ed0 200
+[debug] [2025-08-27T12:43:20.102Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/job4you-78ed0 {"projectId":"job4you-78ed0","projectNumber":"1013830562564","displayName":"Job4You","name":"projects/job4you-78ed0","resources":{"hostingSite":"job4you-78ed0"},"state":"ACTIVE","etag":"1_140a5710-6ac8-451e-a171-65921c841306"}
+[info] 
+[info] === Deploying to 'job4you-78ed0'...
+[info] 
+[info] i  deploying functions, hosting, remoteconfig, apphosting 
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[info] Running command: npm --prefix "$RESOURCE_DIR" run build
+[info] +  functions: Finished running predeploy script. 
+[debug] [2025-08-27T12:43:31.540Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:31.540Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:31.540Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0 [none]
+[debug] [2025-08-27T12:43:32.210Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0 200
+[debug] [2025-08-27T12:43:32.211Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0 {"projectNumber":"1013830562564","projectId":"job4you-78ed0","lifecycleState":"ACTIVE","name":"Job4You","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-08-25T13:58:17.748217Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2025-08-27T12:43:32.215Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:32.215Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:32.215Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/job4you-78ed0/adminSdkConfig [none]
+[debug] [2025-08-27T12:43:32.485Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/job4you-78ed0/adminSdkConfig 200
+[debug] [2025-08-27T12:43:32.486Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/job4you-78ed0/adminSdkConfig {"projectId":"job4you-78ed0","storageBucket":"job4you-78ed0.firebasestorage.app"}
+[debug] [2025-08-27T12:43:32.486Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:32.486Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:32.486Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/job4you-78ed0/configs [none]
+[debug] [2025-08-27T12:43:32.797Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/job4you-78ed0/configs 200
+[debug] [2025-08-27T12:43:32.798Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/job4you-78ed0/configs {}
+[debug] [2025-08-27T12:43:32.799Z] Validating nodejs source
+[debug] [2025-08-27T12:43:33.703Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "axios": "^1.11.0",
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.0.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^5.7.3"
+  },
+  "private": true
+}
+[debug] [2025-08-27T12:43:33.704Z] Building nodejs source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[debug] [2025-08-27T12:43:33.706Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-08-27T12:43:33.715Z] Found firebase-functions binary at 'C:\Users\bertr\workspace_angular\bgOffreEmploiRepondeur\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8546
+
+[debug] [2025-08-27T12:43:34.482Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":10,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"helloWorld"},"helloWorld2":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":10,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["europe-west1"],"labels":{},"httpsTrigger":{},"entryPoint":"helloWorld2"},"proxyToDynamicUrl":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":10,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["europe-west1"],"labels":{},"httpsTrigger":{},"entryPoint":"proxyToDynamicUrl"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[info] i  extensions: ensuring required API firebaseextensions.googleapis.com is enabled... 
+[debug] [2025-08-27T12:43:38.519Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:38.519Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:38.520Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/job4you-78ed0/services/firebaseextensions.googleapis.com [none]
+[debug] [2025-08-27T12:43:38.520Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/job4you-78ed0/services/firebaseextensions.googleapis.com x-goog-quota-user=projects/job4you-78ed0
+[debug] [2025-08-27T12:43:39.404Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/job4you-78ed0/services/firebaseextensions.googleapis.com 200
+[debug] [2025-08-27T12:43:39.405Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/job4you-78ed0/services/firebaseextensions.googleapis.com [omitted]
+[warn] !  extensions: missing required API firebaseextensions.googleapis.com. Enabling now... 
+[debug] [2025-08-27T12:43:39.405Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:39.406Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:39.406Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/job4you-78ed0/services/firebaseextensions.googleapis.com:enable [none]
+[debug] [2025-08-27T12:43:39.406Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/job4you-78ed0/services/firebaseextensions.googleapis.com:enable x-goog-quota-user=projects/job4you-78ed0
+[debug] [2025-08-27T12:43:40.417Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/job4you-78ed0/services/firebaseextensions.googleapis.com:enable 200
+[debug] [2025-08-27T12:43:40.417Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/job4you-78ed0/services/firebaseextensions.googleapis.com:enable [omitted]
+[debug] [2025-08-27T12:43:50.427Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-27T12:43:50.427Z] > authorizing via signed-in user (bertrand.guiral@gmail.com)
+[debug] [2025-08-27T12:43:50.427Z] [iam] checking project job4you-78ed0 for permissions ["firebase.projects.get","firebaseextensions.instances.list"]
+[debug] [2025-08-27T12:43:50.427Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:50.427Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:50.428Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions [none]
+[debug] [2025-08-27T12:43:50.428Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions x-goog-quota-user=projects/job4you-78ed0
+[debug] [2025-08-27T12:43:50.428Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2025-08-27T12:43:51.051Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions 200
+[debug] [2025-08-27T12:43:51.051Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2025-08-27T12:43:51.052Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:51.052Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:51.052Z] >>> [apiv2][query] GET https://firebaseextensions.googleapis.com/v1beta/projects/job4you-78ed0/instances pageSize=100&pageToken=
+[debug] [2025-08-27T12:43:52.821Z] <<< [apiv2][status] GET https://firebaseextensions.googleapis.com/v1beta/projects/job4you-78ed0/instances 200
+[debug] [2025-08-27T12:43:52.821Z] <<< [apiv2][body] GET https://firebaseextensions.googleapis.com/v1beta/projects/job4you-78ed0/instances {}
+[info] i  functions: preparing functions directory for uploading... 
+[info] i  functions: packaged C:\Users\bertr\workspace_angular\bgOffreEmploiRepondeur\functions (97.18 KB) for uploading 
+[debug] [2025-08-27T12:43:52.878Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:52.878Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:52.878Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v1/projects/job4you-78ed0/locations/-/functions [none]
+[debug] [2025-08-27T12:43:53.513Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v1/projects/job4you-78ed0/locations/-/functions 200
+[debug] [2025-08-27T12:43:53.513Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v1/projects/job4you-78ed0/locations/-/functions {}
+[debug] [2025-08-27T12:43:53.514Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:53.514Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:53.514Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/job4you-78ed0/locations/-/functions filter=environment%3D%22GEN_2%22
+[debug] [2025-08-27T12:43:54.467Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/job4you-78ed0/locations/-/functions 200
+[debug] [2025-08-27T12:43:54.467Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/job4you-78ed0/locations/-/functions {}
+[info] i  functions: ensuring required API run.googleapis.com is enabled... 
+[debug] [2025-08-27T12:43:54.470Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:54.470Z] Checked if tokens are valid: true, expires at: 1756301664898
+[info] i  functions: ensuring required API eventarc.googleapis.com is enabled... 
+[debug] [2025-08-27T12:43:54.471Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:54.471Z] Checked if tokens are valid: true, expires at: 1756301664898
+[info] i  functions: ensuring required API pubsub.googleapis.com is enabled... 
+[debug] [2025-08-27T12:43:54.472Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:54.472Z] Checked if tokens are valid: true, expires at: 1756301664898
+[info] i  functions: ensuring required API storage.googleapis.com is enabled... 
+[debug] [2025-08-27T12:43:54.473Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:54.473Z] Checked if tokens are valid: true, expires at: 1756301664898
+[debug] [2025-08-27T12:43:54.473Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/run.googleapis.com [none]
+[debug] [2025-08-27T12:43:54.473Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/run.googleapis.com x-goog-quota-user=projects/1013830562564
+[debug] [2025-08-27T12:43:54.474Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/eventarc.googleapis.com [none]
+[debug] [2025-08-27T12:43:54.475Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/eventarc.googleapis.com x-goog-quota-user=projects/1013830562564
+[debug] [2025-08-27T12:43:54.478Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/pubsub.googleapis.com [none]
+[debug] [2025-08-27T12:43:54.478Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/pubsub.googleapis.com x-goog-quota-user=projects/1013830562564
+[debug] [2025-08-27T12:43:54.479Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/storage.googleapis.com [none]
+[debug] [2025-08-27T12:43:54.479Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/storage.googleapis.com x-goog-quota-user=projects/1013830562564
+[debug] [2025-08-27T12:44:15.062Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/pubsub.googleapis.com 503
+[debug] [2025-08-27T12:44:15.063Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/pubsub.googleapis.com [omitted]
+[debug] [2025-08-27T12:44:15.079Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/eventarc.googleapis.com 503
+[debug] [2025-08-27T12:44:15.079Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/eventarc.googleapis.com [omitted]
+[debug] [2025-08-27T12:44:15.107Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/storage.googleapis.com 503
+[debug] [2025-08-27T12:44:15.107Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/storage.googleapis.com [omitted]
+[error] 
+[error] Error: Request to https://serviceusage.googleapis.com/v1/projects/1013830562564/services/pubsub.googleapis.com had HTTP Error: 503, The service is currently unavailable.
+[debug] [2025-08-27T12:44:15.146Z] Error Context: {
+  "body": {
+    "error": {
+      "code": 503,
+      "message": "The service is currently unavailable.",
+      "status": "UNAVAILABLE"
+    }
+  },
+  "response": {
+    "statusCode": 503
+  }
+}
+[debug] [2025-08-27T12:44:15.149Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/run.googleapis.com 503
+[debug] [2025-08-27T12:44:15.150Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/1013830562564/services/run.googleapis.com [omitted]

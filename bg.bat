@@ -1,10 +1,9 @@
 echo starting firebase emulators...
-try {
-  firebase emulators:start
-  echo Firebase emulators started.
-} catch {
-  echo Firebase emulators failed to start.
-  pause
-}
+
+firebase emulators:start --only functions
+echo Firebase emulators started.
+
+pause
+
 
 pause

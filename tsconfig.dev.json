@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "sourceMap": true,           // Génère des fichiers .map pour le débogage
+    "declaration": false,        // Pas besoin de générer des fichiers .d.ts en dev
+    "outDir": "./out-tsc/dev",   // Répertoire de sortie spécifique au build dev
+    "incremental": true          // Accélère la compilation incrémentale
+  },
+  "exclude": [
+    "src/test.ts",
+    "src/**/*.spec.ts"
+  ],
+  "include": [
+    "src",
+    "functions/src/index.ts"
+  ]
+}
