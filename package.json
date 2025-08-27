@@ -1,12 +1,13 @@
 {
-  "name": "bg-offre-emploi-repondeur",
+  "name": "job4me",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "dev": "ng serve"
   },
   "private": true,
   "dependencies": {
@@ -17,6 +18,8 @@
     "@angular/platform-browser": "^20.0.0",
     "@angular/router": "^20.0.0",
     "@dataconnect/generated": "file:dataconnect-generated/js/example-connector",
+    "express": "^5.1.0",
+    "ngx-indexed-db": "^21.0.0",
     "pdfjs-dist": "^5.4.54",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
@@ -25,6 +28,7 @@
     "@angular/build": "^20.0.3",
     "@angular/cli": "^20.0.3",
     "@angular/compiler-cli": "^20.0.0",
+    "@types/express": "^5.0.3",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.7.0",
     "karma": "~6.4.0",

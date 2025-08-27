@@ -3,6 +3,7 @@ import { CV } from '../component-cv/component-cv';
 import { OffreEmploi } from '../component-offre-emploi/component-offre-emploi';
 import { ArchiveItem } from "./archive-item/archive-item";
 import { CommonModule } from '@angular/common';
+import { BgIndexedDBService } from '../services/bg-indexed-db';
 
 @Component({
   selector: 'component-archivage',
@@ -14,7 +15,7 @@ export class ComponentArchivage {
   componentArchivage!: ComponentArchivage;
   listArchive: Array<ArchiveLettre> = [];
 
-  constructor() {
+   constructor(private bgIndexedDBService:BgIndexedDBService) {
     this.componentArchivage = this;
   }
   public archiveLetter(texteLettre: string, prompt: string, offreEmploi: OffreEmploi, cv: CV) {
@@ -23,6 +24,7 @@ export class ComponentArchivage {
     const archiveLettre: ArchiveLettre = new ArchiveLettre(texteLettre, prompt, offreEmploi, cv);
     this.listArchive.push(archiveLettre);
     console.log('Archiving letter...'+this.listArchive.length);
+    this.bgIndexedDBService.ajouterOffre(archiveLettre);
   }
 
 }

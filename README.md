@@ -169,8 +169,11 @@ RapidJobApp
        - Intégrations écoles/ATS : connexion avec les logiciels RH, plateformes d’orientation, CRM de candidatures.
        - API ouverte : permettre à d’autres outils d’utiliser les fonctionnalités IA (ex : intégration dans un intranet étudiant, une plateforme de e-learning…).
 
+## lancement en local
+
 ```bash
 ng serve
+firebase emulators:start --only functions
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
@@ -192,6 +195,7 @@ ng generate --help
 
 ```bash
 npm install pdfjs-dist
+npm install ngx-indexed-db
 
 ```
 ## Building
