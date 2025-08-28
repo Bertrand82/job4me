@@ -26,12 +26,15 @@ export class ProxyApiService {
    * Fait une requête GET à l'URL cible via le proxy Cloud Function
    * @param targetUrl L'URL distante à atteindre
    */
-  getViaProxy<T>(targetUrl: string): Observable<T> {
+  getViaProxy<T>(targetUrl: string): Observable<string> {
     console.log('projectId', this.projectId);
     console.log('host', this.host);
     console.log('proxyUrl_', this.proxyUrl_);
     const params = new HttpParams().set("url", targetUrl);
     console.log('params', params);
-    return this.http.get<T>(this.proxyUrl_, { params });
+    const urlEncoded  = this.proxyUrl_ + '?url=' + encodeURIComponent(targetUrl);
+    console.log('Requête encodée :', urlEncoded);
+    //return this.http.get<T>(this.proxyUrl_, { params });
+    return this.http.get(this.proxyUrl_, { params, responseType: 'text' })
   }
 }

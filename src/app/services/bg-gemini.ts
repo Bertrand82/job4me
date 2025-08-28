@@ -64,8 +64,8 @@ export const reponseAnalyseOffreEmploi = {
     "offre.lieu": { "type": "string","description":"renseigne le lieu du poste identifié dans l’offre" },
     "offre.pays": { "type": "string","description":"renseigne le pays du poste identifié dans l’offre" },
     "offre.freelance": { "type": "boolean","description":"Dans l'offre d'emploi,précise si le poste est en freelance ou non" },
-    "offre.langue": { "type": "string", "enum": ["fr", "en","es"] }
-
+    "offre.langue": { "type": "string", "enum": ["fr", "en","es"] },
+    "offre.isOffreEmploi": { "type": "boolean", "description": "Indique si le document est bien une offre d'emploi" }
    },
   "required": ["offre.titre","offre.date","offre.langue", "offre.resume", "offre.societe", "offre.personne", "offre.lieu", "offre.freelance"]
 

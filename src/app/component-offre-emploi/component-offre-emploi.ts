@@ -36,60 +36,28 @@ export class ComponentOffreEmploi {
   onTextFieldUrlChange($event: Event) {
     const urlOffreEmploi2 = ($event.target as HTMLInputElement).value;
     console.log('urlOffreEmploi', urlOffreEmploi2);
-    const isValidUrl = this.isValidUrl(urlOffreEmploi2);
-    console.log('isValidUrl ', isValidUrl);
-    if (isValidUrl) {
-      this.urlOffreEmploi = urlOffreEmploi2;
-      this.fetchOffreEmploiFromUrl(urlOffreEmploi2);
-    } else {
-      console.log('URL non valide');
-    }
+    this.urlOffreEmploi = urlOffreEmploi2;
+    //this.processUrlOffreEmploi();
   }
-  fetchOffreEmploiFromUrl(url:string) {
-    this.proxyApiService.getViaProxy<string>(url).subscribe({
-      next: (response) => {
-        this.offreEmploiContent = response;
-        console.log('Offre d\'emploi récupérée via le proxy:', this.offreEmploiContent);
-      },
-      error: (error) => {
-        console.error('Erreur lors du fetch de l\'offre d\'emploi via le proxy:', error);
-      }
-    });
-  }
-fetchOffreEmploiFromUrl_(urlOffreEmploi2: string) {
-  fetch(urlOffreEmploi2)
-    .then((response) => {
-      console.log('response', response);
-      if (!response.ok) {
-        // Trace l’erreur HTTP (ex: 404, 500, etc.)
-        console.error(`Erreur HTTP : ${response.status} ${response.statusText}`);
-        throw new Error(`HTTP error: ${response.status} ${response.statusText}`);
-      }
-      return response.text();
-    })
-    .then((text) => {
-      this.offreEmploiContent = text;
-    })
-    .catch((error) => {
-       console.error('Erreur lors du fetch de l\'offre d\'emploi:', error);
-    });
-}
 
-  isValidUrl(url: string): boolean {
-    try {
-      new URL(url);
-      return true;
-    } catch (e) {
-      return false;
+  processOffreEmploiUrl() {
+    if (this.urlOffreEmploi == '') {
+      alert("Veuillez coller une offre d'emploi.");
+      return;
     }
+    const prompt: string = this.makePromptAnalyseOffreEmploiFromURL(this.urlOffreEmploi);
+    this.askGeminiAnalyseOffreEmploiUrl(prompt);
   }
+
+
+
 
   onSaveOffreEmploi() {
     console.log('Contenu de l offre d emploi 2:', this.offreEmploiContent);
-    this.analyseOffreEmploi();
+    this.analyseOffreEmploiFromText();
   }
 
-  analyseOffreEmploi() {
+  analyseOffreEmploiFromText() {
     if (this.offreEmploiContent == '') {
       alert("Veuillez coller une offre d'emploi.");
       return;
@@ -98,11 +66,11 @@ fetchOffreEmploiFromUrl_(urlOffreEmploi2: string) {
       offreEmploi: this.offreEmploiContent,
     };
     console.log('Analyse Offre Emploi', data);
-    const prompt: string = this.makePrompt(data);
-    this.askGeminiAnalyseOffreEmploi(prompt);
+    const prompt: string = this.makePromptAnalyseOffreEmploiFromContent(data);
+    this.askGeminiAnalyseOffreEmploiContent(prompt);
   }
 
-  makePrompt(data: any) {
+  makePromptAnalyseOffreEmploiFromContent(data: any) {
     return (
       " Analyse l'offre d'emploi suivante et extrait les informations suivantes : La langue de l'offre, Un résumé de l'offre en français (4-5 lignes), Le nom de la société, Le nom de la personne, Le lieu du poste. Précise si le poste est en freelance ou non , Indique s'il s'agit d'un emploi salarié ou d'uneprestation de service .Voici l'offre à analyser :: " +
       JSON.stringify(this.offreEmploiContent)
@@ -110,7 +78,15 @@ fetchOffreEmploiFromUrl_(urlOffreEmploi2: string) {
     // return `Génére une lettre de motivation pour repondre à l'offre d'emploi avec les données suivante : ${JSON.stringify(data)}`;
   }
 
-  askGeminiAnalyseOffreEmploi(prompt: string): void {
+  makePromptAnalyseOffreEmploiFromURL(dataUrl: string) {
+    return (
+      " Analyse l'offre d'emploi suivante et extrait les informations suivantes : La langue de l'offre, Un résumé de l'offre en français (4-5 lignes), Le nom de la société, Le nom de la personne, Le lieu du poste. Précise si le poste est en freelance ou non , Indique s'il s'agit d'un emploi salarié ou d'uneprestation de service .Voici l'offre à analyser :: " +
+      "url :" + dataUrl
+    );
+    // return `Génére une lettre de motivation pour repondre à l'offre d'emploi avec les données suivante : ${JSON.stringify(data)}`;
+  }
+
+  askGeminiAnalyseOffreEmploiContent(prompt: string): void {
     this.isProcessing = true;
     this.gemini.generateContent(prompt, reponseAnalyseOffreEmploi).subscribe({
       next: (res) => {
@@ -154,6 +130,52 @@ fetchOffreEmploiFromUrl_(urlOffreEmploi2: string) {
       },
     });
   }
+
+  askGeminiAnalyseOffreEmploiUrl(prompt: string): void {
+    this.isProcessing = true;
+    this.gemini.generateContent(prompt, reponseAnalyseOffreEmploi).subscribe({
+      next: (res) => {
+        this.isProcessing = false;
+
+        this.httpStatus = res.status;
+        console.log('status', this.httpStatus);
+        console.log('responseRequest', res);
+        console.log('candidates', res.candidates);
+        const candidat = res.candidates[0];
+
+        console.log('candidat', candidat);
+        const content = candidat.content;
+        console.log('content ', content);
+        const parts = content.parts;
+        const part0 = parts[0];
+        console.log('part0', part0);
+        const textRetour = part0.text;
+        console.log('text: ', textRetour);
+        const obj = JSON.parse(textRetour);
+        console.log('isOk:', obj);
+
+        this.offreEmploi = new OffreEmploi(obj, this.offreEmploiContent,this.urlOffreEmploi);
+        this.listOffreEmploi.push(this.offreEmploi);
+        this.storeCV();
+        this.offreEmploiContent = obj.resume;
+        this.changeDetectorRef.detectChanges();
+        this.alertOnResult();
+      },
+      error: (err) => {
+        this.isProcessing = false;
+
+        console.log('responseRequest', err);
+        this.httpStatus = err.status;
+        console.log('status', this.httpStatus);
+        console.log('errA', err);
+        console.log('err.message', err.message);
+        console.log('err.error', err.error);
+        console.log('err.error.error', err.error.error);
+        console.log('err.error.error.message', err.error.error.message);
+      },
+    });
+  }
+
   alertOnResult() {
     var alertStr =
       ' result from gemini!!! \n' + JSON.stringify(this.offreEmploi, null, 4);
