@@ -1,0 +1,19 @@
+<h2 style="margin: 7px;">Détail de l'offre d'emploi</h2>
+<div style="margin: 7px;">
+  <div><strong>Titre :</strong> {{ data.offreEmploi.titre }}</div>
+  <div><strong>Description :</strong> {{ data.offreEmploi.resume }}</div>
+  <div><strong>Lieu :</strong> {{ data.offreEmploi.lieu }}</div>
+  <div><strong>Date de publication :</strong> {{ data.offreEmploi.date }}</div>
+  <div><strong>Société :</strong> {{ data.offreEmploi.societe }}</div>
+  <div><strong>Freelance :</strong> {{ data.offreEmploi.freelance }}</div>
+  <div><strong>Langue :</strong> {{ data.offreEmploi.langue }}</div>
+  <div><strong>Id :</strong> {{ data.id}}</div>
+  <div> <button title="Voir" (click)="voirOffreEmploi()">
+      <i class="fa-solid fa-globe"></i>
+      {{ data.offreEmploi.url }}
+    </button>
+  </div>
+ <div><strong>Lettre:</strong> {{ data.texteLettre}}</div>
+<div style="text-align: right; margin-top: 20px;margin-right:5;">
+  <button mat-button (click)="onClose()">Fermer</button>
+</div>

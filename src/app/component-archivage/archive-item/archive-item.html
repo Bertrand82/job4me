@@ -13,11 +13,11 @@
           [(ngModel)]="archiveLettre.selected"
 
         />
-        <button title="Télécharger" (click)="telechargerArchiveLettre()">
-          <i class="fa-solid fa-download"></i>
-        </button>
-        <button title="Voir" (click)="voirArchiveLettre()">
+        <button title="Télécharger" (click)="displayModale()">
           <i class="fa-solid fa-eye"></i>
+        </button>
+        <button title="Voir offre" (click)="voirOffreEmploi()">
+          <i class="fa-solid fa-globe"></i>
         </button>
         <button title="Supprimer" (click)="deleteArchiveLettre()">
           <i class="fa-solid fa-trash"></i>

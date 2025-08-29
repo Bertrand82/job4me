@@ -15,6 +15,7 @@ Les documents générés peuvent être copiés, téléchargés ou envoyés autom
 -- permettre un rebouclage en rajoutant des consignes 
 -- Archivage local
 -- Utilser purge css
+
 ## Architecture Fonctionnelle
 
 ### 1. **ComponentCV**

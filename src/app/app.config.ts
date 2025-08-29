@@ -17,13 +17,16 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(HttpClientModule),
     provideIndexedDb({
       name: 'BgDb',
-      version: 1,
+      version: 2,
       objectStoresMeta: [
         {
           store: 'offreEmploi',
           storeConfig: { keyPath: 'id', autoIncrement: true },
           storeSchema: [
-            { name: 'name', keypath: 'name', options: { unique: false } },
+            { name: 'texteLettre', keypath: 'texteLettre', options: { unique: false } },
+            { name: 'prompt', keypath: 'prompt', options: { unique: false } },
+            { name: 'offreEmploi', keypath: 'offreEmploi', options: { unique: false } },
+            { name: 'cvId', keypath: 'cvId', options: { unique: false } },
           ],
         },
       ],

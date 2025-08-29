@@ -23,7 +23,7 @@ export class OffreEmploiItem {
     const url = this.offreEmploi.url;
     window.open(url, '_blank');
   }
-  telechargerOffreEmploi() {
+  displayModale() {
     console.log('telechargerOE id ', this.offreEmploi.id);
     this.openOffreDetail();
   }
