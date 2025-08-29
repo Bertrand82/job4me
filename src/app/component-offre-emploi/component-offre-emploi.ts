@@ -156,10 +156,12 @@ export class ComponentOffreEmploi {
 
         this.offreEmploi = new OffreEmploi(obj, this.offreEmploiContent,this.urlOffreEmploi);
         this.listOffreEmploi.push(this.offreEmploi);
+        this.offreEmploiContent=this.offreEmploi.resume;
         this.storeCV();
-        this.offreEmploiContent = obj.resume;
+        this.offreEmploiContent =this.offreEmploi.resume;
+        this.offreEmploi.contentInitial = this.offreEmploi.resume;
         this.changeDetectorRef.detectChanges();
-        this.alertOnResult();
+        //this.alertOnResult();
       },
       error: (err) => {
         this.isProcessing = false;
