@@ -19,6 +19,7 @@ import {
 import { ComponentPersonalisation } from './component-personalisation/component-personalisation';
 import { BgGemini, responseShemaGemini_v1 } from './services/bg-gemini';
 import { ComponentArchivage } from './component-archivage/component-archivage';
+import { LoginComponent } from "./component-bg-auth/component-bg-auth";
 @Component({
   selector: 'app-root',
   imports: [
@@ -28,7 +29,8 @@ import { ComponentArchivage } from './component-archivage/component-archivage';
     FormsModule,
     CommonModule,
     ComponentArchivage,
-  ],
+    LoginComponent
+],
   templateUrl: './app.html',
   styleUrl: './app.css',
   encapsulation: ViewEncapsulation.None,

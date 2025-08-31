@@ -1,0 +1,19 @@
+
+
+<h1>admin job4me </h1>
+Penser à rajouter le site de deploiement dans les credential, si erreur:
+'Requests from referer https://job4you-78ed0.web.app/ are blocked.', status: 'PERMISSION_DENIED' lors de requete vers gemini
+<br/>
+1. API Key restreinte par HTTP referrer
+Sur Google Cloud Console, l’API Key utilisée est limitée à certains sites (referers), et https://job4you-78ed0.web.app/ n’est pas autorisé.
+
+<h2>Comment corriger :</h2>
+Va sur console.cloud.google.com/apis/credentials.<br/>
+Trouve la clé API utilisée pour Gemini.(Gemini API)<br/>
+Clique dessus pour configurer.<br/>
+Dans la section Restrictions sur les référents HTTP (sites web), ajoute :
+Code
+https://job4you-78ed0.web.app/*<br/>
+ou plus restrictif selon ton besoin.
+Enregistre.
+<a href="https://console.cloud.google.com/apis/credentials">Console google cloud</a>

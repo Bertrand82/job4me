@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ProxyApiService } from './proxy-api-service';
+import { BgAuthService } from './bg-auth-service';
 
-describe('ProxyApiService', () => {
-  let service: ProxyApiService;
+describe('BgAuthService', () => {
+  let service: BgAuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ProxyApiService);
+    service = TestBed.inject(BgAuthService);
   });
 
   it('should be created', () => {

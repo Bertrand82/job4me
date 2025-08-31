@@ -21,6 +21,7 @@
     "@angular/router": "^20.0.0",
     "@dataconnect/generated": "file:dataconnect-generated/js/example-connector",
     "express": "^5.1.0",
+    "firebase": "^11.10.0",
     "ngx-indexed-db": "^21.0.0",
     "pdfjs-dist": "^5.4.54",
     "rxjs": "~7.8.0",

@@ -8,13 +8,18 @@ L'IA génère alors une lettre de motivation adaptée, et peut éventuellement a
 
 Les documents générés peuvent être copiés, téléchargés ou envoyés automatiquement à un destinataire.
 
+(https://job4you-78ed0.web.app/)[Demo en ligne]
+
 ## TODO
 
--- DONE Récupérer les prompts IA pour la génération de lettres et CV.
--- repenser design personalisation
--- permettre un rebouclage en rajoutant des consignes 
--- Archivage local
--- Utilser purge css
+- DONE Récupérer les prompts IA pour la génération de lettres et CV.
+- repenser design personalisation
+- permettre un rebouclage en rajoutant des consignes 
+- Done Archivage local
+- Utiliser purge css
+- Chercher produits equivalents
+- Utiliser google agenda pour archiver
+- 
 
 ## Architecture Fonctionnelle
 
@@ -169,6 +174,10 @@ RapidJobApp
        - google Drive/Dropbox : archivage automatique, recherche facile dans ses documents.
        - Intégrations écoles/ATS : connexion avec les logiciels RH, plateformes d’orientation, CRM de candidatures.
        - API ouverte : permettre à d’autres outils d’utiliser les fonctionnalités IA (ex : intégration dans un intranet étudiant, une plateforme de e-learning…).
+
+## Gestion de la clé api GEMINI
+
+https://console.cloud.google.com/apis/credentials/key/
 
 ## lancement en local
 
