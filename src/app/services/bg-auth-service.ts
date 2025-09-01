@@ -1,8 +1,9 @@
 import { Injectable, signal } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, User } from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, User,sendPasswordResetEmail  } from '@angular/fire/auth';
 
 @Injectable({ providedIn: 'root' })
 export class BgAuthService {
+
   private userSignal = signal<User | null>(null);
 
   constructor(private auth: Auth) {
@@ -26,5 +27,9 @@ export class BgAuthService {
 
   logout() {
     return signOut(this.auth);
+  }
+
+  sendPasswordResetEmail2(email: string) {
+    return sendPasswordResetEmail(this.auth, email);
   }
 }
