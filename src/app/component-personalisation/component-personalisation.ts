@@ -11,9 +11,9 @@ import { CommonModule } from '@angular/common';
 })
 export class ComponentPersonalisation {
   personnalite: any;
-  personnalites = ['Créatif', 'Sérieux', 'Dynamique'];
-  competence: any;
-  objectif: any;
+  personnalites = ['Conventionnel','Créatif', 'Sérieux', 'Dynamique','Atypique'];
+  pointA!: string;
+  pointB!: string;
 
   nombreDeMotsMax: number = 100;
 

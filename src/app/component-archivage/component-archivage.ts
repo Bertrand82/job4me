@@ -25,9 +25,9 @@ export class ComponentArchivage {
   }
 
   ngOnInit() {
-    const promiselistArchive:Promise<ArchiveLettre[]>= this.bgIndexedDBService.getOffres();
+    const promiselistArchive:Promise<ArchiveLettre[]>= this.bgIndexedDBService.getArchives();
     console.log("bg Récupération promiselistArchive : ",promiselistArchive);
-    this.bgIndexedDBService.getOffres().then((archives: ArchiveLettre[]) => {
+    this.bgIndexedDBService.getArchives().then((archives: ArchiveLettre[]) => {
       this.listArchive = archives;
       console.log("bg Récupération listArchive : ",this.listArchive);
       this.changeDetectorRef.detectChanges();
@@ -51,7 +51,7 @@ export class ComponentArchivage {
     );
     this.listArchive.push(archiveLettre);
     console.log('Archiving letter...' + this.listArchive.length);
-    this.bgIndexedDBService.ajouterOffre(archiveLettre);
+    this.bgIndexedDBService.ajouterArchive(archiveLettre);
   }
 
   deleteArchiveLettre(id: string) {
@@ -59,7 +59,7 @@ export class ComponentArchivage {
     if (index !== -1) {
       this.listArchive.splice(index, 1);
       console.log('Archive deleted:', id);
-      this.bgIndexedDBService.supprimerOffre(id);
+      this.bgIndexedDBService.supprimerArchive(id);
     } else {
       console.log('Archive not found:', id);
     }

@@ -19,7 +19,9 @@ Les documents générés peuvent être copiés, téléchargés ou envoyés autom
 - Utiliser purge css
 - Chercher produits equivalents
 - Utiliser google agenda pour archiver
-- 
+- Explorer api google gmail: Faisabilité d'une api classant par label les offres emplois
+- Explorer api stripe pour gérér des abonnements
+- Gerer les cv en base de données local.
 
 ## Architecture Fonctionnelle
 

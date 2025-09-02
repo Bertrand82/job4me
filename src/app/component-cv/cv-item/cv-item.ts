@@ -37,25 +37,32 @@ export class ComponentCVItem {
     if (index > -1) {
       this.componentCV.cvItems.splice(index, 1);
     }
-    this.componentCV.storeCV();
+    this.componentCV.storeCVs();
   }
 
   telechargerCV() {
+    console.log("telechargerCV fileName ", this.cvItem.fileName);
     const link = document.createElement('a');
     link.href = URL.createObjectURL(this.cvItem.file);
+    console.log("telechargerCV link ", link);
     link.download = this.cvItem.fileName;
+
     link.click();
   }
 
   voirCV() {
+    console.log("voirCV file cvitem AA", this.cvItem);
+    console.log("voirCV file cvitem BB", this.cvItem.fileName);
+    console.log("voirCV file cvitem CC", this.cvItem.file);
     const fileURL = URL.createObjectURL(this.cvItem.file);
+    console.log("voirCV fileURL ", fileURL);
     window.open(fileURL);
   }
 
 
   selectionnerCV() {
-    console.log('selectionnerCV id ', this.cvItem.id);
+    console.log('selectionnerCV  ', this.cvItem);
     this.componentCV.setCvSelected(this.cvItem);
-    this.componentCV.storeCV();
+    this.componentCV.storeCVs();
   }
 }

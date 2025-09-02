@@ -32,12 +32,13 @@ export class BgGemini {
   }
 
 }
-export const responseShemaGemini_v1 = {
+export function responseShemaGemini_v11(langue:string) : any {
+  const schema = {
   "type": "object",
   "properties": {
 
     "niveauDeCorrespondanceDe1A10": { "type": "number" },
-    "lettreMotivation": { "type": "string" },
+    "lettreMotivation": { "type": "string" , "description": "Lettre de motivation dans la langue "+langue },
     "motsClésCommunsOffreEtCV": { "type": "string" },
     "nombreDeMots": { "type": "number","description":"renseigne le nombre de mots dans la lettre de motivation" },
     "cv.nom": { "type": "string", "description":"renseigne le nom de la personne identifiée dans le CV" },
@@ -51,6 +52,9 @@ export const responseShemaGemini_v1 = {
   "required": ["niveauDeCorrespondanceDe1A10", "lettreMotivation", "motsClésCommunsOffreEtCV"],
   "propertyOrdering": ["niveauDeCorrespondanceDe1A10", "lettreMotivation", "motsClésCommunsOffreEtCV"]
 };
+return schema;
+}
+
 
 export const reponseAnalyseOffreEmploi = {
   "type": "object",

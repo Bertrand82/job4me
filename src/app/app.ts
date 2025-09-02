@@ -17,7 +17,7 @@ import {
   OffreEmploi,
 } from './component-offre-emploi/component-offre-emploi';
 import { ComponentPersonalisation } from './component-personalisation/component-personalisation';
-import { BgGemini, responseShemaGemini_v1 } from './services/bg-gemini';
+import { BgGemini, responseShemaGemini_v11 } from './services/bg-gemini';
 import { ComponentArchivage } from './component-archivage/component-archivage';
 import { LoginComponent } from "./component-bg-auth/component-bg-auth";
 @Component({
@@ -57,28 +57,30 @@ export class App {
       cv: this.componentCV.getCvSelected().content,
       offreEmploi: this.componentOffreEmploi.offreEmploiContent,
       personnalite: this.componentPersonalisation.personnalite,
-      objectif: this.componentPersonalisation.objectif,
-      competence: this.componentPersonalisation.competence,
+      pointA: this.componentPersonalisation.pointA,
+      pointB  : this.componentPersonalisation.pointB,
     };
     console.log('Génération', data);
     this.prompt = this.makePrompt(data);
     const prompt2 = this.prompt;
-    this.askGemini(prompt2);
+    const schema = responseShemaGemini_v11(data.offreEmploi.langue);
+    this.askGemini(prompt2,schema);
   }
   makePrompt(data: any) {
     const offreEmploiSelected: OffreEmploi =
-      this.componentOffreEmploi.getOffreEmploiSelected();
+    this.componentOffreEmploi.getOffreEmploiSelected();
     console.log('offreEmploiSelected', offreEmploiSelected);
+    const langue = offreEmploiSelected.langue?offreEmploiSelected.langue:"fr";
     const p =
-      "génère une lettre de motivation pour une offre d'emploi en francais avec les informations suivantes : " +
+      "génère une lettre de motivation pour une offre d'emploi   avec les informations suivantes : " +
       '\n Personnalité : ' +
       this.componentPersonalisation.personnalite +
       '\n Nombre de mots maximum : ' +
       this.componentPersonalisation.nombreDeMotsMax +
-      '\n Objectif : ' +
-      this.componentPersonalisation.objectif +
-      '\n Compétence : ' +
-      this.componentPersonalisation.competence +
+      '\n particuarités : ' +
+      this.componentPersonalisation.pointA +
+      '\n particularités : ' +
+      this.componentPersonalisation.pointB +
       '\n Offre emploi : ' +
       JSON.stringify(offreEmploiSelected) +
       ' CV : ' +
@@ -97,9 +99,9 @@ export class App {
     return dataMock;
   }
 
-  askGemini(prompt: string): void {
+  askGemini(prompt: string, schema: any): void {
     this.isProcessing = true;
-    this.gemini.generateContent(prompt, responseShemaGemini_v1).subscribe({
+    this.gemini.generateContent(prompt, schema).subscribe({
       next: (res) => {
         this.isProcessing = false;
 

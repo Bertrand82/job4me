@@ -158,9 +158,10 @@ export class ComponentOffreEmploi {
         this.listOffreEmploi.push(this.offreEmploi);
         this.offreEmploiContent=this.offreEmploi.resume;
         this.storeCV();
-        this.offreEmploiContent =this.offreEmploi.resume;
+        //this.offreEmploiContent =this.offreEmploi.resume;
         this.offreEmploi.contentInitial = this.offreEmploi.resume;
         this.changeDetectorRef.detectChanges();
+        this.urlOffreEmploi = '';
         //this.alertOnResult();
       },
       error: (err) => {

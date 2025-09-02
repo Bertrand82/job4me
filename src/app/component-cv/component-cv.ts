@@ -8,6 +8,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import * as pdfjsLib from 'pdfjs-dist';
 import { ChangeDetectorRef } from '@angular/core';
+import { BgIndexedDBService } from '../services/bg-indexed-db';
 @Component({
   selector: 'app-component-cv',
   imports: [ComponentCVItem, CommonModule, FormsModule],
@@ -21,10 +22,17 @@ export class ComponentCV {
   cvItems: CV[] = [];
   showCvInputTextarea: boolean = false;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {
+  constructor(
+    private bgIndexedDBService: BgIndexedDBService,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
     this.componentCV = this;
-    this.cvItems = this.getCvItemsFromLocalStorage();
   }
+
+  ngOnInit() {
+    this.getCvItemsFromIndexedDB();
+  }
+
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
@@ -37,8 +45,12 @@ export class ComponentCV {
 
       cvItem.fileName = file.name;
       cvItem.file = file;
+      cvItem.urlFile = URL.createObjectURL(file);
+      this.bgIndexedDBService.ajouterCV(cvItem);
       this.cvItems.push(cvItem);
-      this.storeCV();
+      console.log('Fichier sélectionné cvItem :', cvItem);
+      console.log('Fichier sélectionné cvItem :', cvItem.urlFile);
+      this.storeCVs();
       this.parsePdf(file, cvItem);
     }
   }
@@ -53,7 +65,7 @@ export class ComponentCV {
     cvItem2.date = new Date().toLocaleDateString();
     this.cvItems.push(cvItem2);
     console.log('Save cv :BBBBBBBBBBBBB', this.cvItems);
-    this.storeCV();
+    this.storeCVs();
   }
 
   deleteCV(idCv: number) {
@@ -109,10 +121,10 @@ export class ComponentCV {
     cvItem.date = dateLastModified.toLocaleDateString();
     console.log('cvItem:', cvItem);
     this.changeDetectorRef.detectChanges();
-    this.storeCV();
+    this.storeCVs();
   }
 
-  storeCV() {
+  storeCVs() {
     console.log('storeCV ', this.cvItems);
     localStorage.setItem('cvItems', JSON.stringify(this.cvItems));
   }
@@ -130,6 +142,14 @@ export class ComponentCV {
     return [];
   }
 
+  getCvItemsFromIndexedDB() {
+    const promises: Promise<CV[]> = this.bgIndexedDBService.getCVs();
+    promises.then((cvItems) => {
+      this.cvItems = cvItems;
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
   getCvSelected(): CV {
     if (!this.cvItemSelected) {
       if (this.cvItems.length == 0) {
@@ -145,7 +165,7 @@ export class ComponentCV {
         });
       }
     }
-    console.log("cvItemSelected:", this.cvItemSelected);
+    console.log('cvItemSelected:', this.cvItemSelected);
     return this.cvItemSelected;
   }
 }
@@ -155,9 +175,10 @@ export class CV {
   content!: string;
   fileName!: string;
   file!: File;
-  title!: string ;
-  date!: string ;
-  selected :boolean;
+  title!: string;
+  date!: string;
+  selected: boolean;
+  urlFile!: string;
   tags: string[] = [];
 
   constructor() {
