@@ -1,3 +1,4 @@
+
 import { PDFDocumentLoadingTask } from './../../../node_modules/pdfjs-dist/types/src/display/api.d';
 import { Component } from '@angular/core';
 
@@ -9,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import * as pdfjsLib from 'pdfjs-dist';
 import { ChangeDetectorRef } from '@angular/core';
 import { BgIndexedDBService } from '../services/bg-indexed-db';
+import { BgGemini,reponseAnalyseCV } from '../services/bg-gemini';
 @Component({
   selector: 'app-component-cv',
   imports: [ComponentCVItem, CommonModule, FormsModule],
@@ -24,7 +26,8 @@ export class ComponentCV {
 
   constructor(
     private bgIndexedDBService: BgIndexedDBService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private gemini: BgGemini
   ) {
     this.componentCV = this;
   }
@@ -44,7 +47,9 @@ export class ComponentCV {
       const cvItem: CV = new CV();
 
       cvItem.fileName = file.name;
+      cvItem.title = file.name.replace('.pdf', '').substring(0, 40);
       cvItem.file = file;
+      cvItem.date = new Date(file.lastModified).toLocaleDateString();
       cvItem.urlFile = URL.createObjectURL(file);
       this.bgIndexedDBService.ajouterCV(cvItem);
       this.cvItems.push(cvItem);
@@ -66,17 +71,10 @@ export class ComponentCV {
     this.cvItems.push(cvItem2);
     console.log('Save cv :BBBBBBBBBBBBB', this.cvItems);
     this.storeCVs();
+    this.bgIndexedDBService.ajouterCV(cvItem2);
   }
 
-  deleteCV(idCv: number) {
-    console.log('deleteCV id ', idCv);
-    console.log('deleteCV  cvItems', this.cvItems);
-    const index = this.cvItems.findIndex((item) => item.id == idCv);
-    if (index !== -1) {
-      this.cvItems.splice(index, 1);
-    }
-    console.log('deleteCV  cvItems après suppression', this.cvItems);
-  }
+
 
   setCvSelected(cvItem: CV) {
     console.log('setCvSelected id ', cvItem.id);
@@ -119,14 +117,59 @@ export class ComponentCV {
 
     const dateLastModified = new Date(file.lastModified);
     cvItem.date = dateLastModified.toLocaleDateString();
-    console.log('cvItem:', cvItem);
+
     this.changeDetectorRef.detectChanges();
     this.storeCVs();
+    this.bgIndexedDBService.updateCV(cvItem);
+    this.processCVByGemini(cvItem);
+  }
+  processCVByGemini(cvItem: CV) {
+    console.log("Processing CV by Gemini:", cvItem);
+    console.log("Processing CV by Gemini:", cvItem.content);
+    const prompt = "Analyse ce cv :"+cvItem.content
+    this.gemini.generateContent(prompt,reponseAnalyseCV).subscribe(
+      (res) => {
+        console.log("Gemini response:", res);
+        const candidat = res.candidates[0];
+
+        console.log('Gemini response candidat', candidat);
+        const content = candidat.content;
+        console.log('Gemini response content ', content);
+        const parts = content.parts;
+        const part0 = parts[0];
+        console.log('Gemini response part0', part0);
+        const textRetour = part0.text;
+        console.log('Gemini response  text: ', textRetour);
+        const obj = JSON.parse(textRetour);
+        console.log('Gemini response  parsed object: ', obj);
+        cvItem.title = obj["cv.titre"];
+        cvItem.skills = obj["cv.skills"];
+        cvItem.companies = obj["cv.societes"];
+        this.changeDetectorRef.detectChanges();
+        this.bgIndexedDBService.updateCV(cvItem);
+      },
+      (error) => {
+        console.error("Gemini error:", error);
+      }
+    );
   }
 
   storeCVs() {
     console.log('storeCV ', this.cvItems);
     localStorage.setItem('cvItems', JSON.stringify(this.cvItems));
+  }
+
+   deleteCV(cvItem : CV) {
+    console.log('deleteCV id ', cvItem.id);
+    const index = this.componentCV.cvItems.findIndex(
+      (item) => item.id == cvItem.id
+    );
+    console.log('deleteCV called index', index);
+
+    if (index > -1) {
+      this.componentCV.cvItems.splice(index, 1);
+    }
+    this.bgIndexedDBService.supprimerCV(cvItem.id);
   }
 
   getCvItemsFromLocalStorage(): CV[] {
@@ -147,6 +190,7 @@ export class ComponentCV {
     promises.then((cvItems) => {
       this.cvItems = cvItems;
       this.changeDetectorRef.detectChanges();
+
     });
   }
 
@@ -180,6 +224,8 @@ export class CV {
   selected: boolean;
   urlFile!: string;
   tags: string[] = [];
+  skills: string[] = [];
+  companies:  string[] = [];
 
   constructor() {
     this.selected = false;

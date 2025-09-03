@@ -54,8 +54,8 @@ export class ComponentArchivage {
     this.bgIndexedDBService.ajouterArchive(archiveLettre);
   }
 
-  deleteArchiveLettre(id: string) {
-    const index = this.listArchive.findIndex((archive) => archive.id === id);
+  deleteArchiveLettre(id: number) {
+    const index = this.listArchive.findIndex((archive) => archive.id == id);
     if (index !== -1) {
       this.listArchive.splice(index, 1);
       console.log('Archive deleted:', id);
@@ -67,7 +67,7 @@ export class ComponentArchivage {
 }
 
 export class ArchiveLettre {
-  id: string;
+  id: number;
   selected: boolean = false;
   constructor(
     public texteLettre: string,
@@ -75,6 +75,6 @@ export class ArchiveLettre {
     public offreEmploi: OffreEmploi,
     public cv: CV
   ) {
-    this.id = Math.random().toString(36).substr(2, 9);
+    this.id = Math.floor(Math.random() * 10000000);
   }
 }

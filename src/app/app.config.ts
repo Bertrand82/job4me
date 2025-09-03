@@ -22,7 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()),
     provideIndexedDb({
       name: 'BgDb',
-      version: 3,
+      version: 5,
       objectStoresMeta: [
         {
           store: 'offreEmploi',
@@ -42,6 +42,9 @@ export const appConfig: ApplicationConfig = {
             { name: 'title', keypath: 'title', options: { unique: false } },
             { name: 'date', keypath: 'date', options: { unique: false } },
             { name: 'cvId', keypath: 'cvId', options: { unique: false } },
+           { name: 'skills', keypath: 'skills', options: { unique: false } },
+           { name: 'companies', keypath: 'companies', options: { unique: false } },
+           { name: 'resume', keypath: 'resume', options: { unique: false } },
           ],
         },
       ],

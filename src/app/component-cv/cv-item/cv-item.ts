@@ -27,17 +27,8 @@ export class ComponentCVItem {
 
 
   deleteCV() {
-    console.log('deleteCV id ', this.cvItem.id);
-    console.log('deleteCV  cvItems', this.componentCV.cvItems);
-    const index = this.componentCV.cvItems.findIndex(
-      (item) => item.id == this.cvItem.id
-    );
-    console.log('deleteCV called index', index);
+    this.componentCV.deleteCV(this.cvItem);
 
-    if (index > -1) {
-      this.componentCV.cvItems.splice(index, 1);
-    }
-    this.componentCV.storeCVs();
   }
 
   telechargerCV() {
