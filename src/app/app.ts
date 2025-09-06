@@ -20,6 +20,7 @@ import { ComponentPersonalisation } from './component-personalisation/component-
 import { BgGemini, responseShemaGemini_v11 } from './services/bg-gemini';
 import { ComponentArchivage } from './component-archivage/component-archivage';
 import { LoginComponent } from "./component-bg-auth/component-bg-auth";
+import { KeysService } from './services/bg-environment-keys-service';
 @Component({
   selector: 'app-root',
   imports: [
@@ -50,8 +51,14 @@ export class App {
   nombreDeMots = 0;
   constructor(
     private gemini: BgGemini,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private keysService: KeysService
   ) {}
+
+   ngOnInit() {
+    this.keysService.loadKeys();
+
+  }
   generateLetter() {
     const data: any = {
       cv: this.componentCV.getCvSelected().content,

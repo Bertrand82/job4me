@@ -1,0 +1,21 @@
+[debug] [2025-09-06T18:11:22.299Z] ----------------------------------------------------------------------
+[debug] [2025-09-06T18:11:22.302Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\bertr\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2025-09-06T18:11:22.302Z] CLI Version:   14.14.0
+[debug] [2025-09-06T18:11:22.302Z] Platform:      win32
+[debug] [2025-09-06T18:11:22.302Z] Node Version:  v22.16.0
+[debug] [2025-09-06T18:11:22.302Z] Time:          Sat Sep 06 2025 20:11:22 GMT+0200 (heure d’été d’Europe centrale)
+[debug] [2025-09-06T18:11:22.303Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-09-06T18:11:22.546Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T18:11:22.547Z] > authorizing via signed-in user (bertrand.guiral@gmail.com)
+[debug] [2025-09-06T18:11:22.547Z] [iam] checking project job4you-78ed0 for permissions ["cloudconfig.configs.get","cloudconfig.configs.update","cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update",null]
+[debug] [2025-09-06T18:11:22.548Z] Checked if tokens are valid: false, expires at: 1757168748625
+[debug] [2025-09-06T18:11:22.548Z] Checked if tokens are valid: false, expires at: 1757168748625
+[debug] [2025-09-06T18:11:22.548Z] > refreshing access token with scopes: []
+[debug] [2025-09-06T18:11:22.550Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-09-06T18:11:22.550Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-09-06T18:11:22.729Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-09-06T18:11:22.729Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-09-06T18:11:22.738Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions [none]
+[debug] [2025-09-06T18:11:22.738Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions x-goog-quota-user=projects/job4you-78ed0
+[debug] [2025-09-06T18:11:22.738Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions {"permissions":["cloudconfig.configs.get","cloudconfig.configs.update","cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update",null]}

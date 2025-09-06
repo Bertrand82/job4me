@@ -13,7 +13,6 @@ import { ComponentCV ,CV} from '../component-cv';
 export class ComponentCVItem {
 
 
-
   @Input() componentCV!: ComponentCV;
 
    @Input() cvItem !: CV;
@@ -56,4 +55,10 @@ export class ComponentCVItem {
     this.componentCV.setCvSelected(this.cvItem);
     this.componentCV.storeCVs();
   }
+
+  showDetails() {
+   console.log('showDetails cvItem:', this.cvItem);
+  }
 }
+
+

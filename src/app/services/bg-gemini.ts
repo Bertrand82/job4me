@@ -3,6 +3,7 @@ import { environment } from '../environments/environment';
 import { environment_secret } from '../environments/environment_secret';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { KeysService } from './bg-environment-keys-service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +12,12 @@ export class BgGemini {
 
   private apiUrl = `${environment.geminiApiUrl}`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private keyService: KeysService) {}
 
   generateContent(prompt: string, responseShemaRequested:any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'X-goog-api-key': environment_secret.gk_d+environment_secret.gk_f
+      'X-goog-api-key': this.keyService.getKeys().gk_d+this.keyService.getKeys().gk_f
     });
 
     const body = {
@@ -105,6 +106,50 @@ export const reponseAnalyseCV = {
     "cv.isCV": { "type": "boolean", "description": "Indique si le document est bien un CV" }
   },
   "required": ["cv.titre", "cv.resume", "cv.langue", "cv.societes", "cv.personne", "cv.email", "cv.nationalité", "cv.adresse", "cv.freelance"]
+};
+
+export const reponseGeminiListeItemsCV = {
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "description": "Liste des expériences ou éléments structurés extraits",
+      "items": {
+        "type": "object",
+        "properties": {
+          "titre": {
+            "type": "string",
+            "description": "Le titre du poste ou de l'expérience"
+          },
+          "date_debut": {
+            "type": "string",
+            "description": "Date de début au format ISO ou YYYY-MM",
+            "pattern": "^\\d{4}(-\\d{2})?$"
+          },
+          "date_fin": {
+            "type": "string",
+            "description": "Date de fin au format ISO ou YYYY-MM, ou 'en cours' si toujours en poste",
+            "pattern": "^\\d{4}(-\\d{2})?$|^en cours$"
+          },
+          "resume": {
+            "type": "string",
+            "description": "Résumé de l'expérience ou du poste"
+          },
+          "skills": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Liste des compétences mobilisées"
+          },
+          "company": {
+            "type": "string",
+            "description": "Nom de la société ou de l'organisation"
+          }
+        },
+        "required": ["titre", "date_debut", "date_fin", "resume", "skills", "company"]
+      }
+    }
+  },
+  "required": ["items"]
 };
 
 

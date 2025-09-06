@@ -6,12 +6,13 @@ import {
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { provideIndexedDb } from 'ngx-indexed-db';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
-
+import { APP_INITIALIZER } from '@angular/core';
+import { KeysService ,} from './services/bg-environment-keys-service';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -48,7 +49,7 @@ export const appConfig: ApplicationConfig = {
           ],
         },
       ],
-    }),
+    })
   ],
 };
 

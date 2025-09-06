@@ -1,0 +1,38 @@
+[debug] [2025-09-06T13:41:17.846Z] ----------------------------------------------------------------------
+[debug] [2025-09-06T13:41:17.849Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\bertr\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2025-09-06T13:41:17.849Z] CLI Version:   14.14.0
+[debug] [2025-09-06T13:41:17.849Z] Platform:      win32
+[debug] [2025-09-06T13:41:17.850Z] Node Version:  v22.16.0
+[debug] [2025-09-06T13:41:17.850Z] Time:          Sat Sep 06 2025 15:41:17 GMT+0200 (heure d’été d’Europe centrale)
+[debug] [2025-09-06T13:41:17.850Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-09-06T13:41:18.058Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T13:41:18.058Z] > authorizing via signed-in user (bertrand.guiral@gmail.com)
+[debug] [2025-09-06T13:41:18.058Z] [iam] checking project job4you-78ed0 for permissions ["cloudconfig.configs.get","cloudconfig.configs.update","cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update",null]
+[debug] [2025-09-06T13:41:18.060Z] Checked if tokens are valid: true, expires at: 1757168748625
+[debug] [2025-09-06T13:41:18.060Z] Checked if tokens are valid: true, expires at: 1757168748625
+[debug] [2025-09-06T13:41:18.061Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions [none]
+[debug] [2025-09-06T13:41:18.061Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions x-goog-quota-user=projects/job4you-78ed0
+[debug] [2025-09-06T13:41:18.061Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions {"permissions":["cloudconfig.configs.get","cloudconfig.configs.update","cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update",null]}
+[debug] [2025-09-06T13:41:18.743Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions 200
+[debug] [2025-09-06T13:41:18.744Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/job4you-78ed0:testIamPermissions {"permissions":["cloudconfig.configs.get","cloudconfig.configs.update","cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-09-06T13:41:18.744Z] [iam] error while checking permissions, command may fail: Authorization failed. This account is missing the following required permissions on project job4you-78ed0:
+
+  
+[debug] [2025-09-06T13:41:18.744Z] Checked if tokens are valid: true, expires at: 1757168748625
+[debug] [2025-09-06T13:41:18.744Z] Checked if tokens are valid: true, expires at: 1757168748625
+[debug] [2025-09-06T13:41:18.744Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/job4you-78ed0/serviceAccounts/job4you-78ed0@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-09-06T13:41:18.744Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/job4you-78ed0/serviceAccounts/job4you-78ed0@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-09-06T13:41:19.381Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/job4you-78ed0/serviceAccounts/job4you-78ed0@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-09-06T13:41:19.381Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/job4you-78ed0/serviceAccounts/job4you-78ed0@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-09-06T13:41:19.383Z] Checked if tokens are valid: true, expires at: 1757168748625
+[debug] [2025-09-06T13:41:19.383Z] Checked if tokens are valid: true, expires at: 1757168748625
+[debug] [2025-09-06T13:41:19.383Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/job4you-78ed0 [none]
+[debug] [2025-09-06T13:41:19.664Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/job4you-78ed0 200
+[debug] [2025-09-06T13:41:19.664Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/job4you-78ed0 {"projectId":"job4you-78ed0","projectNumber":"1013830562564","displayName":"Job4You","name":"projects/job4you-78ed0","resources":{"hostingSite":"job4you-78ed0"},"state":"ACTIVE","etag":"1_d602db8e-4d12-457f-8b95-751d6fc6b7aa"}
+[info] 
+[info] === Deploying to 'job4you-78ed0'...
+[info] 
+[info] i  deploying functions, hosting, remoteconfig, apphosting 
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[info] Running command: npm --prefix "$RESOURCE_DIR" run build

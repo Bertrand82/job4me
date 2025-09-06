@@ -1,4 +1,3 @@
-
 import { PDFDocumentLoadingTask } from './../../../node_modules/pdfjs-dist/types/src/display/api.d';
 import { Component } from '@angular/core';
 
@@ -10,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import * as pdfjsLib from 'pdfjs-dist';
 import { ChangeDetectorRef } from '@angular/core';
 import { BgIndexedDBService } from '../services/bg-indexed-db';
-import { BgGemini,reponseAnalyseCV } from '../services/bg-gemini';
+import { BgGemini, reponseAnalyseCV } from '../services/bg-gemini';
 @Component({
   selector: 'app-component-cv',
   imports: [ComponentCVItem, CommonModule, FormsModule],
@@ -18,6 +17,7 @@ import { BgGemini,reponseAnalyseCV } from '../services/bg-gemini';
   styleUrl: './component-cv.css',
 })
 export class ComponentCV {
+  [x: string]: any;
   cvContent: string = '';
   componentCV!: ComponentCV;
   cvItemSelected!: CV;
@@ -40,24 +40,29 @@ export class ComponentCV {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
-      // Ici tu peux vérifier, envoyer ou traiter le fichier PDF sélectionné
-      console.log('Fichier sélectionné :', file);
-      // Exemple : upload ou lecture du fichier
-
-      const cvItem: CV = new CV();
-
-      cvItem.fileName = file.name;
-      cvItem.title = file.name.replace('.pdf', '').substring(0, 40);
-      cvItem.file = file;
-      cvItem.date = new Date(file.lastModified).toLocaleDateString();
-      cvItem.urlFile = URL.createObjectURL(file);
-      this.bgIndexedDBService.ajouterCV(cvItem);
-      this.cvItems.push(cvItem);
-      console.log('Fichier sélectionné cvItem :', cvItem);
-      console.log('Fichier sélectionné cvItem :', cvItem.urlFile);
-      this.storeCVs();
-      this.parsePdf(file, cvItem);
+      this.processPdfFileInput(file);
+      this.processCVFileByGemini2(file);
     }
+  }
+
+  processPdfFileInput(file: File) {
+    // Ici tu peux vérifier, envoyer ou traiter le fichier PDF sélectionné
+    console.log('Fichier sélectionné :', file);
+    // Exemple : upload ou lecture du fichier
+
+    const cvItem: CV = new CV();
+
+    cvItem.fileName = file.name;
+    cvItem.title = file.name.replace('.pdf', '').substring(0, 40);
+    cvItem.file = file;
+    cvItem.date = new Date(file.lastModified).toLocaleDateString();
+    cvItem.urlFile = URL.createObjectURL(file);
+    this.bgIndexedDBService.ajouterCV(cvItem);
+    this.cvItems.push(cvItem);
+    console.log('Fichier sélectionné cvItem :', cvItem);
+    console.log('Fichier sélectionné cvItem :', cvItem.urlFile);
+    this.storeCVs();
+    this.parsePdf(file, cvItem);
   }
 
   onSaveTextArea() {
@@ -73,8 +78,6 @@ export class ComponentCV {
     this.storeCVs();
     this.bgIndexedDBService.ajouterCV(cvItem2);
   }
-
-
 
   setCvSelected(cvItem: CV) {
     console.log('setCvSelected id ', cvItem.id);
@@ -124,12 +127,12 @@ export class ComponentCV {
     this.processCVByGemini(cvItem);
   }
   processCVByGemini(cvItem: CV) {
-    console.log("Processing CV by Gemini:", cvItem);
-    console.log("Processing CV by Gemini:", cvItem.content);
-    const prompt = "Analyse ce cv :"+cvItem.content
-    this.gemini.generateContent(prompt,reponseAnalyseCV).subscribe(
+    console.log('Processing CV by Gemini:', cvItem);
+    console.log('Processing CV by Gemini:', cvItem.content);
+    const prompt = 'Analyse ce cv :' + cvItem.content;
+    this.gemini.generateContent(prompt, reponseAnalyseCV).subscribe(
       (res) => {
-        console.log("Gemini response:", res);
+        console.log('Gemini response:', res);
         const candidat = res.candidates[0];
 
         console.log('Gemini response candidat', candidat);
@@ -142,24 +145,54 @@ export class ComponentCV {
         console.log('Gemini response  text: ', textRetour);
         const obj = JSON.parse(textRetour);
         console.log('Gemini response  parsed object: ', obj);
-        cvItem.title = obj["cv.titre"];
-        cvItem.skills = obj["cv.skills"];
-        cvItem.companies = obj["cv.societes"];
+        cvItem.title = obj['cv.titre'];
+        cvItem.skills = obj['cv.skills'];
+        cvItem.companies = obj['cv.societes'];
         this.changeDetectorRef.detectChanges();
         this.bgIndexedDBService.updateCV(cvItem);
       },
       (error) => {
-        console.error("Gemini error:", error);
+        console.error('Gemini error:', error);
       }
     );
   }
+
+  processCVFileByGemini2(file: File) {
+    console.log('Processing CV by Gemini2:', file);
+    console.log('Processing CV by Gemini2:', file.name);
+    const prompt = 'Quel est le contenu de ce cv   :' ;
+    this.gemini.generateContent(prompt, reponseAnalyseCV).subscribe(
+      (res) => {
+        console.log('Gemini response:', res);
+        const candidat = res.candidates[0];
+
+        console.log('Gemini response candidat', candidat);
+        const content = candidat.content;
+        console.log('Gemini response content ', content);
+        const parts = content.parts;
+        const part0 = parts[0];
+        console.log('Gemini response part0', part0);
+        const textRetour = part0.text;
+        console.log('Gemini response  text: ', textRetour);
+        const obj = JSON.parse(textRetour);
+        console.log('Gemini response  parsed object: ', obj);
+
+        this.changeDetectorRef.detectChanges();
+
+      },
+      (error) => {
+        console.error('Gemini error:', error);
+      }
+    );
+  }
+
 
   storeCVs() {
     console.log('storeCV ', this.cvItems);
     localStorage.setItem('cvItems', JSON.stringify(this.cvItems));
   }
 
-   deleteCV(cvItem : CV) {
+  deleteCV(cvItem: CV) {
     console.log('deleteCV id ', cvItem.id);
     const index = this.componentCV.cvItems.findIndex(
       (item) => item.id == cvItem.id
@@ -190,7 +223,6 @@ export class ComponentCV {
     promises.then((cvItems) => {
       this.cvItems = cvItems;
       this.changeDetectorRef.detectChanges();
-
     });
   }
 
@@ -225,7 +257,7 @@ export class CV {
   urlFile!: string;
   tags: string[] = [];
   skills: string[] = [];
-  companies:  string[] = [];
+  companies: string[] = [];
 
   constructor() {
     this.selected = false;
