@@ -1,7 +1,10 @@
 export const environment = {
   production: false,
   geminiApiUrl2: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',
-  geminiApiUrl:'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
+  geminiApiUrl:'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent',
+  geminiApiUrlMultimodal : 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent',
+  geminiApiUrlMultimodal____ : 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+  geminiApiUrlMultimodal__doesnt_work : 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent',
   openRouterApiUrl: 'https://openrouter.ai/api/v1/chat/completions',
   firebase: {
     apiKey: 'VOTRE_API_KEY',

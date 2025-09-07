@@ -1,7 +1,7 @@
 import {onRequest} from "firebase-functions/v2/https";
 import express, {Request, Response} from "express";
 import cors from "cors";
-import {environmentKeys} from "./environnement_keys";
+import {environmentKeysBack} from "./environnement_keys_back";
 
 
 // Autorise UNIQUEMENT cette origine :
@@ -27,7 +27,7 @@ appKeys.use(
 
 
 appKeys.get("/", async (req: Request, res: Response) => {
-  res.status(200).send(environmentKeys);
+  res.status(200).send(environmentKeysBack);
 });
 
 /* url d'accès :
