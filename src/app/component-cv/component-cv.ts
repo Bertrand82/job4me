@@ -1,16 +1,14 @@
-import { PDFDocumentLoadingTask } from './../../../node_modules/pdfjs-dist/types/src/display/api.d';
 import { Component } from '@angular/core';
-
 import { ComponentCVItem } from './cv-item/cv-item';
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import * as pdfjsLib from 'pdfjs-dist';
 import { ChangeDetectorRef } from '@angular/core';
 import { BgIndexedDBService } from '../services/bg-indexed-db';
-import { BgGemini, reponseAnalyseCV } from '../services/bg-gemini';
-import { GeminiMultiModaleService,readFileAsBase64, reponseAnalyseCVMultimodal} from '../services/bg-gemini-multimodal';
+import {
+  GeminiMultiModaleService,
+  readFileAsBase64,
+  reponseAnalyseCVMultimodal,
+} from '../services/bg-gemini-multimodal';
 @Component({
   selector: 'app-component-cv',
   imports: [ComponentCVItem, CommonModule, FormsModule],
@@ -24,11 +22,10 @@ export class ComponentCV {
   cvItemSelected!: CV;
   cvItems: CV[] = [];
   showCvInputTextarea: boolean = false;
-
+  isProcessing: boolean = false;
   constructor(
     private bgIndexedDBService: BgIndexedDBService,
     private changeDetectorRef: ChangeDetectorRef,
-    private gemini: BgGemini,
     private geminiMultiModale: GeminiMultiModaleService
   ) {
     this.componentCV = this;
@@ -39,14 +36,13 @@ export class ComponentCV {
   }
 
   onFileSelected(event: Event) {
+    this.isProcessing = true;
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
       this.processCVByGeminiMultiModale(file);
     }
   }
-
-
 
   onSaveTextArea() {
     console.log('Save cv :', this.cvContent);
@@ -70,61 +66,72 @@ export class ComponentCV {
     });
   }
 
-
-
   processCVByGeminiMultiModale(file: File) {
     console.log('Processing CV by GeminiMultiModale:', file);
     console.log('Processing CV by GeminiMultiModale:', file.name);
-    const prompt = 'Analyse le Fichier joint et fournis la réponse strictement au format JSON selon le schéma fourni dans la requête. Ne donne ni commentaire ni texte hors du JSON. :' ;
+    const prompt =
+      'Analyse le Fichier joint et fournis la réponse strictement au format JSON selon le schéma fourni dans la requête. Ne donne ni commentaire ni texte hors du JSON. :';
     readFileAsBase64(file).then((base64) => {
-      this.geminiMultiModale.analyseFileImageBase64(prompt, base64,file.type, reponseAnalyseCVMultimodal).subscribe(
-        (res) => {
-          console.log('GeminiMultiModale response:', res);
-          const candidat = res.candidates[0];
+      this.geminiMultiModale
+        .analyseFileImageBase64(
+          prompt,
+          base64,
+          file.type,
+          reponseAnalyseCVMultimodal
+        )
+        .subscribe(
+          (res) => {
+            this.isProcessing = false;
+            this.changeDetectorRef.detectChanges();
+            console.log('GeminiMultiModale response:', res);
+            const candidat = res.candidates[0];
 
-        console.log('GeminiMultiModale response candidat', candidat);
-        const content = candidat.content;
-        console.log('GeminiMultiModale response content ', content);
-        const parts = content.parts;
-        const part0 = parts[0];
-        console.log('GeminiMultiModale response part0', part0);
-        const textRetour = part0.text;
-        console.log('GeminiMultiModale response  text: ', textRetour);
-        const obj = JSON.parse(textRetour);
-        console.log('GeminiMultiModale   response  parsed object: ', obj);
-        const cvItem: CV = new CV();
+            console.log('GeminiMultiModale response candidat', candidat);
+            const content = candidat.content;
+            console.log('GeminiMultiModale response content ', content);
+            const parts = content.parts;
+            const part0 = parts[0];
+            console.log('GeminiMultiModale response part0', part0);
+            const textRetour = part0.text;
+            console.log('GeminiMultiModale response  text: ', textRetour);
+            const obj = JSON.parse(textRetour);
+            console.log('GeminiMultiModale   response  parsed object: ', obj);
+            const cvItem: CV = new CV();
 
-        cvItem.fileName = file.name;
-        cvItem.title = file.name.replace('.pdf', '').substring(0, 40);
-        cvItem.file = file;
-        cvItem.date = new Date(file.lastModified).toLocaleDateString();
-        cvItem.urlFile = URL.createObjectURL(file);
-        cvItem.content = obj['cv.content' ];
-        cvItem.skills = obj['cv.skills'];
-        cvItem.companies = obj['cv.societes'];
-        cvItem.title = obj['cv.titre'];
+            cvItem.fileName = file.name;
+            cvItem.title = file.name.replace('.pdf', '').substring(0, 40);
+            cvItem.file = file;
+            cvItem.date = new Date(file.lastModified).toLocaleDateString();
+            cvItem.urlFile = URL.createObjectURL(file);
+            cvItem.content = obj['cv.content'];
+            cvItem.skills = obj['cv.skills'];
+            cvItem.companies = obj['cv.societes'];
+            cvItem.title = obj['cv.titre'];
 
-        this.bgIndexedDBService.ajouterCV(cvItem);
-        this.cvItems.push(cvItem);
-        console.log('Fichier sélectionné cvItem :', cvItem);
-        console.log('Fichier sélectionné cvItem :', cvItem.urlFile);
-        this.storeCVs();
-        this.changeDetectorRef.detectChanges();
-        //this.parsePdf___DEPRECATED(file, cvItem);
-    },
-        (error) => {
-          console.error('GeminiMultiModale error AA:', error);
-          console.error('GeminiMultiModale error BB:', error.error);
-         console.error('GeminiMultiModale error CC:', error.error?.error || 'no error message');
-          this.geminiMultiModale.listModels();
-        }
-      );
+            this.bgIndexedDBService.ajouterCV(cvItem);
+            this.cvItems.push(cvItem);
+            console.log('Fichier sélectionné cvItem :', cvItem);
+            console.log('Fichier sélectionné cvItem :', cvItem.urlFile);
+            this.storeCVs();
+            this.changeDetectorRef.detectChanges();
+
+          },
+          (error) => {
+            this.isProcessing = false;
+            this.changeDetectorRef.detectChanges();
+            console.error('GeminiMultiModale error AA:', error);
+            console.error('GeminiMultiModale error BB:', error.error);
+            console.error(
+              'GeminiMultiModale error CC:',
+              error.error?.error || 'no error message'
+            );
+            this.geminiMultiModale.listModels();
+          }
+        );
     });
-
   }
 
   storeCVs() {
-    console.log('storeCV ', this.cvItems);
     localStorage.setItem('cvItems', JSON.stringify(this.cvItems));
   }
 

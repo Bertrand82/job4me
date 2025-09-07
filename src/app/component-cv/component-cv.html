@@ -2,9 +2,11 @@
 
 <div class="cv-actions">
   <label class="upload-btn">
-    <input type="file" accept=".pdf" (change)="onFileSelected($event)" hidden />
+    <input type="file" accept=".pdf" (change)="onFileSelected($event)" [disabled]="isProcessing"hidden />
     <i class="fa-solid fa-upload"></i> Importer un PDF
+    <span *ngIf="isProcessing" class="fa-solid fa-hourglass-half "></span>
   </label>
+
   <div *ngIf="showCvInputTextarea">
     <textarea placeholder="Ou collez ici le contenu de votre CV..." [(ngModel)]="cvContent"></textarea>
 

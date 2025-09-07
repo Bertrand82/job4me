@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import * as pdfjsLib from 'pdfjs-dist';
 import { ComponentCV ,CV} from '../component-cv';
+import { MatDialog } from '@angular/material/dialog';
+import { CVItemModale } from '../cv-item-modale/cv-item-modale';
 
 @Component({
   selector: 'cv-item',
@@ -20,7 +22,7 @@ export class ComponentCVItem {
 
 
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
   }
 
 
@@ -56,9 +58,9 @@ export class ComponentCVItem {
     this.componentCV.storeCVs();
   }
 
-  showDetails() {
-   console.log('showDetails cvItem:', this.cvItem);
-  }
+  displayModale() {
+     this.dialog.open(CVItemModale,{data: this.cvItem});
+   }
 }
 
 

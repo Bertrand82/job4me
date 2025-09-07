@@ -1,0 +1,5 @@
+.small-hourglass {
+  font-size: 1.5em;
+  transform-origin: 50% 50%;
+  transform: translateZ(0);
+}
