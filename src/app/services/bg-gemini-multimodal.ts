@@ -121,7 +121,7 @@ export const reponseAnalyseCVMultimodal = {
       description:
         "récupérer le titre du cv ou si il n'y en a pas, générer un titre résumant le cv",
     },
-    'cv.resume': { type: 'string', maxLength: 80, description: 'resumé du cv' },
+    'cv.resume': { type: 'string', maxLength: 100, description: 'résumé du cv' },
     'cv.societes': {
       type: 'array',
       items: { type: 'string' },
@@ -146,12 +146,12 @@ export const reponseAnalyseCVMultimodal = {
     },
     'cv.adresse': {
       type: 'string',
-      description: 'renseigne le pays du poste identifié dans l’offre',
+      description: 'adresse postale du candidat',
     },
     'cv.freelance': {
       type: 'boolean',
       description:
-        "Dans l'offre d'emploi,précise si le poste est en freelance ou non",
+        "est ce que le candidat est  freelance",
     },
     'cv.langues': {
       type: 'array',

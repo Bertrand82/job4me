@@ -12,6 +12,12 @@
   },
   "compileOnSave": true,
   "include": [
-    "src"
+    "src",
+    "src/index.ts",
+    "src/gemini_proxy.ts",
+
+  ],
+  "exclude": [
+
   ]
 }

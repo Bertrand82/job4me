@@ -311,3 +311,12 @@ footer a {
   flex-direction: column;
   gap: 1em;
 }
+.app-name {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.2rem;        /* Ajuste la taille comme tu le souhaites */
+  font-weight: 600;          /* Donne un peu d’emphase sans être trop épais */
+  color: #ffffff;            /* Couleur principale de l’application */
+  margin-right: 10;                 /* Supprime les marges par défaut */
+  padding: 0;                /* Supprime les espacements internes */
+  letter-spacing: 0.02em;    /* Pour un petit espacement entre les lettres */
+}

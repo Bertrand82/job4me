@@ -107,7 +107,11 @@ export class ComponentCV {
             cvItem.skills = obj['cv.skills'];
             cvItem.companies = obj['cv.societes'];
             cvItem.title = obj['cv.titre'];
-
+            cvItem.resume = obj['cv.resume'];
+            cvItem.freelance = obj['cv.freelance'];
+            cvItem.langueCV = obj['cv.langues'] ? obj['cv.langues'].join(',') : '';
+            cvItem.adresse = obj['cv.adresse'];
+            console.log('GeminiMultiModale response  cvItem :', cvItem);
             this.bgIndexedDBService.ajouterCV(cvItem);
             this.cvItems.push(cvItem);
             console.log('Fichier sélectionné cvItem :', cvItem);
@@ -201,6 +205,11 @@ export class CV {
   tags: string[] = [];
   skills: string[] = [];
   companies: string[] = [];
+  resume!: string;
+  freelance!: boolean;
+  langueCV!: string;
+  adresse!: string;
+
 
   constructor() {
     this.selected = false;
