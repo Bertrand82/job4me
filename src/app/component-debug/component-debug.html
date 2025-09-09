@@ -1,0 +1,6 @@
+<p>component-debug</p>
+<p *ngIf="bgAuth.currentUser() as user">Connected   {{user.email  }}</p>
+<p *ngIf="!bgAuth.currentUser() as user">Not connected</p>
+<div>
+<button (click)="testPost()">test Post</button>
+</div>

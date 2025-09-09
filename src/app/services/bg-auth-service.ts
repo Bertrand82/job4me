@@ -15,7 +15,7 @@ import {
 export class BgAuthService {
   private userSignal = signal<User | null>(null);
 
-  constructor(private auth: Auth) {
+  constructor(public auth: Auth) {
     onAuthStateChanged(this.auth, (user) => {
       this.userSignal.set(user);
     });

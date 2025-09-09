@@ -21,12 +21,14 @@ import { BgGemini, responseShemaGemini_v11 } from './services/bg-gemini';
 import { ComponentArchivage } from './component-archivage/component-archivage';
 import { LoginComponent } from "./component-bg-auth/component-bg-auth";
 import { KeysService } from './services/bg-environment-keys-service';
+import { ComponentDebug } from './component-debug/component-debug';
 @Component({
   selector: 'app-root',
   imports: [
     ComponentCV,
     ComponentOffreEmploi,
     ComponentPersonalisation,
+    ComponentDebug,
     FormsModule,
     CommonModule,
     ComponentArchivage,
