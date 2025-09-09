@@ -1,7 +1,7 @@
 import cors from "cors";
 
 // Autorise UNIQUEMENT cette origine :
-const allowedOrigins = [
+export const allowedOrigins = [
   "https://job4you-78ed0.web.app",
   "http://localhost:4200",
 ];

@@ -2,5 +2,9 @@
 <p *ngIf="bgAuth.currentUser() as user">Connected   {{user.email  }}</p>
 <p *ngIf="!bgAuth.currentUser() as user">Not connected</p>
 <div>
+<button (click)="initAdmin()">init Admin</button>
+</div>
+
+<div>
 <button (click)="testPost()">test Post</button>
 </div>
