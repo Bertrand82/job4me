@@ -3,6 +3,7 @@ import express, {Request, Response} from "express";
 import cors from "cors";
 import {allowedOrigins} from "./BgCors";
 import * as admin from "firebase-admin";
+import {environmentKeysBack} from "./environnement_keys_back";
 
 // Assure-toi que ceci est appelé UNE fois dans ton projet !
 admin.initializeApp();
@@ -27,12 +28,25 @@ functionProxiGemini.post("/", async (req: Request, res: Response) => {
     // Vérifie le token
     const decodedToken = await admin.auth().verifyIdToken(idToken);
     const userId = decodedToken.uid;
-    // Réponse unique !
+    const apiKey = environmentKeysBack.gk_d + environmentKeysBack.gk_f;
+    const urlMultimodal = environmentKeysBack.geminiApiUrlMultimodal + `?key=${apiKey}`;
+
+    // Appel HTTP à Gemini
+    const geminiResponse = await fetch(urlMultimodal, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(req.body),
+    });
+
+    // Récupère la réponse
+    const geminiData = await geminiResponse.json();
+    // Réponse
     return res.status(200).json({
       message: "BINGO bg POST idToken",
       idtoken: idToken,
       uid: userId,
       decodedToken: decodedToken,
+      geminiData: geminiData,
     });
   } catch (error) {
     const errorMessage = (error instanceof Error) ? error.message : String(error);

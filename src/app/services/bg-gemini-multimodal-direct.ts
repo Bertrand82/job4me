@@ -2,18 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { KeysService } from './bg-environment-keys-service';
 import { environment } from '../environments/environment';
-import { from, Observable } from 'rxjs';
-import { mergeAll } from 'rxjs/operators';
-import { PostWithAuthService } from './httpbackend-client-service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class GeminiMultiModaleService {
-
+export class GeminiMultiModaleServiceDirect {
   private apiUrl_OLD = environment.geminiApiUrlMultimodal;
 
-  constructor(private http: HttpClient, private keysService: KeysService, private postWithAuthService: PostWithAuthService) {}
+  constructor(private http: HttpClient, private keysService: KeysService) {}
 
   getApiKey(): string {
     return this.keysService.getKeys().gk_d + this.keysService.getKeys().gk_f;
@@ -25,27 +22,12 @@ export class GeminiMultiModaleService {
     const obs = this.analyseFileImageBase64(prompt, base64, file.type, reponseAnalyseCVMultimodal);
   }
 
-   analyseFileImageBase64(
+  analyseFileImageBase64(
     prompt: string,
     base64: string,
     fileType: string,
     schemaResponseRequested: any
-  ) :Observable<any>{
-    const observable :Observable<any>=from( this.analyseFileImageBase64_promise(
-      prompt,
-      base64,
-      fileType,
-      schemaResponseRequested
-    )).pipe(mergeAll());
-
-    return observable;
-  }
-  analyseFileImageBase64_promise(
-    prompt: string,
-    base64: string,
-    fileType: string,
-    schemaResponseRequested: any
-  ): Promise<Observable<any>> {
+  ): Observable<any> {
     // Construire la payload REST
     const body = {
       contents: [
@@ -75,8 +57,9 @@ export class GeminiMultiModaleService {
     // Appel REST Gemini
     const urlMultimodal = environment.geminiApiUrlMultimodal + `?key=${apiKey}`;
     console.log('Gemini models  urlMultimodal : ', urlMultimodal);
-    //return this.http.post<any>(urlMultimodal, body, { headers,});
-    return this.postWithAuthService.postBackToGeminiWithAuthAsync(body);
+    return this.http.post<any>(urlMultimodal, body, {
+      headers,
+    });
   }
 
   listModels() {

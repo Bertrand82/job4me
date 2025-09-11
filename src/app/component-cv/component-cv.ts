@@ -84,7 +84,9 @@ export class ComponentCV {
             this.isProcessing = false;
             this.changeDetectorRef.detectChanges();
             console.log('GeminiMultiModale response:', res);
-            const candidat = res.candidates[0];
+            const geminiData = res.geminiData;
+            console.log("res.geminiData :: ", geminiData);
+            const candidat = geminiData.candidates[0];
 
             console.log('GeminiMultiModale response candidat', candidat);
             const content = candidat.content;
