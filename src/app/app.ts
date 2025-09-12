@@ -22,6 +22,7 @@ import { ComponentArchivage } from './component-archivage/component-archivage';
 import { LoginComponent } from "./component-bg-auth/component-bg-auth";
 import { KeysService } from './services/bg-environment-keys-service';
 import { ComponentDebug } from './component-debug/component-debug';
+import { ComponentStripe } from "./component-stripe/component-stripe";
 @Component({
   selector: 'app-root',
   imports: [
@@ -32,7 +33,8 @@ import { ComponentDebug } from './component-debug/component-debug';
     FormsModule,
     CommonModule,
     ComponentArchivage,
-    LoginComponent
+    LoginComponent,
+    ComponentStripe
 ],
   templateUrl: './app.html',
   styleUrl: './app.css',
