@@ -1,2 +1,22 @@
 
+
+<div>
+  Email: {{ getEmail() }}
+</div>
+<div>
 <button (click)="subscribe()">S'abonner</button>
+<a href="https://buy.stripe.com/test_3cIdR97nae6BaNbcJ2e7m00" >S'abonner</a>
+</div>
+<div>
+Est abonné: {{ isSubscribed }}
+</div>
+<div>
+ idStrippe: {{ idStripe }}
+</div>
+<div>
+<button (click)="deleteAbonnement()">Debug effacer abonnement</button>
+</div>
+<div>
+<button (click)="mettreAJourInfosAbonnement()">mettre a jour infos abonnement</button>
+</div>
+

@@ -22,7 +22,8 @@ Les documents générés peuvent être copiés, téléchargés ou envoyés autom
 - Explorer api google gmail: Faisabilité d'une api classant par label les offres emplois
 - Explorer api stripe pour gérér des abonnements: stripe : comment mettre en place un abonnement ? Stripe checkout sur un projet angular / firebase nodejs  https://docs.stripe.com/billing/quickstart
 - DONE Gerer les cv en base de données local.
-
+## Billing google (Gemini + hébergement)
+- [https://console.cloud.google.com/billing/](https://console.cloud.google.com/billing/)
 ## Architecture Fonctionnelle
 
 ### 1. **ComponentCV**

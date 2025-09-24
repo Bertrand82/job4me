@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {onRequest} from "firebase-functions/v2/https";
 import {functionProxiGemini} from "./function_proxi_gemini";
 import {appKeys} from "./function_keys";

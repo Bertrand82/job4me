@@ -7,18 +7,28 @@
 <body>
 
 <div>
+  Post Gemini
   <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/gemini" method="post">
     <input type="text" name="message" value="Ceci est un test">
     <button type="submit">Envoyer un POST / Gemini</button>
   </form>
  </div>
- 
- <div>
- 
 
+ <div>
+
+Get initAdmin
   <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/initadmin" method="get">
-   
+
     <button type="submit">Envoyer un GET / initadmin</button>
+  </form>
+ </div>
+
+ <div>
+
+Get bgStripe
+  <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripe" method="get">
+    <input type="text" name="email" value="client@example.com">
+    <button type="submit">Envoyer un GET / bgStripe</button>
   </form>
  </div>
 </body>
