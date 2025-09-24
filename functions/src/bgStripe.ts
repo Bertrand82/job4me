@@ -1,14 +1,16 @@
+import { environmentKeysBack } from './environnement_keys_back';
 /* eslint-disable max-len */
 import express, {Request, Response} from "express";
 import cors from "cors";
 import {allowedOrigins} from "./BgCors";
+import {environmentKeysBack} from "./environnement_keys_back";
 
 
 export const functionBgStripe = express();
 // const stripeSecretKeyDefault = "DEFAULTSECERETSTRIPEKEY";
 // Use environment variable for secret key!
 // const stripeSecretKey = process.env.STRIPE_SECRET_KEY || stripeSecretKeyDefault;
-const stripeSecretKey = "sk_test_51S673mI256EUPY44B5XOVWv7G3WvmxNYepC3Nayxuilh9mytpwwU5EexdC2LQRUrznxQMY2PkSRjgQEFTxnWxM4w00E4UkwyH4";
+const stripeSecretKey = environmentKeysBack.qk1+environmentKeysBack.qK2+environmentKeysBack.qk3;
 // const stripe = new Stripe(stripeSecretKey, {apiVersion: "2025-08-27.basil"});
 // const stripe = new Stripe(stripeSecretKey);
 

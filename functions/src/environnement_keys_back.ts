@@ -9,4 +9,8 @@ export const environmentKeysBack = {
   clientId_f: ".apps.googleusercontent.com",
   apiKey: "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",
   gk_d: "AIzaSyDbauiix3Tjmv9j3Cg0RKsZP-Tlb0",
-  gk_f: "MUuHo"};
+  gk_f: "MUuHo",
+  qk1: "sk_test",
+  // eslint-disable-next-line max-len
+  qK2: "_51S673mI256EUPY44B5XOVWv7G3WvmxNYepC3Nayxuilh9mytpwwU5EexdC2LQRUrznxQMY2PkSRjgQEFT",
+  qk3: "xnWxM4w00E4UkwyH4"};
