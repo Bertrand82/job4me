@@ -23,6 +23,7 @@ import { LoginComponent } from "./component-bg-auth/component-bg-auth";
 import { KeysService } from './services/bg-environment-keys-service';
 import { ComponentDebug } from './component-debug/component-debug';
 import { ComponentStripe } from "./component-stripe/component-stripe";
+// Removed incorrect import of RouterOutlet from .d.ts file
 @Component({
   selector: 'app-root',
   imports: [
@@ -34,7 +35,8 @@ import { ComponentStripe } from "./component-stripe/component-stripe";
     CommonModule,
     ComponentArchivage,
     LoginComponent,
-    ComponentStripe
+    ComponentStripe,
+    RouterOutlet
 ],
   templateUrl: './app.html',
   styleUrl: './app.css',
