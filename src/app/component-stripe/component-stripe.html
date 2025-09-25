@@ -4,8 +4,9 @@
   Email: {{ getEmail() }}
 </div>
 <div>
-<button (click)="subscribe()">S'abonner</button>
-<a href="https://buy.stripe.com/test_3cIdR97nae6BaNbcJ2e7m00" >S'abonner</a>
+<button (click)="subscribeStripe()">
+   souscription
+</button>
 </div>
 <div>
 Est abonné: {{ isSubscribed }}
@@ -17,6 +18,9 @@ Est abonné: {{ isSubscribed }}
 <button (click)="deleteAbonnement()">Debug effacer abonnement</button>
 </div>
 <div>
-<button (click)="mettreAJourInfosAbonnement()">mettre a jour infos abonnement</button>
+<button (click)="mettreAJourInfosStripeCustomer()">mettre à jour infos Customers</button>
+</div>
+<div>
+<button (click)="mettreAJourInfosStripePayments()">mettre à jour infos Payment</button>
 </div>
 

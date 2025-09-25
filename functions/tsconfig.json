@@ -15,7 +15,11 @@
     "src",
     "src/index.ts",
     "src/gemini_proxy.ts",
-
+    "src/function_proxi_gemini.ts",
+    "src/function_keys.ts",
+    "src/function_init_admin.ts",
+    "src/bgStripeGetPayments.ts",
+    "src/bgStripeGetClient.ts"
   ],
   "exclude": [
 

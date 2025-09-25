@@ -1,12 +1,10 @@
-import { environmentKeysBack } from './environnement_keys_back';
+import {environmentKeysBack} from "./environnement_keys_back";
 /* eslint-disable max-len */
 import express, {Request, Response} from "express";
 import cors from "cors";
 import {allowedOrigins} from "./BgCors";
-import {environmentKeysBack} from "./environnement_keys_back";
 
-
-export const functionBgStripe = express();
+export const functionBgStripeGetPayments = express();
 // const stripeSecretKeyDefault = "DEFAULTSECERETSTRIPEKEY";
 // Use environment variable for secret key!
 // const stripeSecretKey = process.env.STRIPE_SECRET_KEY || stripeSecretKeyDefault;
@@ -15,15 +13,15 @@ const stripeSecretKey = environmentKeysBack.qk1+environmentKeysBack.qK2+environm
 // const stripe = new Stripe(stripeSecretKey);
 
 // const site ="https://job4you-78ed0.web.app";
-functionBgStripe.use(cors({origin: allowedOrigins}));
+functionBgStripeGetPayments.use(cors({origin: allowedOrigins}));
 
 // eslint-disable-next-line max-len
-functionBgStripe.get("/", async (req: Request, res: Response) => {
-  console.log("Requête get bgStripe reçue :", req);
+functionBgStripeGetPayments.get("/", async (req: Request, res: Response) => {
+  console.log("Requête get bgStripePayment reçue :", req);
   try {
-    const email = req.query.email;
-
-    const response = await fetch(`https://api.stripe.com/v1/customers?email=${encodeURIComponent(email as string)}`, {
+    const clientIdStripe = req.query.clientIdStripe;
+    // https://api.stripe.com/v1/payment_intents?customer=${clientId}
+    const response = await fetch(`https://api.stripe.com/v1/payment_intents?customer=${encodeURIComponent(clientIdStripe as string)}`, {
       headers: {"Authorization": `Bearer ${stripeSecretKey}`},
     });
     const data = await response.json();

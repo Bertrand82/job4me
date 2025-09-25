@@ -26,9 +26,18 @@ Get initAdmin
  <div>
 
 Get bgStripe
-  <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripe" method="get">
+  <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetclient" method="get">
     <input type="text" name="email" value="client@example.com">
     <button type="submit">Envoyer un GET / bgStripe</button>
+  </form>
+
+  </div>
+
+  <div>
+  Get bgStripe Payments
+  <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetpayments" method="get">
+    <input type="text" name="clientIdStripe" value="cus_NC0bX4mLZtO3eH">
+    <button type="submit">Envoyer un GET / bgStripe Payments</button>
   </form>
  </div>
 </body>
