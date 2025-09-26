@@ -11,6 +11,8 @@ import { BgAuthService } from '../services/bg-auth-service';
   styleUrl: './component-stripe.css',
 })
 export class ComponentStripe {
+
+
   //
   isSubscribed: any = false;
   idStripe: any;
@@ -99,6 +101,38 @@ export class ComponentStripe {
       },
       error: (err) => {
         console.error('Erreur from bgstripegetpaymentlink:', err);
+      },
+    });
+  }
+
+  createStripeCustomer() {
+    const baseUrl =
+      'https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripecreatecustomer';
+    const params = new URLSearchParams({
+      email: this.getEmail() ?? '',
+    });
+    this.http.get<StripeCustomer>(`${baseUrl}?${params.toString()}`, {}).subscribe({
+      next: (res) => {
+        console.log('Response from bgstripecreatecustomer:', res);
+      },
+      error: (err) => {
+        console.error('Erreur from bgstripecreatecustomer:', err);
+      },
+    });
+  }
+
+  searchCustomersByBgUserId() {
+    const baseUrl =
+      'https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripesearchclientsbybguserid';
+    const params = new URLSearchParams({
+      email: this.getEmail() ?? '',
+    });
+    this.http.get<any>(`${baseUrl}?${params.toString()}`, {}).subscribe({
+      next: (res) => {
+        console.log('Response from bgstripesearchclientsbybguserid:', res);
+      },
+      error: (err) => {
+        console.error('Erreur from bgstripesearchclientsbybguserid:', err);
       },
     });
   }

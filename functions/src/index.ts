@@ -6,6 +6,8 @@ import {functionInitAdmin} from "./function_init_admin";
 import {functionBgStripeGetClient} from "./bgStripeGetClient";
 import {functionBgStripeGetPayments} from "./bgStripeGetPayments";
 import {functionBgStripeGetPaymentLink} from "./bgStripeGetPaymentLink";
+import {functionBgStripeCreateCustomer} from "./bgStripeCreateCustomer";
+import {functionBgStripeSearchClientsByBgUserId} from "./bgStripeSearchClientsByBgUserId";
 
 /* url d'accès :
    https://europe-west1-job4you-78ed0.cloudfunctions.net/keys
@@ -19,3 +21,5 @@ export const initadmin = onRequest({region: "europe-west1"}, functionInitAdmin);
 export const bgstripegetclient = onRequest({region: "europe-west1"}, functionBgStripeGetClient);
 export const bgstripegetpayments = onRequest({region: "europe-west1"}, functionBgStripeGetPayments);
 export const bgstripegetpaymentlink = onRequest({region: "europe-west1"}, functionBgStripeGetPaymentLink);
+export const bgstripecreatecustomer = onRequest({region: "europe-west1"}, functionBgStripeCreateCustomer);
+export const bgstripesearchclientsbybguserid = onRequest({region: "europe-west1"}, functionBgStripeSearchClientsByBgUserId);

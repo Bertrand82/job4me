@@ -50,7 +50,20 @@ Get bgStripe
 
     <button type="submit">Envoyer un GET / bgStripe Payment Link</button>
   </form>
+  </div>
+ <div>
+  Get bgStripe Create Customer
+  <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripecreatecustomer" method="get">
+    <input type="text" name="email" value="toto@aaa.com">
+    <button type="submit">Envoyer un GET / bgStripe Create Customer</button>
+  </form>
  </div>
-
+<div>
+  Get bgStripe Search Customers By BgUserId
+  <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripesearchclientsbybguserid" method="get">
+    <input type="text" name="email" value="user_12345">
+    <button type="submit">Envoyer un GET / bgStripe Search Customers By BgUserId</button>
+  </form>
+</div>
 </body>
 </html>
