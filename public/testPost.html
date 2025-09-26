@@ -40,5 +40,17 @@ Get bgStripe
     <button type="submit">Envoyer un GET / bgStripe Payments</button>
   </form>
  </div>
+ <div>
+  Get bgStripe Payment Link
+  <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetpaymentlink" method="get">
+    <input type="text" name="priceIdStripe" value="price_NC0bX4mLZtO3eH">
+    <input type="text" name="emailCustomer" value="toto@aaa.com">
+    <input type="text" name="succesUrl" value="http://aaaa.com/merci">
+    <input type="text" name="cancelUrl" value="http://aaaa.com/cancel">
+
+    <button type="submit">Envoyer un GET / bgStripe Payment Link</button>
+  </form>
+ </div>
+
 </body>
 </html>

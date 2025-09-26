@@ -11,66 +11,96 @@ import { BgAuthService } from '../services/bg-auth-service';
   styleUrl: './component-stripe.css',
 })
 export class ComponentStripe {
-
   //
   isSubscribed: any = false;
   idStripe: any;
-  stripeCustomer!:StripeCustomer
+  stripeCustomer!: StripeCustomer;
 
   constructor(private http: HttpClient, public bgAuth: BgAuthService) {}
 
   async subscribeStripe() {
     console.log('subscribe clicked');
-    window.open('https://buy.stripe.com/test_8x25kD22Q4w11cB9wQe7m01', '_blank');
+    window.open(
+      'https://buy.stripe.com/test_dRm3cv4aY1jPbRfaAUe7m02',
+      '_blank'
+    );
   }
+
+  priceIdStripe = 'price_1SBWfpI256EUPY44i7gmazbu';
 
   mettreAJourInfosStripeCustomer() {
     this.http
-  .get<{ object: string, data: Array<StripeCustomer>,has_more: boolean, url: string   }>(
-    'https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetclient?email=' +  this.getEmail(),
-    {}
-  )
-  .subscribe({
-    next: (res) => {
-      console.log('Response from bgstripeCustomers:', res);
-      const object = res.object;
-      const url = res.url
-      const data: Array<StripeCustomer> = res.data;
-      if (data.length > 0) {
-        this.stripeCustomer = data[0];
-        this.idStripe = this.stripeCustomer.id;
-        console.log('Client Stripe ID:', this.idStripe);
-      }
-      const has_more = res.has_more;
-      console.log('object:', object);
-      console.log('url:', url);
-      console.log('data:', data);
-      console.log('has_more:', has_more);
-    },
-    error: (err) => {
-      console.error('Erreur frombgstripeCustomers:', err);
-    }
-  });
+      .get<{
+        object: string;
+        data: Array<StripeCustomer>;
+        has_more: boolean;
+        url: string;
+      }>(
+        'https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetclient?email=' +
+          this.getEmail(),
+        {}
+      )
+      .subscribe({
+        next: (res) => {
+          console.log('Response from bgstripeCustomers:', res);
+          const object = res.object;
+          const url = res.url;
+          const data: Array<StripeCustomer> = res.data;
+          if (data.length > 0) {
+            this.stripeCustomer = data[0];
+            this.idStripe = this.stripeCustomer.id;
+            console.log('Client Stripe ID:', this.idStripe);
+          }
+          const has_more = res.has_more;
+          console.log('object:', object);
+          console.log('url:', url);
+          console.log('data:', data);
+          console.log('has_more:', has_more);
+        },
+        error: (err) => {
+          console.error('Erreur frombgstripeCustomers:', err);
+        },
+      });
   }
 
   mettreAJourInfosStripePayments() {
     this.http
-  .get<any>(
-    'https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetpayments?clientIdStripe=' +  this.idStripe,
-    {}
-  )
-  .subscribe({
-    next: (res) => {
-      console.log('Response from bgstripePayments:', res);
-
-    },
-    error: (err) => {
-      console.error('Erreur frombgstripePayments:', err);
-    }
-  });
+      .get<any>(
+        'https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetpayments?clientIdStripe=' +
+          this.idStripe,
+        {}
+      )
+      .subscribe({
+        next: (res) => {
+          console.log('Response from bgstripePayments:', res);
+        },
+        error: (err) => {
+          console.error('Erreur frombgstripePayments:', err);
+        },
+      });
   }
   deleteAbonnement() {
     throw new Error('Method not implemented.');
+  }
+
+  getStripePaymentLink() {
+    const baseUrl =
+      'https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetpaymentlink';
+    const params = new URLSearchParams({
+      email: this.getEmail() ?? '',
+      priceIdStripe: this.priceIdStripe,
+      clientIdStripe: this.idStripe,
+      succesUrl: 'http://localhost:4200/abonnementValide',
+      cancelUrl: 'http://localhost:4200/merci',
+    });
+    this.http.get<any>(`${baseUrl}?${params.toString()}`, {}).subscribe({
+      next: (res) => {
+        console.log('Response from bgstripegetpaymentlink:', res);
+      },
+      error: (err) => {
+        console.error('Erreur from bgstripegetpaymentlink:', err);
+      },
+    });
   }
 
   getEmail() {
