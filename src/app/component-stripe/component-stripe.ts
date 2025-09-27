@@ -1,5 +1,5 @@
 import { getAuth } from '@angular/fire/auth';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { loadStripe } from '@stripe/stripe-js';
 import { HttpClient } from '@angular/common/http';
 import { BgAuthService } from '../services/bg-auth-service';
@@ -18,7 +18,7 @@ export class ComponentStripe {
   idStripe: any;
   stripeCustomer!: StripeCustomer;
 
-  constructor(private http: HttpClient, public bgAuth: BgAuthService) {}
+  constructor(private http: HttpClient, public bgAuth: BgAuthService,private changeDetectorRef: ChangeDetectorRef) {}
 
   async subscribeStripe() {
     console.log('subscribe clicked');
@@ -52,6 +52,7 @@ export class ComponentStripe {
             this.stripeCustomer = data[0];
             this.idStripe = this.stripeCustomer.id;
             console.log('Client Stripe ID:', this.idStripe);
+            this.changeDetectorRef.detectChanges();
           }
           const has_more = res.has_more;
           console.log('object:', object);
@@ -92,12 +93,15 @@ export class ComponentStripe {
       email: this.getEmail() ?? '',
       priceIdStripe: this.priceIdStripe,
       clientIdStripe: this.idStripe,
-      succesUrl: 'http://localhost:4200/abonnementValide',
-      cancelUrl: 'http://localhost:4200/merci',
+      succesUrl: 'http://localhost:4200/merci',
+      cancelUrl: 'http://localhost:4200/cancelStripe',
     });
     this.http.get<any>(`${baseUrl}?${params.toString()}`, {}).subscribe({
       next: (res) => {
         console.log('Response from bgstripegetpaymentlink:', res);
+        const url = res.url;
+        console.log('url:', url);
+        window.open(url, '_blank');
       },
       error: (err) => {
         console.error('Erreur from bgstripegetpaymentlink:', err);
@@ -130,6 +134,13 @@ export class ComponentStripe {
     this.http.get<any>(`${baseUrl}?${params.toString()}`, {}).subscribe({
       next: (res) => {
         console.log('Response from bgstripesearchclientsbybguserid:', res);
+        const ListClients: Array<StripeCustomer> = res.data;
+        console.log('ListClients:', ListClients);
+        if (ListClients.length > 0) {
+          this.stripeCustomer = ListClients[0];
+          this.idStripe = this.stripeCustomer.id;
+          console.log('Client Stripe ID:', this.idStripe);
+        }
       },
       error: (err) => {
         console.error('Erreur from bgstripesearchclientsbybguserid:', err);
