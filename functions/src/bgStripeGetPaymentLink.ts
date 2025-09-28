@@ -20,6 +20,7 @@ functionBgStripeGetPaymentLink.get("/", async (req: Request, res: Response) => {
     const STRIPE_API_URL = "https://api.stripe.com/v1/checkout/sessions";
     const clientIdStripe = req.query.clientIdStripe as string | undefined;
     const priceIdStripe = req.query.priceIdStripe as string | undefined;
+    const mode = req.query.mode as string | undefined;
     const emailCustomer = req.query.email as string | undefined;
     const succesUrl = req.query.succesUrl as string | undefined;
     const cancelUrl = req.query.cancelUrl as string | undefined;
@@ -27,7 +28,7 @@ functionBgStripeGetPaymentLink.get("/", async (req: Request, res: Response) => {
       "customer": clientIdStripe ?? "",
       "line_items[0][price]": priceIdStripe ?? "",
       "line_items[0][quantity]": "1",
-      "mode": "payment",
+      "mode": mode ?? "payment", // payment pour un paiement unique, subscription pour un abonnement
       "success_url": succesUrl ?? "",
       "cancel_url": cancelUrl ?? "",
       // Associer l'email au paiement (optionnel, mais Stripe recommande de créer un customer d'abord)

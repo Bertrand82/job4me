@@ -20,7 +20,8 @@ export class ComponentStripe {
 
   constructor(private http: HttpClient, public bgAuth: BgAuthService,private changeDetectorRef: ChangeDetectorRef) {}
 
-  async subscribeStripe() {
+  async subscribeStripe_deprecated() {
+    // subscribe avec un lien preetablit par stripe ouvert dans une nouvelle fenetre
     console.log('subscribe clicked');
     window.open(
       'https://buy.stripe.com/test_dRm3cv4aY1jPbRfaAUe7m02',
@@ -28,8 +29,8 @@ export class ComponentStripe {
     );
   }
 
-  priceIdStripe = 'price_1SBWfpI256EUPY44i7gmazbu';
-
+  priceIdStripeOneTime = {id:'price_1SBWfpI256EUPY44i7gmazbu',mode:'payment'};
+  priceIdStripeAbonnement={id:'price_1SC2ZiI256EUPY44UFeNCj8x',mode:'subscription'};
   mettreAJourInfosStripeCustomer() {
     this.http
       .get<{
@@ -86,23 +87,41 @@ export class ComponentStripe {
     throw new Error('Method not implemented.');
   }
 
-  getStripePaymentLink() {
+  /*
+  Recupere un lien dynamique, vers un "price" de stripe, pour un client stripe donné.
+  Il faut don que l'id du client stripe soit connu (this.idStripe)
+  Le client stripe est lié à un utilisateur de l'appli via le metadata bgUserId (email)
+  Le lien renvoyé par la fonction cloud est ouvert dans une nouvelle fenetre
+  Le succesUrl et le cancelUrl sont passés en parametre à la fonction cloud
+  Le succesUrl et le cancelUrl sont des pages de l'appli qui seront affichées par stripe après le paiement ou l'annulation
+  On obtient le priceIdStripe en créant un produit dans stripe, puis en créant un price pour ce produit (dans le dashboard stripe)
+  */
+ getStripePaymentLink(priceIdStripe: any) {
+    const currentHost = window.location.origin;
     const baseUrl =
       'https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetpaymentlink';
     const params = new URLSearchParams({
       email: this.getEmail() ?? '',
-      priceIdStripe: this.priceIdStripe,
+      priceIdStripe: priceIdStripe.id,
+      mode: priceIdStripe.mode,
       clientIdStripe: this.idStripe,
-      succesUrl: 'http://localhost:4200/merci',
-      cancelUrl: 'http://localhost:4200/cancelStripe',
+      succesUrl: `${currentHost}/merci`,
+      cancelUrl: `${currentHost}/cancelStripe`  ,
     });
     this.http.get<any>(`${baseUrl}?${params.toString()}`, {}).subscribe({
       next: (res) => {
         console.log('Response from bgstripegetpaymentlink:', res);
         const url = res.url;
         console.log('url:', url);
-        window.open(url, '_blank');
+        // window.open(url, '_self');
+        window.location.href = url;
       },
+/*************  ✨ Windsurf Command ⭐  *************/
+/**
+ * Error handler for getStripePaymentLink.
+ * @param {Error} err - The error from the request.
+ */
+/*******  c718413d-849b-4ee1-8307-2f4a2a3f652f  *******/
       error: (err) => {
         console.error('Erreur from bgstripegetpaymentlink:', err);
       },

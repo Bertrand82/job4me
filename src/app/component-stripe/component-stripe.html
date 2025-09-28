@@ -4,9 +4,7 @@
   Email: {{ getEmail() }}
 </div>
 <div>
-<button (click)="subscribeStripe()">
-   souscription
-</button>
+
 </div>
 <div>
 Est abonné: {{ isSubscribed }}
@@ -25,9 +23,11 @@ Est abonné: {{ isSubscribed }}
 </div>
 
 <div>
-<button (click)="getStripePaymentLink()">Obtenir un lien de payment</button>
+<button (click)="getStripePaymentLink(priceIdStripeOneTime)">Obtenir un lien de payment One shot et payer </button>
 </div>
-
+<div>
+<button (click)="getStripePaymentLink(priceIdStripeAbonnement)">Obtenir un lien de payment Abonnement et payer </button>
+</div>
 <div>
 <button (click)="createStripeCustomer()">Créer un customer Stripe</button>
 </div>
