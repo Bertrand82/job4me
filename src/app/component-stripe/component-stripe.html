@@ -19,6 +19,17 @@ Est abonné: {{ isSubscribed }}
 <button (click)="mettreAJourInfosStripeCustomer()">mettre à jour infos Customers</button>
 </div>
 <div>
+<button (click)="createStripeCustomer()">Créer un customer Stripe</button>
+</div>
+<div>
+<button (click)="createStripeCustomerOrCreate()">Search un customer Stripe by email or create it</button>
+</div>
+
+<div>
+<button (click)="searchCustomersByBgUserId()">Search customer By bgUserId</button>
+</div>
+<div>----</div>
+<div>
 <button (click)="mettreAJourInfosStripePayments()">mettre à jour infos Payment</button>
 </div>
 
@@ -28,12 +39,6 @@ Est abonné: {{ isSubscribed }}
 <div>
 <button (click)="getStripePaymentLink(priceIdStripeAbonnement)">Obtenir un lien de payment Abonnement et payer </button>
 </div>
-<div>
-<button (click)="createStripeCustomer()">Créer un customer Stripe</button>
-</div>
 
-<div>
-<button (click)="searchCustomersByBgUserId()">Search customer By bgUserId</button>
-</div>
 
 

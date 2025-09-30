@@ -31,6 +31,8 @@ functionBgStripeGetPaymentLink.get("/", async (req: Request, res: Response) => {
       "mode": mode ?? "payment", // payment pour un paiement unique, subscription pour un abonnement
       "success_url": succesUrl ?? "",
       "cancel_url": cancelUrl ?? "",
+      "application": "bgOffreEmploiRepondeurA",
+      "source": "bgOffreEmploiRepondeurB",
       // Associer l'email au paiement (optionnel, mais Stripe recommande de créer un customer d'abord)
       // 'customer_email': customerEmail, // Stripe n'accepte pas customer_email ici directement
     });

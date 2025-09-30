@@ -35,6 +35,7 @@ export class BgAuthService {
   }
 
   logout() {
+    this.saveStripeCustomerInLocal(null);
     return signOut(this.auth);
   }
 
@@ -56,4 +57,49 @@ export class BgAuthService {
         window.alert(error.message);
       });
   }
+
+  saveStripeCustomerInLocal(stripeCustomer: StripeCustomer|null) {
+    localStorage.setItem('stripeCustomer', JSON.stringify(stripeCustomer));
+  }
+  getStripeCustomerFromLocal(): StripeCustomer | null {
+    const stripeCustomer = localStorage.getItem('stripeCustomer');
+    return stripeCustomer ? JSON.parse(stripeCustomer) : null;
+  }
 }
+
+export type StripeCustomer = {
+  address: {
+    city: string | null;
+    country: string | null;
+    line1: string | null;
+    line2: string | null;
+    postal_code: string | null;
+    state?: string | null;
+  };
+  balance: number;
+  created: number;
+  currency: string;
+  default_source: string | null;
+  delinquent: boolean;
+  description: string | null;
+  discount: any | null;
+  email: string | null;
+  id: string;
+  invoice_prefix: string;
+  invoice_settings: {
+    custom_fields: any | null;
+    default_payment_method: string | null;
+    footer: string | null;
+    rendering_options: any | null;
+  };
+  livemode: boolean;
+  metadata: Record<string, any>;
+  name: string | null;
+  object: string;
+  phone: string | null;
+  preferred_locales: string[];
+  shipping: any | null;
+  tax_exempt: string;
+  test_clock: any | null;
+};
+

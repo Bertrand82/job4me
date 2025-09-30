@@ -3,67 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <title>POST vers Gemini</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="container">
+    <h1>Test des appels aux fonctions Cloud</h1>
 
-<div>
-  Post Gemini
-  <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/gemini" method="post">
-    <input type="text" name="message" value="Ceci est un test">
-    <button type="submit">Envoyer un POST / Gemini</button>
-  </form>
- </div>
+    <section class="form-section">
+      <h2>Post Gemini</h2>
+      <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/gemini" method="post">
+        <input type="text" name="message" value="Ceci est un test" placeholder="Message">
+        <button type="submit">Envoyer un POST / Gemini</button>
+      </form>
+    </section>
 
- <div>
+    <section class="form-section">
+      <h2>Get initAdmin</h2>
+      <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/initadmin" method="get">
+        <button type="submit">Envoyer un GET / initadmin</button>
+      </form>
+    </section>
 
-Get initAdmin
-  <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/initadmin" method="get">
+    <section class="form-section">
+      <h2>Get bgStripe</h2>
+      <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetclient" method="get">
+        <input type="text" name="email" value="client@example.com" placeholder="Email du client">
+        <button type="submit">Envoyer un GET / bgStripe</button>
+      </form>
+    </section>
 
-    <button type="submit">Envoyer un GET / initadmin</button>
-  </form>
- </div>
+    <section class="form-section">
+      <h2>Get bgStripe Payments</h2>
+      <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetpayments" method="get">
+        <input type="text" name="clientIdStripe" value="cus_NC0bX4mLZtO3eH" placeholder="Stripe Client ID">
+        <button type="submit">Envoyer un GET / bgStripe Payments</button>
+      </form>
+    </section>
 
- <div>
+    <section class="form-section">
+      <h2>Get bgStripe Payment Link</h2>
+      <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetpaymentlink" method="get">
+        <input type="text" name="priceIdStripe" value="price_NC0bX4mLZtO3eH" placeholder="Stripe Price ID">
+        <input type="text" name="emailCustomer" value="toto@aaa.com" placeholder="Email Client">
+        <input type="text" name="succesUrl" value="http://aaaa.com/merci" placeholder="URL succès">
+        <input type="text" name="cancelUrl" value="http://aaaa.com/cancel" placeholder="URL annulation">
+        <button type="submit">Envoyer un GET / bgStripe Payment Link</button>
+      </form>
+    </section>
 
-Get bgStripe
-  <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetclient" method="get">
-    <input type="text" name="email" value="client@example.com">
-    <button type="submit">Envoyer un GET / bgStripe</button>
-  </form>
+    <section class="form-section">
+      <h2>Get bgStripe Create Customer</h2>
+      <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripecreatecustomer" method="get">
+        <input type="text" name="email" value="toto@aaa.com" placeholder="Email Client">
+        <button type="submit">Envoyer un GET / bgStripe Create Customer</button>
+      </form>
+    </section>
 
+    <section class="form-section">
+      <h2>Get bgStripe Search Customers By BgUserId</h2>
+      <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripesearchclientsbybguserid" method="get">
+        <input type="text" name="email" value="user_12345" placeholder="BgUserId">
+        <button type="submit">Envoyer un GET / bgStripe Search Customers By BgUserId</button>
+      </form>
+    </section>
   </div>
-
-  <div>
-  Get bgStripe Payments
-  <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetpayments" method="get">
-    <input type="text" name="clientIdStripe" value="cus_NC0bX4mLZtO3eH">
-    <button type="submit">Envoyer un GET / bgStripe Payments</button>
-  </form>
- </div>
- <div>
-  Get bgStripe Payment Link
-  <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetpaymentlink" method="get">
-    <input type="text" name="priceIdStripe" value="price_NC0bX4mLZtO3eH">
-    <input type="text" name="emailCustomer" value="toto@aaa.com">
-    <input type="text" name="succesUrl" value="http://aaaa.com/merci">
-    <input type="text" name="cancelUrl" value="http://aaaa.com/cancel">
-
-    <button type="submit">Envoyer un GET / bgStripe Payment Link</button>
-  </form>
-  </div>
- <div>
-  Get bgStripe Create Customer
-  <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripecreatecustomer" method="get">
-    <input type="text" name="email" value="toto@aaa.com">
-    <button type="submit">Envoyer un GET / bgStripe Create Customer</button>
-  </form>
- </div>
-<div>
-  Get bgStripe Search Customers By BgUserId
-  <form action="https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripesearchclientsbybguserid" method="get">
-    <input type="text" name="email" value="user_12345">
-    <button type="submit">Envoyer un GET / bgStripe Search Customers By BgUserId</button>
-  </form>
-</div>
 </body>
 </html>

@@ -8,8 +8,18 @@ import {functionBgStripeGetPayments} from "./bgStripeGetPayments";
 import {functionBgStripeGetPaymentLink} from "./bgStripeGetPaymentLink";
 import {functionBgStripeCreateCustomer} from "./bgStripeCreateCustomer";
 import {functionBgStripeSearchClientsByBgUserId} from "./bgStripeSearchClientsByBgUserId";
+import {functionBgStripeSearchClientsByBgUserIdOrCreateClient} from "./bgStripeSearchClientsByBgUserIdOrCreateClient";
 
-/* url d'accès :
+/* url console firebase:
+https://console.firebase.google.com/project/job4you-78ed0/functions
+Project Console:
+https://console.firebase.google.com/project/job4you-78ed0/overview
+Console cloud:
+https://console.cloud.google.com/run/detail/europe-west4/job4me/networking?project=job4you-78ed0
+Authorisation fonction exemple :
+https://console.cloud.google.com/run/detail/europe-west1/bgstripesearchclientsbybguseridorcreateclient/security?chat=true&project=job4you-78ed0
+https://console.cloud.google.com/run?orgonly=true&project=job4you-78ed0&supportedpurview=organizationId
+url d'accès :
    https://europe-west1-job4you-78ed0.cloudfunctions.net/keys
    https://europe-west1-job4you-78ed0.cloudfunctions.net/gemini
    https://europe-west1-job4you-78ed0.cloudfunctions.net/initadmin
@@ -23,3 +33,4 @@ export const bgstripegetpayments = onRequest({region: "europe-west1"}, functionB
 export const bgstripegetpaymentlink = onRequest({region: "europe-west1"}, functionBgStripeGetPaymentLink);
 export const bgstripecreatecustomer = onRequest({region: "europe-west1"}, functionBgStripeCreateCustomer);
 export const bgstripesearchclientsbybguserid = onRequest({region: "europe-west1"}, functionBgStripeSearchClientsByBgUserId);
+export const bgstripesearchclientsbybguseridorcreateclient = onRequest({region: "europe-west1"}, functionBgStripeSearchClientsByBgUserIdOrCreateClient);
