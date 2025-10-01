@@ -118,9 +118,14 @@ export class ComponentStripe {
   On obtient le priceIdStripe en créant un produit dans stripe, puis en créant un price pour ce produit (dans le dashboard stripe)
   */
   getStripePaymentLink(priceIdStripe: any) {
+    console.log('getStripePaymentLink pour le priceIdStripe :', priceIdStripe);
     const currentHost = window.location.origin;
     const baseUrl =
       'https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetpaymentlink';
+    if (!priceIdStripe?.id || !priceIdStripe?.mode || !this.idStripe || !this.getEmail()) {
+      console.error('Paramètre manquant pour Stripe !', this.getEmail(), priceIdStripe, this.idStripe );
+    return;
+  }
     const params = new URLSearchParams({
       email: this.getEmail() ?? '',
       priceIdStripe: priceIdStripe.id,
@@ -129,13 +134,27 @@ export class ComponentStripe {
       succesUrl: `${currentHost}/merci`,
       cancelUrl: `${currentHost}/cancelStripe`,
     });
-    this.http.get<any>(`${baseUrl}?${params.toString()}`, {}).subscribe({
+    console.log('Appel de la fonction cloud bgstripegetpaymentlink avec :', params.toString());
+    const url0 = `${baseUrl}?${params.toString()}`;
+    console.log('URL complète:', url0);
+    this.http.get<any>(url0, {}).subscribe({
       next: (res) => {
         console.log('Response from bgstripegetpaymentlink:', res);
         const url = res.url;
         console.log('url:', url);
         // window.open(url, '_self');
-        window.location.href = url;
+        if (url){
+          window.location.href = url;
+        }
+        else {
+          console.error('Pas de lien de paiement reçu de Stripe !');
+          if (res.error) {
+            const message = res.error.message;
+            console.error('Message d\'erreur Stripe:', message);
+            console.error('Erreur Stripe:', res.error);
+          }
+        }
+
       },
       error: (err) => {
         console.error('Erreur from bgstripegetpaymentlink:', err);

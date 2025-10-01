@@ -31,12 +31,12 @@ functionBgStripeGetPaymentLink.get("/", async (req: Request, res: Response) => {
       "mode": mode ?? "payment", // payment pour un paiement unique, subscription pour un abonnement
       "success_url": succesUrl ?? "",
       "cancel_url": cancelUrl ?? "",
-      "application": "bgOffreEmploiRepondeurA",
-      "source": "bgOffreEmploiRepondeurB",
+      "metadata[bguser_id]": emailCustomer ?? "",
+      "metadata[bgpriceIdStripe]": priceIdStripe ?? "",
       // Associer l'email au paiement (optionnel, mais Stripe recommande de créer un customer d'abord)
       // 'customer_email': customerEmail, // Stripe n'accepte pas customer_email ici directement
     });
-    console.log("Client ID Stripe:", clientIdStripe, emailCustomer);
+    console.log("Client ID Stripe V2:", clientIdStripe, emailCustomer);
     // https://api.stripe.com/v1/payment_intents?customer=${clientId}
     const response = await fetch(`${STRIPE_API_URL}`, {
       method: "POST",
