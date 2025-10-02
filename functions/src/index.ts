@@ -25,12 +25,12 @@ url d'accès :
    https://europe-west1-job4you-78ed0.cloudfunctions.net/initadmin
    https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripe
 */
-export const keys = onRequest({region: "europe-west1"}, appKeys);
-export const gemini = onRequest({region: "europe-west1"}, functionProxiGemini);
-export const initadmin = onRequest({region: "europe-west1"}, functionInitAdmin);
-export const bgstripegetclient = onRequest({region: "europe-west1"}, functionBgStripeGetClient);
-export const bgstripegetpayments = onRequest({region: "europe-west1"}, functionBgStripeGetPayments);
-export const bgstripegetpaymentlink = onRequest({region: "europe-west1"}, functionBgStripeGetPaymentLink);
-export const bgstripecreatecustomer = onRequest({region: "europe-west1"}, functionBgStripeCreateCustomer);
-export const bgstripesearchclientsbybguserid = onRequest({region: "europe-west1"}, functionBgStripeSearchClientsByBgUserId);
-export const bgstripesearchclientsbybguseridorcreateclient = onRequest({region: "europe-west1"}, functionBgStripeSearchClientsByBgUserIdOrCreateClient);
+export const keys2 = onRequest({region: "europe-west1"}, appKeys);
+export const gemini2 = onRequest({region: "europe-west1"}, functionProxiGemini);
+export const initadmin2 = onRequest({region: "europe-west1"}, functionInitAdmin);
+export const bgstripegetclient2 = onRequest({region: "europe-west1"}, functionBgStripeGetClient);
+export const bgstripegetpayments2 = onRequest({region: "europe-west1"}, functionBgStripeGetPayments);
+export const bgstripegetpaymentlink2 = onRequest({region: "europe-west1"}, functionBgStripeGetPaymentLink);
+export const bgstripecreatecustomer2 = onRequest({region: "europe-west1"}, functionBgStripeCreateCustomer);
+export const bgstripesearchclientsbybguserid2 = onRequest({region: "europe-west1"}, functionBgStripeSearchClientsByBgUserId);
+export const bgstripesearchclientsbybguseridorcreateclient2 = onRequest({region: "europe-west1"}, functionBgStripeSearchClientsByBgUserIdOrCreateClient);

@@ -9,7 +9,7 @@ import { firstValueFrom } from 'rxjs';
 export class KeysService {
   private keys: any = null;
   private readonly url =
-    'https://europe-west1-job4you-78ed0.cloudfunctions.net/keys';
+    'https://europe-west1-job4you-78ed0.cloudfunctions.net/keys2';
 
   constructor(private http: HttpClient) {
 

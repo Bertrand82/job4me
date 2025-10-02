@@ -14,8 +14,7 @@ export class ComponentStripe {
 
   //
   isSubscribed: any = false;
-  idStripe: any;
-  stripeCustomer!: StripeCustomer | null;
+
   priceIdStripeOneTime = {
     id: 'price_1SBWfpI256EUPY44i7gmazbu',
     mode: 'payment',
@@ -25,16 +24,15 @@ export class ComponentStripe {
     mode: 'subscription',
   };
 
+  baseUrl0 =
+      'https://europe-west1-job4you-78ed0.cloudfunctions.net/';
   constructor(
     private http: HttpClient,
     public bgAuth: BgAuthService,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
   ngOnInit() {
-    this.stripeCustomer = this.bgAuth.getStripeCustomerFromLocal();
-    if (this.stripeCustomer) {
-      this.idStripe = this.stripeCustomer.id;
-   }
+    console.log('ComponentStripe ngOnInit');
   }
   mettreAJourInfosStripeCustomer() {
     this.http
@@ -44,7 +42,7 @@ export class ComponentStripe {
         has_more: boolean;
         url: string;
       }>(
-        'https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetclient?email=' +
+        `${this.baseUrl0}/bgstripegetclient2?email=` +
           this.getEmail(),
         {}
       )
@@ -57,9 +55,7 @@ export class ComponentStripe {
           console.log('data Array<StripeCustomer> :', data);
           console.log('data Array<StripeCustomer> length:', data.length);
           if (data.length > 0) {
-            this.stripeCustomer = data[0];
-            this.idStripe = this.stripeCustomer.id;
-            console.log('Client Stripe ID:', this.idStripe);
+            this.bgAuth.stripeCustomer = data[0];
             this.changeDetectorRef.detectChanges();
           }
           const has_more = res.has_more;
@@ -77,8 +73,8 @@ export class ComponentStripe {
   mettreAJourInfosStripePayments() {
     this.http
       .get<any>(
-        'https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetpayments?clientIdStripe=' +
-          this.idStripe,
+        `${this.baseUrl0}/bgstripegetpayments2?clientIdStripe=` +
+          this.getStripeCustomerId(),
         {}
       )
       .subscribe({
@@ -120,22 +116,21 @@ export class ComponentStripe {
   getStripePaymentLink(priceIdStripe: any) {
     console.log('getStripePaymentLink pour le priceIdStripe :', priceIdStripe);
     const currentHost = window.location.origin;
-    const baseUrl =
-      'https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripegetpaymentlink';
-    if (!priceIdStripe?.id || !priceIdStripe?.mode || !this.idStripe || !this.getEmail()) {
-      console.error('Paramètre manquant pour Stripe !', this.getEmail(), priceIdStripe, this.idStripe );
+
+    if (!priceIdStripe?.id || !priceIdStripe?.mode || !this.getStripeCustomerId()  || !this.getEmail()) {
+      console.error('Paramètre manquant pour Stripe !', this.getEmail(), priceIdStripe, this.getStripeCustomerId());
     return;
   }
     const params = new URLSearchParams({
       email: this.getEmail() ?? '',
       priceIdStripe: priceIdStripe.id,
       mode: priceIdStripe.mode,
-      clientIdStripe: this.idStripe,
+      clientIdStripe: this.getStripeCustomerId() ?? '',
       succesUrl: `${currentHost}/merci`,
       cancelUrl: `${currentHost}/cancelStripe`,
     });
     console.log('Appel de la fonction cloud bgstripegetpaymentlink avec :', params.toString());
-    const url0 = `${baseUrl}?${params.toString()}`;
+    const url0 = `${this.baseUrl0}/bgstripegetpaymentlink2?${params.toString()}`;
     console.log('URL complète:', url0);
     this.http.get<any>(url0, {}).subscribe({
       next: (res) => {
@@ -168,22 +163,17 @@ export class ComponentStripe {
    * Pour cela utiliser la fonction searchCustomersByBgUserId()
     */
   createStripeCustomer() {
-    const baseUrl =
-      'https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripecreatecustomer';
+
     const params = new URLSearchParams({
       email: this.getEmail() ?? '',
     });
     this.http
-      .get<StripeCustomer>(`${baseUrl}?${params.toString()}`, {})
+      .get<StripeCustomer>(`${this.baseUrl0}/bgstripecreatecustomer2?${params.toString()}`, {})
       .subscribe({
         next: (res) => {
           console.log('Response from bgstripecreatecustomer:', res);
-          this.stripeCustomer = res;
-          if (this.stripeCustomer) {
-            this.idStripe = this.stripeCustomer.id;
-            console.log('Client Stripe ID:', this.idStripe);
-            this.bgAuth.saveStripeCustomerInLocal(this.stripeCustomer);
-          }
+          this.bgAuth.stripeCustomer = res;
+          this.bgAuth.saveStripeCustomerInLocal();
           this.changeDetectorRef.detectChanges();
         },
         error: (err) => {
@@ -194,19 +184,15 @@ export class ComponentStripe {
 
   createStripeCustomerOrCreate() {
     const baseUrl =
-      'https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripesearchclientsbybguseridorcreateclient';
+      `${this.baseUrl0}/bgstripesearchclientsbybguseridorcreateclient2`;
     const params = new URLSearchParams({
       email: this.getEmail() ?? '',
     });
     this.http.get<any>(`${baseUrl}?${params.toString()}`, {}).subscribe({
       next: (res) => {
         console.log('Response from bgstripesearchclientsbybguseridorcreateclient:', res);
-        this.stripeCustomer = res;
-        if (this.stripeCustomer) {
-          this.idStripe = this.stripeCustomer.id;
-          console.log('Client Stripe ID:', this.idStripe);
-          this.bgAuth.saveStripeCustomerInLocal(this.stripeCustomer);
-        }
+        this.bgAuth.stripeCustomer = res;
+        this.bgAuth.saveStripeCustomerInLocal();
         this.changeDetectorRef.detectChanges();
       },
       error: (err) => {
@@ -217,7 +203,8 @@ export class ComponentStripe {
 
   searchCustomersByBgUserId() {
     const baseUrl =
-      'https://europe-west1-job4you-78ed0.cloudfunctions.net/bgstripesearchclientsbybguserid';
+      `${this.baseUrl0}/bgstripesearchclientsbybguserid2`;
+      console.log('baseUrl:', baseUrl);
     const params = new URLSearchParams({
       email: this.getEmail() ?? '',
     });
@@ -227,9 +214,8 @@ export class ComponentStripe {
         const ListClients: Array<StripeCustomer> = res.data;
         console.log('ListClients:', ListClients);
         if (ListClients.length > 0) {
-          this.stripeCustomer = ListClients[0];
-          this.idStripe = this.stripeCustomer.id;
-          console.log('Client Stripe ID:', this.idStripe);
+          this.bgAuth.stripeCustomer = ListClients[0];
+          console.log('Client Stripe ID:', this.getStripeCustomerId());
         }
       },
       error: (err) => {
@@ -244,6 +230,13 @@ export class ComponentStripe {
     } else {
       return 'No name';
     }
+  }
+  getStripeCustomer() {
+    return this.bgAuth.stripeCustomer;
+  }
+
+  getStripeCustomerId() {
+    return this.bgAuth.stripeCustomer?.id;
   }
 }
 

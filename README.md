@@ -182,6 +182,9 @@ RapidJobApp
 
 https://console.cloud.google.com/apis/credentials/key/
 
+## Gestion de firebase
+
+https://console.firebase.google.com/
 ## lancement en local
 
 ```bash

@@ -15,10 +15,13 @@ import {
 export class BgAuthService {
   private userSignal = signal<User | null>(null);
 
+
+  stripeCustomer!: StripeCustomer | null;
   constructor(public auth: Auth) {
     onAuthStateChanged(this.auth, (user) => {
       this.userSignal.set(user);
     });
+    this.stripeCustomer = this.getStripeCustomerFromLocal();
   }
 
   get currentUser() {
@@ -35,7 +38,9 @@ export class BgAuthService {
   }
 
   logout() {
-    this.saveStripeCustomerInLocal(null);
+
+    this.stripeCustomer = null;
+    this.saveStripeCustomerInLocal();
     return signOut(this.auth);
   }
 
@@ -58,8 +63,8 @@ export class BgAuthService {
       });
   }
 
-  saveStripeCustomerInLocal(stripeCustomer: StripeCustomer|null) {
-    localStorage.setItem('stripeCustomer', JSON.stringify(stripeCustomer));
+  saveStripeCustomerInLocal() {
+    localStorage.setItem('stripeCustomer', JSON.stringify(this.stripeCustomer));
   }
   getStripeCustomerFromLocal(): StripeCustomer | null {
     const stripeCustomer = localStorage.getItem('stripeCustomer');
