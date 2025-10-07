@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { loadStripe } from '@stripe/stripe-js';
 import { HttpClient } from '@angular/common/http';
 import { BgAuthService, StripeCustomer } from '../services/bg-auth-service';
+import { BgBackFunctions } from '../services/bg-back-functions';
 
 @Component({
   selector: 'component-stripe',
@@ -29,10 +30,12 @@ export class ComponentStripe {
   constructor(
     private http: HttpClient,
     public bgAuth: BgAuthService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private bgBackFunctions: BgBackFunctions
   ) {}
   ngOnInit() {
     console.log('ComponentStripe ngOnInit');
+    this.baseUrl0 = this.bgBackFunctions.getUrlHost();
   }
   mettreAJourInfosStripeCustomer() {
     this.http
@@ -82,6 +85,10 @@ export class ComponentStripe {
           console.log('Response from bgstripePayments:', res);
           const listPayments = res.data;
           console.log('listPayments:', listPayments);
+          if (!listPayments || listPayments.length === 0) {
+            console.log('Aucun paiement trouvé pour ce client Stripe.');
+            return;
+          }
           listPayments.forEach((payment: any) => {
             const createdDate = new Date(payment.created * 1000);
             const nowTimestamp = Math.floor(Date.now() / 1000); // temps actuel en secondes
@@ -91,6 +98,12 @@ export class ComponentStripe {
             console.log('Payment age in days:', ageInDays);
             const isSubscription = payment.description ==="Subscription creation"
             const latestCharge = payment.latestCharge ;
+            const paymentIntentId = payment.id ;
+            this.getStripeInvoiceFromPaymentIntent(paymentIntentId);
+            if (isSubscription) {
+              this.isSubscribed = true;
+              this.changeDetectorRef.detectChanges();
+            }
             console.log('isSubscription:', isSubscription);
             console.log('latestCharge:', latestCharge);
           });
@@ -100,7 +113,22 @@ export class ComponentStripe {
         },
       });
   }
-  deleteAbonnement() {
+
+  private getStripeInvoiceFromPaymentIntent(paymentIntentId: string) {
+    console.log('getStripeInvoiceFromPaymentIntent pour le paymentIntentId :', paymentIntentId);
+    this.http
+      .get<any>(  `${this.baseUrl0}/bgstripegetinvoicefrompaymentintent2?paymentIntentId=` + paymentIntentId+"&email="+this.getEmail()+"", {})
+      .subscribe({
+        next: (res) => {
+          console.log('Response from bgstripegetinvoicefrompaymentintent2:', res);
+        },
+        error: (err) => {
+          console.error('Erreur from bgstripegetinvoicefrompaymentintent2:', err);
+        },
+      });
+  }
+
+  resilierAbonnement() {
     throw new Error('Method not implemented.');
   }
 
@@ -118,7 +146,9 @@ export class ComponentStripe {
     const currentHost = window.location.origin;
 
     if (!priceIdStripe?.id || !priceIdStripe?.mode || !this.getStripeCustomerId()  || !this.getEmail()) {
-      console.error('Paramètre manquant pour Stripe !', this.getEmail(), priceIdStripe, this.getStripeCustomerId());
+      console.error('Paramètre manquant pour Stripe ! email :', this.getEmail());
+      console.error('Paramètre manquant pour Stripe ! priceIdStripe :', priceIdStripe);
+      console.error('Paramètre manquant pour Stripe ! stripeCustomerId :',  this.getStripeCustomerId());
     return;
   }
     const params = new URLSearchParams({

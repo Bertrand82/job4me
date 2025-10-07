@@ -9,6 +9,7 @@ import {functionBgStripeGetPaymentLink} from "./bgStripeGetPaymentLink";
 import {functionBgStripeCreateCustomer} from "./bgStripeCreateCustomer";
 import {functionBgStripeSearchClientsByBgUserId} from "./bgStripeSearchClientsByBgUserId";
 import {functionBgStripeSearchClientsByBgUserIdOrCreateClient} from "./bgStripeSearchClientsByBgUserIdOrCreateClient";
+import {functionBgStripeGetInvoiceFromPaymentIntent} from "./bgStripeGetInvoiceFromPaymentIntent";
 
 /* url console firebase:
 https://console.firebase.google.com/project/job4you-78ed0/functions
@@ -34,3 +35,4 @@ export const bgstripegetpaymentlink2 = onRequest({region: "europe-west1"}, funct
 export const bgstripecreatecustomer2 = onRequest({region: "europe-west1"}, functionBgStripeCreateCustomer);
 export const bgstripesearchclientsbybguserid2 = onRequest({region: "europe-west1"}, functionBgStripeSearchClientsByBgUserId);
 export const bgstripesearchclientsbybguseridorcreateclient2 = onRequest({region: "europe-west1"}, functionBgStripeSearchClientsByBgUserIdOrCreateClient);
+export const bgstripegetinvoicefrompaymentintent2 = onRequest({region: "europe-west1"}, functionBgStripeGetInvoiceFromPaymentIntent);

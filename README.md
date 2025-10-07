@@ -190,6 +190,8 @@ https://console.firebase.google.com/
 ```bash
 ng serve
 firebase emulators:start --only functions
+Lance emulateur functions:
+bg build
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
