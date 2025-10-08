@@ -73,11 +73,21 @@ export class ComponentStripe {
       });
   }
 
-  mettreAJourInfosStripePayments() {
+  mettreAJourInfosStripePayments() : void {
+    console.log('mettreAJourInfosStripePayments start',this.bgAuth.stripeCustomer);
+    const stripeCustomerId = this.getStripeCustomerId();
+    if (!stripeCustomerId) {
+      console.log('Aucun client Stripe trouvé pour cet utilisateur.');
+      this.searchStripeCustomerOrCreate(this.mettreAJourInfosStripePayments2.bind(this)) ;
+
+    }else {
+      this.mettreAJourInfosStripePayments2(stripeCustomerId) ;
+    }
+  }
+  mettreAJourInfosStripePayments2(stripeCustomerId: string) : void {
     this.http
       .get<any>(
-        `${this.baseUrl0}/bgstripegetpayments2?clientIdStripe=` +
-          this.getStripeCustomerId(),
+        `${this.baseUrl0}/bgstripegetpayments2?clientIdStripe=${stripeCustomerId}`,
         {}
       )
       .subscribe({
@@ -212,7 +222,7 @@ export class ComponentStripe {
       });
   }
 
-  createStripeCustomerOrCreate() {
+  searchStripeCustomerOrCreate(aCallBack?: (stripeCustomerId: string) => void) {
     const baseUrl =
       `${this.baseUrl0}/bgstripesearchclientsbybguseridorcreateclient2`;
     const params = new URLSearchParams({
@@ -220,10 +230,21 @@ export class ComponentStripe {
     });
     this.http.get<any>(`${baseUrl}?${params.toString()}`, {}).subscribe({
       next: (res) => {
-        console.log('Response from bgstripesearchclientsbybguseridorcreateclient:', res);
+        console.log('BG Response from bgstripesearchclientsbybguseridorcreateclient:', res);
         this.bgAuth.stripeCustomer = res;
         this.bgAuth.saveStripeCustomerInLocal();
         this.changeDetectorRef.detectChanges();
+        if(aCallBack){
+          console.log('BG aCallBack :', aCallBack);
+          console.log('BG aCallBack getStripeCustomerId :', this.getStripeCustomerId());
+          const stripeCustomerId = this.getStripeCustomerId();
+          if(stripeCustomerId){
+            aCallBack(stripeCustomerId);
+          } else {
+            console.error('BG Erreur: pas de stripeCustomerId après création ou recherche du client');
+          }
+
+        }
       },
       error: (err) => {
         console.error('Erreur from bgstripesearchclientsbybguseridorcreateclient:', err);
@@ -231,7 +252,7 @@ export class ComponentStripe {
     });
   }
 
-  searchCustomersByBgUserId() {
+  searchCustomersByBgUserId(suite?: () => void) {
     const baseUrl =
       `${this.baseUrl0}/bgstripesearchclientsbybguserid2`;
       console.log('baseUrl:', baseUrl);
@@ -246,6 +267,11 @@ export class ComponentStripe {
         if (ListClients.length > 0) {
           this.bgAuth.stripeCustomer = ListClients[0];
           console.log('Client Stripe ID:', this.getStripeCustomerId());
+          this.changeDetectorRef.detectChanges();
+          if(suite){
+            suite();
+          }
+
         }
       },
       error: (err) => {
