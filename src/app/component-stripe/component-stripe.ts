@@ -2,7 +2,7 @@ import { getAuth } from '@angular/fire/auth';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { loadStripe } from '@stripe/stripe-js';
 import { HttpClient } from '@angular/common/http';
-import { BgAuthService, StripeCustomer } from '../services/bg-auth-service';
+import { BgAuthService, StripeCustomer, StripeInvoice, StripeSession } from '../services/bg-auth-service';
 import { BgBackFunctions } from '../services/bg-back-functions';
 
 @Component({
@@ -12,6 +12,7 @@ import { BgBackFunctions } from '../services/bg-back-functions';
   styleUrl: './component-stripe.css',
 })
 export class ComponentStripe {
+
 
   //
   isSubscribed: any = false;
@@ -139,7 +140,38 @@ export class ComponentStripe {
   }
 
   resilierAbonnement() {
-    throw new Error('Method not implemented.');
+   console.log('resilierAbonnement start');
+   const stripeCustomerId = this.getStripeCustomerId();
+   if (!stripeCustomerId) {
+     console.log('Aucun client Stripe rencontré pour cet utilisateur.');
+     this.searchStripeCustomerOrCreate(this.resilierAbonnement2.bind(this));
+   } else {
+     this.resilierAbonnement2(stripeCustomerId);
+   }
+  }
+  resilierAbonnement2(stripeCustomerId: string) {
+    console.log('resilierAbonnement2 pour le stripeCustomerId :', stripeCustomerId);
+    this.http
+      .post<any>(
+        `${this.baseUrl0}/bgstripegetsession2`,
+        {
+        clientId: stripeCustomerId ,
+        urlRetour: window.location.origin + "/moncomptebg"
+      }
+      )
+      .subscribe({
+        next: (res) => {
+          console.log('Response from bgstripesubscriptionresilience2:', res);
+          const url = res.url;
+          console.log('url:', url);
+          if (url) {
+            window.location.href = url;
+          }
+        },
+        error: (err) => {
+          console.error('Erreur from bgstripesubscriptionresilience2:', err);
+        },
+      });
   }
 
   /*
@@ -278,6 +310,66 @@ export class ComponentStripe {
         console.error('Erreur from bgstripesearchclientsbybguserid:', err);
       },
     });
+  }
+
+searchStripeSessionsByBgUserId() {
+  const stripeCustomerId = this.getStripeCustomerId();
+  if (!stripeCustomerId) {
+    console.log('Aucun client Stripe trouvé pour cet utilisateur.');
+    this.searchStripeCustomerOrCreate(this.searchStripeSessionsByBgUserId2.bind(this)) ;
+  } else {
+    this.searchStripeSessionsByBgUserId2(stripeCustomerId);
+  }
+}
+
+// Implementation of the missing method
+searchStripeSessionsByBgUserId2(stripeCustomerId: string) {
+
+  console.log('searchStripeSessionsByBgUserId2 called with:', stripeCustomerId);
+   const baseUrl =
+      `${this.baseUrl0}/bgstripegetsessionsbyclient2`;
+    const params = new URLSearchParams({
+      clientIdStripe: stripeCustomerId,
+    });
+    this.http.get<any>(`${baseUrl}?${params.toString()}`, {}).subscribe({
+      next: (res) => {
+        console.log('Response from bgstripegetsessionsbyclient2:', res);
+        const listSessions:Array<StripeSession> = res.data;
+        console.log('listSessions:', listSessions);
+        if (listSessions.length > 0) {
+         console.log('Sessions Stripe trouvées pour ce client.');
+        for(const session of listSessions){
+          const invoiceId = session.invoice;
+           console.log('invoiceId :', invoiceId);
+           console.log('subscription:', session.subscription);
+            console.log('mode:', session.mode);
+          if(invoiceId){
+            console.log('invoiceId found:', invoiceId);
+            this.getStripeInvoiceById(invoiceId);
+          }else {
+            console.log('No invoiceId found.');
+          }
+          console.log('Session ID:', session.id, ' - Amount Total:', session.amount_total, ' - Payment Status:', session.payment_status);
+        }
+      }},
+      error: (err) => {
+        console.error('Erreur from bgstripegetsessionsbyclient2:', err);
+      },
+    });
+}
+  getStripeInvoiceById(invoiceId: any) {
+    console.log('getStripeInvoiceById pour le invoiceId :', invoiceId);
+    this.http
+      .get<StripeInvoice>(  `${this.baseUrl0}/bgstripegetinvoicebyid2?invoiceId=` + invoiceId, {})
+      .subscribe({
+        next: (res) => {
+          console.log('Response from bgstripegetinvoicebyid2:', res);
+          const invoice = res ;
+        },
+        error: (err) => {
+          console.error('Erreur from bgstripegetinvoicebyid2:', err);
+        },
+      });
   }
 
   getEmail() {

@@ -34,6 +34,10 @@ Est abonné: {{ isSubscribed }}
 </div>
 
 <div>
+<button (click)="searchStripeSessionsByBgUserId()">Rechercher sessions stripe</button>
+</div>
+<div>----</div>
+<div>
 <button (click)="getStripePaymentLink(priceIdStripeOneTime)">Obtenir un lien de payment One shot et payer </button>
 </div>
 <div>

@@ -26,7 +26,7 @@ functionBgStripeSearchClientsByBgUserIdOrCreateClient.get("/", async (req: Reque
       method: "GET",
     });
     const data = await response.json();
-    const ListClients: Array<any> = data.data;
+    const ListClients: Array<unknown> = data.data;
     if (ListClients.length > 0) {
       res.status(200).json(ListClients[0]);
     } else {

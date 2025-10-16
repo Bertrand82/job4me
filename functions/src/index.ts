@@ -10,6 +10,9 @@ import {functionBgStripeCreateCustomer} from "./bgStripeCreateCustomer";
 import {functionBgStripeSearchClientsByBgUserId} from "./bgStripeSearchClientsByBgUserId";
 import {functionBgStripeSearchClientsByBgUserIdOrCreateClient} from "./bgStripeSearchClientsByBgUserIdOrCreateClient";
 import {functionBgStripeGetInvoiceFromPaymentIntent} from "./bgStripeGetInvoiceFromPaymentIntent";
+import {functionBgStripeGetSessionsByClient} from "./bgStripeGetSessionsByClient";
+import {functionBgStripeGetInvoiceById} from "./bgStripeGetInvoiceById";
+import {functionBgStripeGetSession} from "./bgStripeGetSession";
 
 /* url console firebase:
 https://console.firebase.google.com/project/job4you-78ed0/functions
@@ -36,3 +39,6 @@ export const bgstripecreatecustomer2 = onRequest({region: "europe-west1"}, funct
 export const bgstripesearchclientsbybguserid2 = onRequest({region: "europe-west1"}, functionBgStripeSearchClientsByBgUserId);
 export const bgstripesearchclientsbybguseridorcreateclient2 = onRequest({region: "europe-west1"}, functionBgStripeSearchClientsByBgUserIdOrCreateClient);
 export const bgstripegetinvoicefrompaymentintent2 = onRequest({region: "europe-west1"}, functionBgStripeGetInvoiceFromPaymentIntent);
+export const bgstripegetsessionsbyclient2 = onRequest({region: "europe-west1"}, functionBgStripeGetSessionsByClient);
+export const bgstripegetinvoicebyid2 = onRequest({region: "europe-west1"}, functionBgStripeGetInvoiceById);
+export const bgstripegetsession2 = onRequest({region: "europe-west1"}, functionBgStripeGetSession);
