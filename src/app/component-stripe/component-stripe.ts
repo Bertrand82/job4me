@@ -4,7 +4,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { HttpClient } from '@angular/common/http';
 
 import { BgAuthService, StripeCustomer, StripeInvoice, StripeSession  } from 'bg-navigation-auth-stripe';
-import { BgBackFunctions } from '../services/bg-back-functions';
+import { BgBackFunctions } from 'bg-navigation-auth-stripe';
 
 @Component({
   selector: 'component-stripe',

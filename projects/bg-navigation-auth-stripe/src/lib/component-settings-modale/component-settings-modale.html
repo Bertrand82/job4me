@@ -1,0 +1,34 @@
+
+<div style=" margin: 20px;">
+<form class="login-form">
+  <div class="form-group">
+    {{ email }}
+  </div>
+
+  <div class="button-group">
+    <button (click)="onLogout()" type="submit">Se deconnecter</button>
+  </div>
+
+<div *ngIf="isAbonnementOK; else notAbonned" style="border: 1px solid black;">
+  <div class="button-group">
+  <button (click)="desabonnement()" type="submit" class="nav-btn">
+     Desabonnement
+  </button>
+  </div>
+</div>
+
+<ng-template #notAbonned>
+  <div class="button-group">
+  <button (click)="abonnement()" class="nav-btn">
+    Abonnement
+  </button>
+  </div>
+</ng-template>
+</form>
+
+<div style="text-align: right; margin-top: 20px;margin-right:5;">
+  <button mat-button (click)="onClose()">Fermer</button>
+</div>
+</div>
+
+

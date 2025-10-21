@@ -1,0 +1,70 @@
+{
+  "hash": "f7e3bf7b",
+  "configHash": "5982eea1",
+  "lockfileHash": "0ad27ea9",
+  "browserHash": "9ffef459",
+  "optimized": {
+    "@angular/common": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "a0e49294",
+      "needsInterop": false
+    },
+    "@angular/common/http": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/http.mjs",
+      "file": "@angular_common_http.js",
+      "fileHash": "eb88cf77",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "f6cc276b",
+      "needsInterop": false
+    },
+    "@angular/forms": {
+      "src": "../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
+      "file": "@angular_forms.js",
+      "fileHash": "a36ef60e",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "dd93e88e",
+      "needsInterop": false
+    },
+    "@angular/router": {
+      "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
+      "file": "@angular_router.js",
+      "fileHash": "885c2435",
+      "needsInterop": false
+    },
+    "pdfjs-dist": {
+      "src": "../../../../../../node_modules/pdfjs-dist/build/pdf.mjs",
+      "file": "pdfjs-dist.js",
+      "fileHash": "ddfcf29a",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-Y4WPC7M4": {
+      "file": "chunk-Y4WPC7M4.js"
+    },
+    "chunk-Q3IB3EQT": {
+      "file": "chunk-Q3IB3EQT.js"
+    },
+    "chunk-JK3M7GTO": {
+      "file": "chunk-JK3M7GTO.js"
+    },
+    "chunk-6RUBQRFS": {
+      "file": "chunk-6RUBQRFS.js"
+    },
+    "chunk-HARSQAFI": {
+      "file": "chunk-HARSQAFI.js"
+    },
+    "chunk-45GVR7BO": {
+      "file": "chunk-45GVR7BO.js"
+    }
+  }
+}

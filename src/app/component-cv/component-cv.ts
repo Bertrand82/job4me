@@ -9,7 +9,7 @@ import {
   readFileAsBase64,
   reponseAnalyseCVMultimodal,
 } from '../services/bg-gemini-multimodal';
-import { BgBackFunctions } from '../services/bg-back-functions';
+import { BgBackFunctions } from 'bg-navigation-auth-stripe';
 @Component({
   selector: 'app-component-cv',
   imports: [ComponentCVItem, CommonModule, FormsModule],

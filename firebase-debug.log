@@ -1,0 +1,106 @@
+[debug] [2025-10-21T10:08:45.395Z] ----------------------------------------------------------------------
+[debug] [2025-10-21T10:08:45.397Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\bertr\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --only functions
+[debug] [2025-10-21T10:08:45.398Z] CLI Version:   14.17.0
+[debug] [2025-10-21T10:08:45.398Z] Platform:      win32
+[debug] [2025-10-21T10:08:45.398Z] Node Version:  v22.16.0
+[debug] [2025-10-21T10:08:45.398Z] Time:          Tue Oct 21 2025 12:08:45 GMT+0200 (heure d’été d’Europe centrale)
+[debug] [2025-10-21T10:08:45.398Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-10-21T10:08:45.662Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-10-21T10:08:45.662Z] > authorizing via signed-in user (bertrand.guiral@gmail.com)
+[info] i  emulators: Starting emulators: functions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions"}}
+[debug] [2025-10-21T10:08:45.672Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-10-21T10:08:45.672Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2025-10-21T10:08:45.677Z] Emulator locator file path: C:\Users\bertr\AppData\Local\Temp\hub-job4you-78ed0.json
+[debug] [2025-10-21T10:08:45.677Z] [hub] writing locator at C:\Users\bertr\AppData\Local\Temp\hub-job4you-78ed0.json
+[debug] [2025-10-21T10:08:45.702Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-10-21T10:08:45.702Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-10-21T10:08:45.702Z] [tasks] Cloud Tasks Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-10-21T10:08:45.702Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}],"tasks":[{"address":"127.0.0.1","family":"IPv4","port":9499}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: apphosting, auth, firestore, database, hosting, pubsub, storage, dataconnect {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mapphosting, auth, firestore, database, hosting, pubsub, storage, dataconnect\u001b[22m"}}
+[warn] !  functions: Application Default Credentials detected. Non-emulated services will access production using these credentials. Be careful! {"metadata":{"emulator":{"name":"functions"},"message":"Application Default Credentials detected. Non-emulated services will access production using these credentials. Be careful!"}}
+[debug] [2025-10-21T10:08:49.459Z] Checked if tokens are valid: false, expires at: 1760976674781
+[debug] [2025-10-21T10:08:49.459Z] Checked if tokens are valid: false, expires at: 1760976674781
+[debug] [2025-10-21T10:08:49.460Z] > refreshing access token with scopes: []
+[debug] [2025-10-21T10:08:49.461Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-10-21T10:08:49.461Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-10-21T10:08:49.578Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-10-21T10:08:49.579Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-10-21T10:08:49.590Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/job4you-78ed0/adminSdkConfig [none]
+[debug] [2025-10-21T10:08:49.857Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/job4you-78ed0/adminSdkConfig 200
+[debug] [2025-10-21T10:08:49.857Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/job4you-78ed0/adminSdkConfig {"projectId":"job4you-78ed0","storageBucket":"job4you-78ed0.firebasestorage.app"}
+[info] i  functions: Watching "C:\Users\bertr\workspace_angular\bgOffreEmploiRepondeur\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"C:\\Users\\bertr\\workspace_angular\\bgOffreEmploiRepondeur\\functions\" for Cloud Functions..."}}
+[debug] [2025-10-21T10:08:49.900Z] Validating nodejs source
+[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[debug] [2025-10-21T10:08:51.449Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "axios": "^1.11.0",
+    "cors": "^2.8.5",
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.0.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^5.7.3"
+  },
+  "private": true
+}
+[debug] [2025-10-21T10:08:51.449Z] Building nodejs source
+[debug] [2025-10-21T10:08:51.449Z] Failed to find version of module node: reached end of search path C:\Users\bertr\workspace_angular\bgOffreEmploiRepondeur\functions\node_modules
+[info] +  functions: Using node@22 from host. 
+[debug] [2025-10-21T10:08:51.453Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-10-21T10:08:51.461Z] Found firebase-functions binary at 'C:\Users\bertr\workspace_angular\bgOffreEmploiRepondeur\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8379
+
+[debug] [2025-10-21T10:08:52.311Z] Got response from /__/functions.yaml {"endpoints":{"keys2":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["europe-west1"],"labels":{},"httpsTrigger":{},"entryPoint":"keys2"},"gemini2":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["europe-west1"],"labels":{},"httpsTrigger":{},"entryPoint":"gemini2"},"initadmin2":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["europe-west1"],"labels":{},"httpsTrigger":{},"entryPoint":"initadmin2"},"bgstripegetclient2":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["europe-west1"],"labels":{},"httpsTrigger":{},"entryPoint":"bgstripegetclient2"},"bgstripegetpayments2":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["europe-west1"],"labels":{},"httpsTrigger":{},"entryPoint":"bgstripegetpayments2"},"bgstripegetpaymentlink2":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["europe-west1"],"labels":{},"httpsTrigger":{},"entryPoint":"bgstripegetpaymentlink2"},"bgstripecreatecustomer2":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["europe-west1"],"labels":{},"httpsTrigger":{},"entryPoint":"bgstripecreatecustomer2"},"bgstripesearchclientsbybguserid2":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["europe-west1"],"labels":{},"httpsTrigger":{},"entryPoint":"bgstripesearchclientsbybguserid2"},"bgstripesearchclientsbybguseridorcreateclient2":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["europe-west1"],"labels":{},"httpsTrigger":{},"entryPoint":"bgstripesearchclientsbybguseridorcreateclient2"},"bgstripegetinvoicefrompaymentintent2":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["europe-west1"],"labels":{},"httpsTrigger":{},"entryPoint":"bgstripegetinvoicefrompaymentintent2"},"bgstripegetsessionsbyclient2":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["europe-west1"],"labels":{},"httpsTrigger":{},"entryPoint":"bgstripegetsessionsbyclient2"},"bgstripegetinvoicebyid2":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["europe-west1"],"labels":{},"httpsTrigger":{},"entryPoint":"bgstripegetinvoicebyid2"},"bgstripegetsession2":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["europe-west1"],"labels":{},"httpsTrigger":{},"entryPoint":"bgstripegetsession2"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[info] +  functions: Loaded functions definitions from source: keys2, gemini2, initadmin2, bgstripegetclient2, bgstripegetpayments2, bgstripegetpaymentlink2, bgstripecreatecustomer2, bgstripesearchclientsbybguserid2, bgstripesearchclientsbybguseridorcreateclient2, bgstripegetinvoicefrompaymentintent2, bgstripegetsessionsbyclient2, bgstripegetinvoicebyid2, bgstripegetsession2. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: keys2, gemini2, initadmin2, bgstripegetclient2, bgstripegetpayments2, bgstripegetpaymentlink2, bgstripecreatecustomer2, bgstripesearchclientsbybguserid2, bgstripesearchclientsbybguseridorcreateclient2, bgstripegetinvoicefrompaymentintent2, bgstripegetsessionsbyclient2, bgstripegetinvoicebyid2, bgstripegetsession2."}}
+[info] +  functions[europe-west1-keys2]: http function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/keys2). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/keys2)."}}
+[info] +  functions[europe-west1-gemini2]: http function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/gemini2). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/gemini2)."}}
+[info] +  functions[europe-west1-initadmin2]: http function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/initadmin2). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/initadmin2)."}}
+[info] +  functions[europe-west1-bgstripegetclient2]: http function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripegetclient2). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripegetclient2)."}}
+[info] +  functions[europe-west1-bgstripegetpayments2]: http function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripegetpayments2). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripegetpayments2)."}}
+[info] +  functions[europe-west1-bgstripegetpaymentlink2]: http function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripegetpaymentlink2). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripegetpaymentlink2)."}}
+[info] +  functions[europe-west1-bgstripecreatecustomer2]: http function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripecreatecustomer2). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripecreatecustomer2)."}}
+[info] +  functions[europe-west1-bgstripesearchclientsbybguserid2]: http function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripesearchclientsbybguserid2). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripesearchclientsbybguserid2)."}}
+[info] +  functions[europe-west1-bgstripesearchclientsbybguseridorcreateclient2]: http function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripesearchclientsbybguseridorcreateclient2). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripesearchclientsbybguseridorcreateclient2)."}}
+[info] +  functions[europe-west1-bgstripegetinvoicefrompaymentintent2]: http function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripegetinvoicefrompaymentintent2). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripegetinvoicefrompaymentintent2)."}}
+[info] +  functions[europe-west1-bgstripegetsessionsbyclient2]: http function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripegetsessionsbyclient2). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripegetsessionsbyclient2)."}}
+[info] +  functions[europe-west1-bgstripegetinvoicebyid2]: http function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripegetinvoicebyid2). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripegetinvoicebyid2)."}}
+[info] +  functions[europe-west1-bgstripegetsession2]: http function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripegetsession2). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/job4you-78ed0/europe-west1/bgstripegetsession2)."}}
+[debug] [2025-10-21T10:08:56.371Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌───────────┬────────────────┬─────────────────────────────────┐
+│ Emulator  │ Host:Port      │ View in Emulator UI             │
+├───────────┼────────────────┼─────────────────────────────────┤
+│ Functions │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions │
+└───────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub host: 127.0.0.1 port: 4400
+  Other reserved ports: 4500
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 

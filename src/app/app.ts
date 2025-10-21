@@ -20,7 +20,7 @@ import {
 import { ComponentPersonalisation } from './component-personalisation/component-personalisation';
 import { BgGemini, responseShemaGemini_v11 } from './services/bg-gemini';
 import { ComponentArchivage } from './component-archivage/component-archivage';
-import { LoginComponent } from "./component-bg-auth/component-bg-auth";
+
 import { KeysService } from './services/bg-environment-keys-service';
 import { ComponentDebug } from './component-debug/component-debug';
 import { ComponentStripe } from "./component-stripe/component-stripe";
@@ -36,7 +36,6 @@ import { BgNavigationAuthStripe } from 'bg-navigation-auth-stripe';
     FormsModule,
     CommonModule,
     ComponentArchivage,
-    LoginComponent,
     ComponentStripe,
     RouterOutlet,
     BgNavigationAuthStripe,
