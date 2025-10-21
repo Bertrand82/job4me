@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BgAuthService } from './bg-auth-service';
+import { BgAuthService } from 'bg-navigation-auth-stripe';
 import { Observable } from 'rxjs';
 import { User } from 'firebase/auth';
 

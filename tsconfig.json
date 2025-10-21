@@ -3,6 +3,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "bg-navigation-auth-stripe": [
+        "./dist/bg-navigation-auth-stripe"
+      ]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -29,6 +34,12 @@
     },
     {
       "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/bg-navigation-auth-stripe/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/bg-navigation-auth-stripe/tsconfig.spec.json"
     }
   ]
 }

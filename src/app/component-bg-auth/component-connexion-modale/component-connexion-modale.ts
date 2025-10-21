@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { BgAuthService } from '../../services/bg-auth-service';
+import { BgAuthService } from 'bg-navigation-auth-stripe';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 

@@ -84,6 +84,32 @@
           }
         }
       }
+    },
+    "bg-navigation-auth-stripe": {
+      "projectType": "library",
+      "root": "projects/bg-navigation-auth-stripe",
+      "sourceRoot": "projects/bg-navigation-auth-stripe/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/bg-navigation-auth-stripe/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/bg-navigation-auth-stripe/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "projects/bg-navigation-auth-stripe/tsconfig.spec.json"
+          }
+        }
+      }
     }
   }
 }

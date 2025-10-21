@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { BgAuthService } from '../services/bg-auth-service';
+import { BgAuthService } from 'bg-navigation-auth-stripe';
 import { PostWithAuthService } from '../services/httpbackend-client-service';
 
 @Component({

@@ -2,7 +2,8 @@ import { getAuth } from '@angular/fire/auth';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { loadStripe } from '@stripe/stripe-js';
 import { HttpClient } from '@angular/common/http';
-import { BgAuthService, StripeCustomer, StripeInvoice, StripeSession } from '../services/bg-auth-service';
+
+import { BgAuthService, StripeCustomer, StripeInvoice, StripeSession  } from 'bg-navigation-auth-stripe';
 import { BgBackFunctions } from '../services/bg-back-functions';
 
 @Component({

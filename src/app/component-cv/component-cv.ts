@@ -9,6 +9,7 @@ import {
   readFileAsBase64,
   reponseAnalyseCVMultimodal,
 } from '../services/bg-gemini-multimodal';
+import { BgBackFunctions } from '../services/bg-back-functions';
 @Component({
   selector: 'app-component-cv',
   imports: [ComponentCVItem, CommonModule, FormsModule],
@@ -26,7 +27,8 @@ export class ComponentCV {
   constructor(
     private bgIndexedDBService: BgIndexedDBService,
     private changeDetectorRef: ChangeDetectorRef,
-    private geminiMultiModale: GeminiMultiModaleService
+    private geminiMultiModale: GeminiMultiModaleService,
+    private bgBackFunctions: BgBackFunctions
   ) {
     this.componentCV = this;
   }

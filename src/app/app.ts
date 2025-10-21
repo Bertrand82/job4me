@@ -1,3 +1,4 @@
+
 import {
   Component,
   ViewEncapsulation,
@@ -23,6 +24,7 @@ import { LoginComponent } from "./component-bg-auth/component-bg-auth";
 import { KeysService } from './services/bg-environment-keys-service';
 import { ComponentDebug } from './component-debug/component-debug';
 import { ComponentStripe } from "./component-stripe/component-stripe";
+import { BgNavigationAuthStripe } from 'bg-navigation-auth-stripe';
 // Removed incorrect import of RouterOutlet from .d.ts file
 @Component({
   selector: 'app-root',
@@ -36,7 +38,8 @@ import { ComponentStripe } from "./component-stripe/component-stripe";
     ComponentArchivage,
     LoginComponent,
     ComponentStripe,
-    RouterOutlet
+    RouterOutlet,
+    BgNavigationAuthStripe,
 ],
   templateUrl: './app.html',
   styleUrl: './app.css',

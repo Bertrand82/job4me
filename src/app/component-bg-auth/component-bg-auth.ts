@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { BgAuthService } from '../services/bg-auth-service';
+import { BgAuthService } from  'bg-navigation-auth-stripe';
 import { MatDialog } from '@angular/material/dialog';
 import { ComponentConnexionModale } from './component-connexion-modale/component-connexion-modale';
 

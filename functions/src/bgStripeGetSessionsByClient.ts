@@ -20,7 +20,6 @@ functionBgStripeGetSessionsByClient.get("/", async (req: Request, res: Response)
   console.log("Requête get bgStripeGetSessionsByClient reçue :", req);
   try {
     const clientIdStripe = req.query.clientIdStripe;
-    // https://api.stripe.com/v1/payment_intents?customer=${clientId}
     const response = await fetch(`https://api.stripe.com/v1/checkout/sessions?customer=${encodeURIComponent(clientIdStripe as string)}`, {
       headers: {"Authorization": `Bearer ${stripeSecretKey}`},
     });
