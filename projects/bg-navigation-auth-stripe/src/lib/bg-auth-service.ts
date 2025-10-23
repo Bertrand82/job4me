@@ -1,6 +1,6 @@
 
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Injectable, signal } from '@angular/core';
+import {  Injectable, signal } from '@angular/core';
 import {
   Auth,
   GoogleAuthProvider,
@@ -22,7 +22,7 @@ baseUrl0 =
 
   stripeCustomer!: StripeCustomer | null;
   stripeSession!:StripeSession|null;
-  constructor(public auth: Auth, private http: HttpClient, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(public auth: Auth, private http: HttpClient) {
     onAuthStateChanged(this.auth, (user) => {
       this.userSignal.set(user);
     });
@@ -77,6 +77,7 @@ baseUrl0 =
   createOrSearchStripeCustomer(email: string|null) {
     console.log('Recherche ou création du client Stripe pour email :', email);
     if(!email) return;
+    this.searchStripeCustomerOrCreate();
 
   }
 
@@ -99,17 +100,22 @@ baseUrl0 =
         console.log('BG Response from bgstripesearchclientsbybguseridorcreateclient:', res);
         this.stripeCustomer = res;
         this.saveStripeCustomerInLocal();
-        this.changeDetectorRef.detectChanges();
+        const stripeCustomerId = this.stripeCustomer?.id;
         if(aCallBack){
           console.log('BG aCallBack :', aCallBack);
           console.log('BG aCallBack getStripeCustomerId :',this.stripeCustomer?.id);
-          const stripeCustomerId = this.stripeCustomer?.id;
+
           if(stripeCustomerId){
             aCallBack(stripeCustomerId);
           } else {
             console.error('BG Erreur: pas de stripeCustomerId après création ou recherche du client');
           }
 
+        }else{
+          console.log('BG pas de aCallBack fourni');
+          if(stripeCustomerId){
+            this.fetchStripeSessionsByBgUserId2(stripeCustomerId);  // Call fetchStripeSessionsByBgUserId2 directly
+          }
         }
       },
       error: (err) => {
@@ -117,6 +123,44 @@ baseUrl0 =
       },
     });
   }
+
+
+  fetchStripeSessionsByBgUserId2(stripeCustomerId: string) {
+
+  console.log('searchStripeSessionsByBgUserId2 called with:', stripeCustomerId);
+   const baseUrl =
+      `${this.baseUrl0}/bgstripegetsessionsbyclient2`;
+    const params = new URLSearchParams({
+      clientIdStripe: stripeCustomerId,
+    });
+    this.http.get<any>(`${baseUrl}?${params.toString()}`, {}).subscribe({
+      next: (res) => {
+        console.log('Response from bgstripegetsessionsbyclient2:', res);
+        const listSessions:Array<StripeSession> = res.data;
+        console.log('listSessions:', listSessions);
+        if (listSessions.length > 0) {
+         console.log('Sessions Stripe trouvées pour ce client.');
+        for(const session of listSessions){
+          const invoiceId = session.invoice;
+           console.log('invoiceId :', invoiceId);
+           console.log('subscription:', session.subscription);
+            console.log('mode:', session.mode);
+          this.stripeSession = session;
+            this.saveStripeSessionInLocal
+          if(invoiceId){
+            console.log('invoiceId found:', invoiceId);
+            // Vous pouvez ajouter un traitement supplémentaire ici si nécessaire
+          }else {
+            console.log('No invoiceId found.');
+          }
+          console.log('Session ID:', session.id, ' - Amount Total:', session.amount_total, ' - Payment Status:', session.payment_status);
+        }
+      }},
+      error: (err) => {
+        console.error('Erreur from bgstripegetsessionsbyclient2:', err);
+      },
+    });
+}
 
   saveStripeCustomerInLocal() {
     localStorage.setItem('stripeCustomer', JSON.stringify(this.stripeCustomer));

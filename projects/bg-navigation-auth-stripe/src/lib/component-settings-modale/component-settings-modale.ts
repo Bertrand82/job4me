@@ -15,7 +15,7 @@ import { BgBackFunctions } from '../bg-back-functions';
 export class ComponentSettingsModale {
   email = '';
   stripeIdClient = 'No StripeIdClien';
-
+  stripeIdSession= 'No IdSession';
 
   priceIdStripeOneTime = {
     id: 'price_1SBWfpI256EUPY44i7gmazbu',
@@ -46,6 +46,7 @@ export class ComponentSettingsModale {
   ngOnInit(): void {
     this.email = this.bgAuth.currentUser()?.email || '';
     this.stripeIdClient = this.bgAuth.stripeCustomer?.id || 'No StripeIdClient';
+    this.stripeIdSession = this.bgAuth.stripeSession?.id || 'No IdSession';
     this.bgAuth.baseUrl0 = this.bgBackFunctions.getUrlHost();
   }
   onLogout() {

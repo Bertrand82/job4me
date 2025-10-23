@@ -3,8 +3,8 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { loadStripe } from '@stripe/stripe-js';
 import { HttpClient } from '@angular/common/http';
 
-import { BgAuthService, StripeCustomer, StripeInvoice, StripeSession  } from 'bg-navigation-auth-stripe';
-import { BgBackFunctions } from 'bg-navigation-auth-stripe';
+import { BgAuthService, StripeCustomer, StripeInvoice, StripeSession,BgBackFunctions  } from 'bg-navigation-auth-stripe';
+
 
 @Component({
   selector: 'component-stripe',

@@ -5,8 +5,12 @@
     {{ email }}
   </div>
 <div class="form-group">
-    {{ stripeIdClient }}
-  </div>
+   Id Client: {{ stripeIdClient }}
+</div>
+
+<div class="form-group">
+   Id Session: {{ stripeIdSession }}
+</div>
 
   <div class="button-group">
     <button (click)="onLogout()" type="submit">Se deconnecter</button>
