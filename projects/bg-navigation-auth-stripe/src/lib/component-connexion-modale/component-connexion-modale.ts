@@ -1,6 +1,7 @@
+import { BgAuthService } from '../bg-auth-service';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { BgAuthService } from '../../public-api';;
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -24,7 +25,12 @@ export class ComponentConnexionModale {
     console.log('A Tentative de connexion avec email :', this.email);
     console.log('B Tentative de connexion avec auth :', this.auth);
 
-    this.auth.login(this.email, this.password).catch((err) => {
+    this.auth.login(this.email, this.password).then(() => {
+      // Login réussi, on appelle Stripe
+      this.auth.createOrSearchStripeCustomer(this.email);
+      this.onClose();
+    })
+    .catch((err) => {
       console.log('C Erreur Auth err:', err);
       window.alert(err.message);
     });
@@ -32,7 +38,12 @@ export class ComponentConnexionModale {
   }
 
   onRegister() {
-    this.auth.register(this.email, this.password).catch((err) => {
+    this.auth.register(this.email, this.password)
+    .then(()=>{
+      this.auth.createOrSearchStripeCustomer(this.email);
+      this.onClose();
+    })
+    .catch((err) => {
       console.log('C Erreur Auth err:', err);
       window.alert(err.message);
     });

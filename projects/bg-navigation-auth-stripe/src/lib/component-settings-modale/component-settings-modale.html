@@ -4,14 +4,17 @@
   <div class="form-group">
     {{ email }}
   </div>
+<div class="form-group">
+    {{ stripeIdClient }}
+  </div>
 
   <div class="button-group">
     <button (click)="onLogout()" type="submit">Se deconnecter</button>
   </div>
 
-<div *ngIf="isAbonnementOK; else notAbonned" style="border: 1px solid black;">
+<div *ngIf="isAbonnementActif(); else notAbonned" style="border: 1px solid black;">
   <div class="button-group">
-  <button (click)="desabonnement()" type="submit" class="nav-btn">
+  <button (click)="desabonnement()" type="submit" >
      Desabonnement
   </button>
   </div>
@@ -19,7 +22,7 @@
 
 <ng-template #notAbonned>
   <div class="button-group">
-  <button (click)="abonnement()" class="nav-btn">
+  <button (click)="abonnement()" type="submit">
     Abonnement
   </button>
   </div>

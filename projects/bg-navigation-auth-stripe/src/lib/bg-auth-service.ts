@@ -1,4 +1,6 @@
-import { Injectable, signal } from '@angular/core';
+
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectorRef, Injectable, signal } from '@angular/core';
 import {
   Auth,
   GoogleAuthProvider,
@@ -13,15 +15,20 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class BgAuthService {
-  private userSignal = signal<User | null>(null);
 
+  private userSignal = signal<User | null>(null);
+baseUrl0 =
+      'https://europe-west1-job4you-78ed0.cloudfunctions.net/';
 
   stripeCustomer!: StripeCustomer | null;
-  constructor(public auth: Auth) {
+  stripeSession!:StripeSession|null;
+  constructor(public auth: Auth, private http: HttpClient, private changeDetectorRef: ChangeDetectorRef) {
     onAuthStateChanged(this.auth, (user) => {
       this.userSignal.set(user);
     });
     this.stripeCustomer = this.getStripeCustomerFromLocal();
+    this.stripeSession=this.getStripeSessionFromLocal();
+
   }
 
   get currentUser() {
@@ -33,14 +40,17 @@ export class BgAuthService {
   }
 
   login(email: string, password: string) {
-    console.log('AAA Tentative de connexion avec email :', email);
+    console.log('login Tentative de connexion avec email :', email);
     return signInWithEmailAndPassword(this.auth, email, password);
+
   }
 
   logout() {
 
     this.stripeCustomer = null;
+    this.stripeSession = null;
     this.saveStripeCustomerInLocal();
+    this.saveStripeSessionInLocal
     return signOut(this.auth);
   }
 
@@ -56,11 +66,56 @@ export class BgAuthService {
         // L'utilisateur est connecté
         const user = result.user;
         console.log('Connecté :', user.email);
+        this.createOrSearchStripeCustomer(user.email);
       })
       .catch((error) => {
-        console.error('Erreur lors de la connexion :', error);
+        console.error('loginWithGoogle Erreur lors de la connexion :', error);
         window.alert(error.message);
       });
+  }
+
+  createOrSearchStripeCustomer(email: string|null) {
+    console.log('Recherche ou création du client Stripe pour email :', email);
+    if(!email) return;
+
+  }
+
+  getEmail() {
+    if (this.currentUser() !== null) {
+      return this.currentUser()?.email;
+    } else {
+      return 'No name';
+    }
+}
+
+  searchStripeCustomerOrCreate(aCallBack?: (stripeCustomerId: string) => void) {
+    const baseUrl =
+      `${this.baseUrl0}/bgstripesearchclientsbybguseridorcreateclient2`;
+    const params = new URLSearchParams({
+      email: this.getEmail() ?? '',
+    });
+    this.http.get<any>(`${baseUrl}?${params.toString()}`, {}).subscribe({
+      next: (res) => {
+        console.log('BG Response from bgstripesearchclientsbybguseridorcreateclient:', res);
+        this.stripeCustomer = res;
+        this.saveStripeCustomerInLocal();
+        this.changeDetectorRef.detectChanges();
+        if(aCallBack){
+          console.log('BG aCallBack :', aCallBack);
+          console.log('BG aCallBack getStripeCustomerId :',this.stripeCustomer?.id);
+          const stripeCustomerId = this.stripeCustomer?.id;
+          if(stripeCustomerId){
+            aCallBack(stripeCustomerId);
+          } else {
+            console.error('BG Erreur: pas de stripeCustomerId après création ou recherche du client');
+          }
+
+        }
+      },
+      error: (err) => {
+        console.error('Erreur from bgstripesearchclientsbybguseridorcreateclient:', err);
+      },
+    });
   }
 
   saveStripeCustomerInLocal() {
@@ -70,7 +125,22 @@ export class BgAuthService {
     const stripeCustomer = localStorage.getItem('stripeCustomer');
     return stripeCustomer ? JSON.parse(stripeCustomer) : null;
   }
+
+  saveStripeSessionInLocal() {
+    localStorage.setItem('stripeSession', JSON.stringify(this.stripeSession));
+  }
+  getStripeSessionFromLocal(): StripeSession | null {
+    const stripeSession = localStorage.getItem('stripeSession');
+    return stripeSession ? JSON.parse(stripeSession) : null;
+  }
+
+
+  isUserAbonnementActif():boolean {
+    return false;
+  }
 }
+
+
 
 export type StripeCustomer = {
   address: {
@@ -393,5 +463,20 @@ export interface StripeSession {
   ui_mode: string;
   url: string | null;
   wallet_options: any | null;
+}
+
+function isAbonnementActif(stripeSession: StripeSession | null): boolean {
+  if (!stripeSession) {
+    return false;
+  }
+  // Consider the session active if it reports status 'complete' or if it hasn't expired yet.
+  const now = Math.floor(Date.now() / 1000);
+  if (stripeSession.status === 'complete') {
+   if (typeof stripeSession.expires_at === 'number' && stripeSession.expires_at > now) {
+    return true;
+  }
+  }
+
+  return false;
 }
 

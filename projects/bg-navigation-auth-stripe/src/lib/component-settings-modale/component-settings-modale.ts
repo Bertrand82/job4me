@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { BgAuthService } from '../../public-api';
+import { BgAuthService } from '../bg-auth-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -14,23 +14,43 @@ import { BgBackFunctions } from '../bg-back-functions';
 })
 export class ComponentSettingsModale {
   email = '';
-  isAbonnementOK = true;
+  stripeIdClient = 'No StripeIdClien';
+
+
+  priceIdStripeOneTime = {
+    id: 'price_1SBWfpI256EUPY44i7gmazbu',
+    mode: 'payment',
+  };
+  priceIdStripeAbonnement = {
+    id: 'price_1SC2ZiI256EUPY44UFeNCj8x',
+    mode: 'subscription',
+  };
+
 
   constructor(
     public dialogRef: MatDialogRef<ComponentSettingsModale>,
-    public auth: BgAuthService,
+    public bgAuth: BgAuthService,
     private http: HttpClient,
     private changeDetectorRef: ChangeDetectorRef,
     private bgBackFunctions: BgBackFunctions
 
-  ) {}
+  ) {
+    console.log('ComponentSettingsModale constructor bgAuth :', this.bgAuth);
+
+  }
+
+  isAbonnementActif(){
+    return this.bgAuth.isUserAbonnementActif();
+  }
 
   ngOnInit(): void {
-    this.email = this.auth.currentUser()?.email || '';
+    this.email = this.bgAuth.currentUser()?.email || '';
+    this.stripeIdClient = this.bgAuth.stripeCustomer?.id || 'No StripeIdClient';
+    this.bgAuth.baseUrl0 = this.bgBackFunctions.getUrlHost();
   }
   onLogout() {
-    console.log('B Tentative de logout avec auth :', this.auth);
-    this.auth.logout();
+    console.log('B Tentative de logout avec auth :', this.bgAuth) ;
+    this.bgAuth.logout();
     this.onClose();
   }
 
@@ -44,9 +64,106 @@ export class ComponentSettingsModale {
 
   abonnement() {
     console.log('abonnement request');
+    this.getStripePaymentLink();
   }
+
+  getStripeCustomerId() {
+    return this.bgAuth.stripeCustomer?.id;
+  }
+
+  getStripePaymentLink() {
+    if (this.getStripeCustomerId()) {
+      this.getStripePaymentLink2();
+    } else {
+      console.log('Aucun client Stripe rencontré pour cet utilisateur.');
+      this.bgAuth.searchStripeCustomerOrCreate(this.getStripePaymentLink2.bind(this));
+    }
+  }
+  getStripePaymentLink2() {
+    const priceIdStripe = this.priceIdStripeAbonnement;
+    console.log('getStripePaymentLink pour le priceIdStripe :', priceIdStripe);
+    const currentHost = window.location.origin;
+
+    if (!priceIdStripe?.id || !priceIdStripe?.mode || !this.getStripeCustomerId()  || !this.bgAuth.getEmail()) {
+      console.error('Paramètre manquant pour Stripe ! email :', this.bgAuth.getEmail());
+      console.error('Paramètre manquant pour Stripe ! priceIdStripe :', priceIdStripe);
+      console.error('Paramètre manquant pour Stripe ! stripeCustomerId :',  this.getStripeCustomerId());
+    return;
+  }
+    const params = new URLSearchParams({
+      email: this.bgAuth.getEmail() ?? '',
+      priceIdStripe: priceIdStripe.id,
+      mode: priceIdStripe.mode,
+      clientIdStripe: this.getStripeCustomerId() ?? '',
+      succesUrl: `${currentHost}/merci`,
+      cancelUrl: `${currentHost}/cancelStripe`,
+    });
+    console.log('Appel de la fonction cloud bgstripegetpaymentlink avec :', params.toString());
+    const url0 = `${this.bgAuth.baseUrl0}/bgstripegetpaymentlink2?${params.toString()}`;
+    console.log('URL complète:', url0);
+    this.http.get<any>(url0, {}).subscribe({
+      next: (res) => {
+        console.log('Response from bgstripegetpaymentlink:', res);
+        const url = res.url;
+        console.log('url:', url);
+        // window.open(url, '_self');
+        if (url){
+          window.location.href = url;
+        }
+        else {
+          console.error('Pas de lien de paiement reçu de Stripe !');
+          if (res.error) {
+            const message = res.error.message;
+            console.error('Message d\'erreur Stripe:', message);
+            console.error('Erreur Stripe:', res.error);
+          }
+        }
+
+      },
+      error: (err) => {
+        console.error('Erreur from bgstripegetpaymentlink:', err);
+      },
+    });
+  }
+
 
   desabonnement() {
     console.log('desabonnement request');
+     const stripeCustomerId = this.getStripeCustomerId();
+   if (!stripeCustomerId) {
+     console.log('Aucun client Stripe rencontré pour cet utilisateur.');
+     this.bgAuth.searchStripeCustomerOrCreate(this.resilierAbonnement2.bind(this));
+   } else {
+     this.resilierAbonnement2(stripeCustomerId);
+   }
   }
+  resilierAbonnement2(stripeCustomerId: string) {
+    console.log('resilierAbonnement2 pour le stripeCustomerId :', stripeCustomerId);
+    this.http
+      .post<any>(
+        `${this.bgAuth.baseUrl0}/bgstripegetsession2`,
+        {
+        clientId: stripeCustomerId ,
+        urlRetour: window.location.origin + "/moncomptebg"
+      }
+      )
+      .subscribe({
+        next: (res) => {
+          console.log('Response from bgstripesubscriptionresilience2:', res);
+          const url = res.url;
+          console.log('url:', url);
+          if (url) {
+            window.location.href = url;
+          }
+        },
+        error: (err) => {
+          console.error('Erreur from bgstripesubscriptionresilience2:', err);
+        },
+      });
+  }
+
+
+
+
+
 }
