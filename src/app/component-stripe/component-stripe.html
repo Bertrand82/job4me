@@ -13,6 +13,12 @@ Est abonné: {{ isSubscribed }}
  idStrippe: {{ getStripeCustomerId() }}
 </div>
 <div>
+ idSession: {{ getStripeSessionId() }} {{getStripeSessionExpireAt()}}
+</div>
+<div>
+ session expire at: {{getStripeSessionExpireAt()}}
+</div>
+<div>
 <button (click)="resilierAbonnement()">Debug résilier abonnement</button>
 </div>
 <div>
@@ -35,6 +41,9 @@ Est abonné: {{ isSubscribed }}
 
 <div>
 <button (click)="searchStripeSessionsByBgUserId()">Rechercher sessions stripe</button>
+</div>
+<div>
+<button (click)="getStripeSubscriptionById()">Rechercher subscription stripe</button>
 </div>
 <div>----</div>
 <div>

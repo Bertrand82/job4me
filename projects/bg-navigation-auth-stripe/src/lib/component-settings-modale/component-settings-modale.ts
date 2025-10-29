@@ -16,6 +16,8 @@ export class ComponentSettingsModale {
   email = '';
   stripeIdClient = 'No StripeIdClien';
   stripeIdSession= 'No IdSession';
+  stripeIdSubscription= 'No IdSubscription';
+  dateFinAbonnement= 'No DateFinAbonnement';
 
   priceIdStripeOneTime = {
     id: 'price_1SBWfpI256EUPY44i7gmazbu',
@@ -40,14 +42,19 @@ export class ComponentSettingsModale {
   }
 
   isAbonnementActif(){
-    return this.bgAuth.isUserAbonnementActif();
+    return this.bgAuth.isSubscriptionActif();
   }
 
   ngOnInit(): void {
     this.email = this.bgAuth.currentUser()?.email || '';
     this.stripeIdClient = this.bgAuth.stripeCustomer?.id || 'No StripeIdClient';
     this.stripeIdSession = this.bgAuth.stripeSession?.id || 'No IdSession';
+    this.stripeIdSubscription = this.bgAuth.stripeSubscription?.id || 'No IdSubscription';
     this.bgAuth.baseUrl0 = this.bgBackFunctions.getUrlHost();
+    if (this.bgAuth.stripeSubscription?.ended_at){
+      this.dateFinAbonnement = new Date(this.bgAuth.stripeSubscription.ended_at * 1000).toLocaleString();
+
+    }
   }
   onLogout() {
     console.log('B Tentative de logout avec auth :', this.bgAuth) ;

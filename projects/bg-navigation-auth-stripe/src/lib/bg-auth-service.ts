@@ -22,13 +22,19 @@ baseUrl0 =
 
   stripeCustomer!: StripeCustomer | null;
   stripeSession!:StripeSession|null;
+  stripeSubscription !:Subscription|null;
+  stripeSubscriptionTimestamp!:number|null;
   constructor(public auth: Auth, private http: HttpClient) {
     onAuthStateChanged(this.auth, (user) => {
       this.userSignal.set(user);
     });
     this.stripeCustomer = this.getStripeCustomerFromLocal();
     this.stripeSession=this.getStripeSessionFromLocal();
-
+    this.stripeSubscription=this.getStripeSubscriptionFromLocal();
+    this.stripeSubscriptionTimestamp = this.getStripeSubscriptionTimestampFromLocal();
+    console.log('BgAuthService constructor stripeCustomer :', this.stripeCustomer);
+    console.log('BgAuthService constructor stripeSession :', this.stripeSession);
+    console.log('BgAuthService constructor stripeSubscription :', this.stripeSubscription);
   }
 
   get currentUser() {
@@ -49,8 +55,10 @@ baseUrl0 =
 
     this.stripeCustomer = null;
     this.stripeSession = null;
+    this.stripeSubscription = null
     this.saveStripeCustomerInLocal();
-    this.saveStripeSessionInLocal
+    this.saveStripeSessionInLocal();
+    this.saveStripeSubscriptionInLocal();
     return signOut(this.auth);
   }
 
@@ -123,7 +131,12 @@ baseUrl0 =
       },
     });
   }
-
+ fetchStripeSessionsByBgUserId1() {
+    const stripeCustomerId = this.stripeCustomer?.id;
+    if (stripeCustomerId) {
+      this.fetchStripeSessionsByBgUserId2(stripeCustomerId);
+    }
+  }
 
   fetchStripeSessionsByBgUserId2(stripeCustomerId: string) {
 
@@ -142,11 +155,15 @@ baseUrl0 =
          console.log('Sessions Stripe trouvées pour ce client.');
         for(const session of listSessions){
           const invoiceId = session.invoice;
+          const subscriptionId = session.subscription;
            console.log('invoiceId :', invoiceId);
            console.log('subscription:', session.subscription);
             console.log('mode:', session.mode);
           this.stripeSession = session;
-            this.saveStripeSessionInLocal
+            this.saveStripeSessionInLocal();
+            if (subscriptionId) {
+              this.fetchStripeSubscriptionById2(subscriptionId);
+            }
           if(invoiceId){
             console.log('invoiceId found:', invoiceId);
             // Vous pouvez ajouter un traitement supplémentaire ici si nécessaire
@@ -162,8 +179,40 @@ baseUrl0 =
     });
 }
 
+fetchStripeSubscriptionById() {
+  const subscriptionId = this.stripeSession?.subscription;
+  console.log('getStripeSubscriptionById pour le subscriptionId :', subscriptionId);
+  if (subscriptionId) {
+    this.fetchStripeSubscriptionById2(subscriptionId);
+  } else {
+    console.error('Aucun subscriptionId trouvé dans la session Stripe.');
+  }
+}
+fetchStripeSubscriptionById2(subscriptionId: string) {
+
+    if (!subscriptionId) {
+      console.error('Aucun ID d\'abonnement trouvé dans la session Stripe.');
+      return;
+    }
+    const baseUrl =
+      `${this.baseUrl0}/bgstripegetsubscriptions2`;
+    const params = new URLSearchParams({
+      subscriptionId: subscriptionId,
+    });
+    this.http.get<any>(`${baseUrl}?${params.toString()}`, {}).subscribe({
+      next: (res) => {
+        console.log('Response from bgstripegetsubscriptions2:', res);
+        this.stripeSubscription = res;
+        this.saveStripeSubscriptionInLocal();
+      },
+      error: (err) => {
+        console.error('Erreur from bgstripegetsubscriptions2:', err);
+      },
+    });
+  }
+
   saveStripeCustomerInLocal() {
-    localStorage.setItem('stripeCustomer', JSON.stringify(this.stripeCustomer));
+    this.saveObjectInLocal('stripeCustomer', this.stripeCustomer);
   }
   getStripeCustomerFromLocal(): StripeCustomer | null {
     const stripeCustomer = localStorage.getItem('stripeCustomer');
@@ -171,15 +220,46 @@ baseUrl0 =
   }
 
   saveStripeSessionInLocal() {
-    localStorage.setItem('stripeSession', JSON.stringify(this.stripeSession));
+    this.saveObjectInLocal('stripeSession', this.stripeSession);
+  }
+
+  saveStripeSubscriptionInLocal() {
+   this.saveObjectInLocal('stripeSubscription', this.stripeSubscription);
   }
   getStripeSessionFromLocal(): StripeSession | null {
     const stripeSession = localStorage.getItem('stripeSession');
     return stripeSession ? JSON.parse(stripeSession) : null;
   }
 
+  getStripeSubscriptionFromLocal(): Subscription | null {
+    const stripeSubscription = localStorage.getItem('stripeSubscription');
+    return stripeSubscription ? JSON.parse(stripeSubscription) : null;
+  }
+  getStripeSubscriptionTimestampFromLocal(): number | null {
+    const timestamp = localStorage.getItem('stripeSubscription_timestamp');
+    return timestamp ? parseInt(timestamp, 10) : null;
+  }
 
-  isUserAbonnementActif():boolean {
+  private saveObjectInLocal(key: string, obj: any) {
+    localStorage.setItem(key, JSON.stringify(obj));
+    localStorage.setItem(key + '_timestamp', Date.now().toString());
+  }
+
+
+  isSubscriptionActif():boolean {
+    if (this.stripeSubscription && this.stripeSession) {
+      const abonnementActif = isAbonnementActif(this.stripeSubscription, this.stripeSession);
+      console.log('Abonnement actif:', abonnementActif);
+      const current_period_end = this.stripeSubscription.items.data[0].current_period_end;
+      console.log('Abonnement actif current period end:',  new Date(current_period_end * 1000).toLocaleDateString());
+      const now = Math.floor(Date.now() / 1000); // secondes
+      if (abonnementActif && (current_period_end && (current_period_end > now))) {
+        return true
+      }else {
+        return false;
+      }
+
+    }
     return false;
   }
 }
@@ -509,16 +589,176 @@ export interface StripeSession {
   wallet_options: any | null;
 }
 
-function isAbonnementActif(stripeSession: StripeSession | null): boolean {
-  if (!stripeSession) {
+/////////////////////////////////////
+
+export interface Subscription {
+  id: string;
+  object: "subscription";
+  application: string | null;
+  application_fee_percent: number | null;
+  automatic_tax: {
+    disabled_reason: string | null;
+    enabled: boolean;
+    liability: string | null;
+  };
+  billing_cycle_anchor: number;
+  billing_cycle_anchor_config: any | null;
+  billing_mode: {
+    flexible: any | null;
+    type: string;
+  };
+  billing_thresholds: any | null;
+  cancel_at: number | null;
+  cancel_at_period_end: boolean;
+  canceled_at: number | null;
+  cancellation_details: {
+    comment: string | null;
+    feedback: string | null;
+    reason: string | null;
+  };
+  collection_method: string;
+  created: number;
+  currency: string;
+  customer: string;
+  days_until_due: number | null;
+  default_payment_method: string | null;
+  default_source: string | null;
+  default_tax_rates: any[];
+  description: string | null;
+  discounts: any[];
+  ended_at: number | null;
+  invoice_settings: {
+    account_tax_ids: any | null;
+    issuer: {
+      type: string;
+    };
+  };
+  items: {
+    object: string;
+    data: SubscriptionItem[];
+    has_more: boolean;
+    total_count: number;
+    url: string;
+  };
+  latest_invoice: string | null;
+  livemode: boolean;
+  metadata: Record<string, any>;
+  next_pending_invoice_item_invoice: string | null;
+  on_behalf_of: string | null;
+  pause_collection: any | null;
+  payment_settings: {
+    payment_method_options: {
+      acss_debit: any | null;
+      bancontact: any | null;
+      card: {
+        network: string | null;
+        request_three_d_secure: string;
+      } | null;
+      customer_balance: any | null;
+      konbini: any | null;
+      sepa_debit: any | null;
+      us_bank_account: any | null;
+    };
+    payment_method_types: string[] | null;
+    save_default_payment_method: string;
+  };
+  pending_invoice_item_interval: any | null;
+  pending_setup_intent: any | null;
+  pending_update: any | null;
+  plan: Plan;
+  quantity: number;
+  schedule: any | null;
+  start_date: number;
+  status: string;
+  test_clock: any | null;
+  transfer_data: any | null;
+  trial_end: number | null;
+  trial_settings: {
+    end_behavior: {
+      missing_payment_method: string;
+    };
+  };
+  trial_start: number | null;
+}
+
+export interface SubscriptionItem {
+  id: string;
+  object: "subscription_item";
+  billing_thresholds: any | null;
+  created: number;
+  current_period_end: number;
+  current_period_start: number;
+  discounts: any[];
+  metadata: Record<string, any>;
+  plan: Plan;
+  price: Price;
+  quantity: number;
+  subscription: string;
+  tax_rates: any[];
+}
+
+export interface Plan {
+  id: string;
+  object: "plan";
+  active: boolean;
+  amount: number;
+  amount_decimal: string;
+  billing_scheme: string;
+  created: number;
+  currency: string;
+  interval: string;
+  interval_count: number;
+  livemode: boolean;
+  metadata: Record<string, any>;
+  meter: any | null;
+  nickname: string;
+  product: string;
+  tiers_mode: string | null;
+  transform_usage: any | null;
+  trial_period_days: number | null;
+  usage_type: string;
+}
+
+export interface Price {
+  id: string;
+  object: "price";
+  active: boolean;
+  billing_scheme: string;
+  created: number;
+  currency: string;
+  custom_unit_amount: any | null;
+  livemode: boolean;
+  lookup_key: string | null;
+  metadata: Record<string, any>;
+  nickname: string;
+  product: string;
+  recurring: {
+    interval: string;
+    interval_count: number;
+    meter: any | null;
+    trial_period_days: number | null;
+    usage_type: string;
+  };
+  tax_behavior: string;
+  tiers_mode: string | null;
+  transform_quantity: any | null;
+  type: string;
+  unit_amount: number;
+  unit_amount_decimal: string;
+}
+
+function isAbonnementActif(stripeSubscription: Subscription | null, stripeSession: StripeSession | null): boolean {
+  if (!stripeSubscription || !stripeSession) {
     return false;
   }
-  // Consider the session active if it reports status 'complete' or if it hasn't expired yet.
+  // Consider the subscription active if it reports status 'active' or if it hasn't expired yet.
+
   const now = Math.floor(Date.now() / 1000);
-  if (stripeSession.status === 'complete') {
-   if (typeof stripeSession.expires_at === 'number' && stripeSession.expires_at > now) {
-    return true;
+  if (stripeSubscription.status === 'active') {
+   return true
   }
+  if (stripeSession.status === 'incomplete') {
+    return true;// Je fais confiance a stripe pour gérer les paiements incomplets
   }
 
   return false;

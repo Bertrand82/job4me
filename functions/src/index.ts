@@ -13,6 +13,7 @@ import {functionBgStripeGetInvoiceFromPaymentIntent} from "./bgStripeGetInvoiceF
 import {functionBgStripeGetSessionsByClient} from "./bgStripeGetSessionsByClient";
 import {functionBgStripeGetInvoiceById} from "./bgStripeGetInvoiceById";
 import {functionBgStripeGetSession} from "./bgStripeGetSession";
+import {functionBgStripeGetSubscription} from "./bgStripeGetSubscription ";
 
 /* url console firebase:
 https://console.firebase.google.com/project/job4you-78ed0/functions
@@ -42,3 +43,4 @@ export const bgstripegetinvoicefrompaymentintent2 = onRequest({region: "europe-w
 export const bgstripegetsessionsbyclient2 = onRequest({region: "europe-west1"}, functionBgStripeGetSessionsByClient);
 export const bgstripegetinvoicebyid2 = onRequest({region: "europe-west1"}, functionBgStripeGetInvoiceById);
 export const bgstripegetsession2 = onRequest({region: "europe-west1"}, functionBgStripeGetSession);
+export const bgstripegetsubscriptions2 = onRequest({region: "europe-west1"}, functionBgStripeGetSubscription);
