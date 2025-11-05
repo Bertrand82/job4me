@@ -14,5 +14,9 @@ export const environment = {
     messagingSenderId: 'VOTRE_MESSAGING_SENDER_ID',
     appId: 'VOTRE_APP_ID',
   },
+
+  googleClientId: 'VOTRE_CLIENT_ID.apps.googleusercontent.com', // remplacer par votre Client ID
+  gmailScopes: 'https://www.googleapis.com/auth/gmail.readonly'
+
 };
 
