@@ -15,7 +15,7 @@ export const environment = {
     appId: 'VOTRE_APP_ID',
   },
 
-  googleClientId: 'VOTRE_CLIENT_ID.apps.googleusercontent.com', // remplacer par votre Client ID
+  googleClientId_: 'VOTRE_CLIENT_ID.apps.googleusercontent.com', // remplacer par votre Client ID
   gmailScopes: 'https://www.googleapis.com/auth/gmail.readonly'
 
 };

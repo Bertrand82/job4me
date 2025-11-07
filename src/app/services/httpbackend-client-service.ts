@@ -10,7 +10,7 @@ export class PostWithAuthService {
 
   async postBackToGeminiWithAuthAsync(body: any): Promise<Observable<any>> {
     const url =
-      'https://europe-west1-job4you-78ed0.cloudfunctions.net/gemini';
+      'https://europe-west1-job4you-78ed0.cloudfunctions.net/gemini2';
     const auth = this.authService.auth;
     if (!auth || !auth.currentUser) throw new Error('Utilisateur non connecté');
     const user = auth.currentUser;

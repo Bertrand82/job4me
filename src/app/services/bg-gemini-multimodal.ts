@@ -5,6 +5,7 @@ import { environment } from '../environments/environment';
 import { from, Observable } from 'rxjs';
 import { mergeAll } from 'rxjs/operators';
 import { PostWithAuthService } from './httpbackend-client-service';
+import { environment_secret } from '../environments/environment_secret';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,12 @@ export class GeminiMultiModaleService {
   constructor(private http: HttpClient, private keysService: KeysService, private postWithAuthService: PostWithAuthService) {}
 
   getApiKey(): string {
-    return this.keysService.getKeys().gk_d + this.keysService.getKeys().gk_f;
+    const key  = this.keysService.getKeys().gk_d + this.keysService.getKeys().gk_f;
+    return key
+  }
+  getApiKeyGoogle(): string {
+    const key  = environment_secret.gk_d___ + this.keysService.getKeys().gk_f___;
+    return key
   }
 
   async analyzeFileImage(prompt: string, file: File): Promise<any> {
@@ -71,10 +77,10 @@ export class GeminiMultiModaleService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    const apiKey = this.getApiKey();
+    const apiKey = this.getApiKeyGoogle();
     // Appel REST Gemini
-    const urlMultimodal = environment.geminiApiUrlMultimodal + `?key=${apiKey}`;
-    console.log('Gemini models  urlMultimodal : ', urlMultimodal);
+    const urlMultimodal_ = environment.geminiApiUrlMultimodal + `?key=${apiKey}`;
+
     //return this.http.post<any>(urlMultimodal, body, { headers,});
     return this.postWithAuthService.postBackToGeminiWithAuthAsync(body);
   }
