@@ -46,7 +46,7 @@ export class GeminiMultiModaleService {
 
     return observable;
   }
-  analyseFileImageBase64_promise(
+  private analyseFileImageBase64_promise(
     prompt: string,
     base64: string,
     fileType: string,
@@ -79,7 +79,7 @@ export class GeminiMultiModaleService {
     });
     const apiKey = this.getApiKeyGoogle();
     // Appel REST Gemini
-    const urlMultimodal_ = environment.geminiApiUrlMultimodal + `?key=${apiKey}`;
+
 
     //return this.http.post<any>(urlMultimodal, body, { headers,});
     return this.postWithAuthService.postBackToGeminiWithAuthAsync(body);

@@ -41,6 +41,7 @@ export class ComponentOffreEmploi {
   }
 
   processOffreEmploiUrl() {
+    console.log("bg processUrlOffreEmploi url :", this.urlOffreEmploi);
     if (this.urlOffreEmploi == '') {
       alert("Veuillez coller une offre d'emploi.");
       return;
@@ -132,6 +133,7 @@ export class ComponentOffreEmploi {
   }
 
   askGeminiAnalyseOffreEmploiUrl(prompt: string): void {
+    console.log("bg askGeminiAnalyseOffreEmploiUrl start prompt :", prompt);
     this.isProcessing = true;
     this.gemini.generateContent(prompt, reponseAnalyseOffreEmploi).subscribe({
       next: (res) => {
@@ -140,8 +142,10 @@ export class ComponentOffreEmploi {
         this.httpStatus = res.status;
         console.log('status', this.httpStatus);
         console.log('responseRequest', res);
-        console.log('candidates', res.candidates);
-        const candidat = res.candidates[0];
+        console.log('message: ', res.message);
+        console.log('geminiData: ', res.geminiData);
+        console.log('candidates', res.geminiData.candidates);
+        const candidat = res.geminiData.candidates[0];
 
         console.log('candidat', candidat);
         const content = candidat.content;

@@ -2,26 +2,22 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { environment_secret } from '../environments/environment_secret';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { from, mergeAll, Observable } from 'rxjs';
 import { KeysService } from './bg-environment-keys-service';
+import { PostWithAuthService } from './httpbackend-client-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BgGemini {
-  private apiUrl = `${environment.geminiApiUrl}`;
+ // private apiUrl = `${environment.geminiApiUrl}`;
 
-  constructor(private http: HttpClient, private keyService: KeysService) {}
+  constructor(private http: HttpClient, private keyService: KeysService,private postWithAuthService: PostWithAuthService) {}
 
   generateContent(
     prompt: string,
     responseShemaRequested: any
   ): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'X-goog-api-key':
-        this.keyService.getKeys().gk_d + this.keyService.getKeys().gk_f,
-    });
 
     const body = {
       contents: [{ parts: [{ text: prompt }] }],
@@ -31,7 +27,10 @@ export class BgGemini {
       },
     };
 
-    return this.http.post<any>(this.apiUrl, body, { headers });
+    console.log('Gemini models  body : ', body);
+    const promiseObservable  =  this.postWithAuthService.postBackToGeminiWithAuthAsync(body);
+    return from(promiseObservable).pipe(mergeAll());
+    //return this.http.post<any>(this.apiUrl, body, { headers });
   }
 }
 export function responseShemaGemini_v11(langue: string): any {
