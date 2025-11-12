@@ -1,0 +1,21 @@
+<div>
+      <button (click)="onSignIn()">Sign in</button>
+      <button (click)="onSignOut()">Sign out</button>
+      <div *ngIf="profile">
+        <h3>Connecté : {{ profile.emailAddress }}</h3>
+        <p>Messages total: {{ profile.messagesTotal }}</p>
+      </div>
+      <div >
+        <button (click)="loadMessages()">Charger messages</button>
+        <button (click)="loadMessagesToday()">Charger messages du jour</button>
+        <button (click)="processMessages()">Load Messages du jour and Process</button>
+        <ul>
+          <li *ngFor="let m of messages"  style="border: 1px solid #ff0000;;"  [style.backgroundColor]="m.isOffreEmploi() ? '#e6ffed' : '#ffff00'" >
+            {{ m.toString2() }}
+            <button (click)="checkMessage(m.id)">Voir</button>
+
+          </li>
+        </ul>
+      </div>
+      <pre *ngIf="selectedMessage">{{ selectedMessage | json }}</pre>
+    </div>

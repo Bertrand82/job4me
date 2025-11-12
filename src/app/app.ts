@@ -25,7 +25,7 @@ import { KeysService } from './services/bg-environment-keys-service';
 import { ComponentDebug } from './component-debug/component-debug';
 import { ComponentStripe } from "./component-stripe/component-stripe";
 import { BgNavigationAuthStripe } from 'bg-navigation-auth-stripe';
-import { GmailListComponent } from "./component-gmail/components_gmail.component";
+import { GmailListComponent } from "./component-gmail/components_gmail";
 // Removed incorrect import of RouterOutlet from .d.ts file
 @Component({
   selector: 'app-root',
