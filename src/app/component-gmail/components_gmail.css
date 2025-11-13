@@ -1,0 +1,26 @@
+.messages-list {
+  display: block;
+}
+
+.message-item {
+  border: 1px solid #ff0000;
+  padding: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 4px;
+}
+
+/* focus visible pour clavier */
+.message-item:focus {
+  outline: 3px solid #3b82f6; /* bleu visible */
+  outline-offset: 2px;
+}
+
+/* empêcher le bouton d'hériter du cursor pointer pour indiquer cible différente */
+.message-item button {
+  cursor: default;
+}

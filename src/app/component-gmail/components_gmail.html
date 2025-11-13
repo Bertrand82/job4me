@@ -9,13 +9,28 @@
         <button (click)="loadMessages()">Charger messages</button>
         <button (click)="loadMessagesToday()">Charger messages du jour</button>
         <button (click)="processMessages()">Load Messages du jour and Process</button>
-        <ul>
-          <li *ngFor="let m of messages"  style="border: 1px solid #ff0000;;"  [style.backgroundColor]="m.isOffreEmploi() ? '#e6ffed' : '#ffff00'" >
-            {{ m.toString2() }}
-            <button (click)="checkMessage(m.id)">Voir</button>
+        <div class="messages-list">
+          <div
+            *ngFor="let m of messages"
+            class="message-item"
+            role="button"
+            tabindex="0"
+            [style.backgroundColor]="m.getBackgroundColor()"
+            (click)="openMessage(m)"
+            (keydown.enter)="openMessage(m)"
+            (keydown.space)="$event.preventDefault(); openMessage(m)"
+          >
+            <div class="message-content">
+             <div>{{ m.from }}</div>
+              {{ m.toString2() }}
+            </div>
 
-          </li>
-        </ul>
+            <!-- Empêche la propagation vers le parent pour que seul le bouton déclenche checkMessage -->
+            <button (click)="checkMessage(m.id); $event.stopPropagation()">
+              Voir
+            </button>
+          </div>
+        </div>       
       </div>
-      <pre *ngIf="selectedMessage">{{ selectedMessage | json }}</pre>
-    </div>
+      
+</div>
