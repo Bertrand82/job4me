@@ -2,12 +2,13 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { JsonPipe, CommonModule, NgIf } from '@angular/common';
 import { GisGmailService } from '../services/gis-gmail.service';
 import { BgGemini } from '../services/bg-gemini';
+import { BgMail } from './BgMail';
 @Component({
   standalone: true,
   selector: 'app-gmail-list',
   imports: [JsonPipe, CommonModule, NgIf],
   templateUrl: './components_gmail.html',
-   styleUrls: ['./components_gmail.css']
+  styleUrls: ['./components_gmail.css']
 })
 
 export class GmailListComponent implements OnInit {
@@ -19,7 +20,7 @@ export class GmailListComponent implements OnInit {
     private gmail: GisGmailService,
     private changeDetectorRef: ChangeDetectorRef,
     private gemini: BgGemini
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.gmail.isSignedIn$.subscribe((s) => {
@@ -27,7 +28,7 @@ export class GmailListComponent implements OnInit {
         this.gmail
           .getProfile()
           .then((p) => (this.profile = p))
-          .catch(() => {});
+          .catch(() => { });
       } else {
         this.profile = null;
       }
@@ -71,14 +72,26 @@ export class GmailListComponent implements OnInit {
   }
   processMessageDetailsByGemini(msg: any): any {
     console.log('processMessageDetails m:', msg);
-    const from = this.extractHeader(msg, 'From') || '';
+    const from = this.extractHeader(msg, 'From') || '';    
     const subject = this.extractHeader(msg, 'Subject') || '';
     const snippet = msg.snippet || '';
     const msgbodyTxt = this.getPlainTextFromMessage(msg, 3000); // tronque à 3000 chars
-
+    const index = this.messages.findIndex((m) => m.id === msg.id);
+    if (index === -1) {
+      console.error(
+        'processMessageDetailsByGemini: message not found in list id=', msg.id
+      );
+      return;
+    }
+    const message = this.messages[index];
+    message.setFrom(from);
+    message.subject = subject;
+    message.snippet = snippet;
+    message.bodyTxt = msgbodyTxt;
     // build prompt
     const prompt = this.buildGeminiPrompt(subject, snippet, msgbodyTxt);
     console.log('processMessageDetails prompt:', prompt);
+    
     ///
     this.gemini.generateContent(prompt, reponseAnalyseGmail).subscribe({
       next: (res) => {
@@ -98,22 +111,27 @@ export class GmailListComponent implements OnInit {
         console.log('part0', part0);
         const textRetour = part0.text;
         console.log('text: ', textRetour);
-        const obj = JSON.parse(textRetour);
-        console.log('obj: ', obj);
+        const geminiResponse = JSON.parse(textRetour);
+        console.log('obj: ', geminiResponse);
         const messageBgMail = new BgMail(
           msg.id,
           from,
           subject,
           snippet,
           msgbodyTxt,
-          obj
+          geminiResponse
         );
-        this.messages.push(messageBgMail);
+        // this.messages.push(messageBgMail);
         // mettre à jour la liste des messages avec la réponse Gemini
         const index = this.messages.findIndex((m) => m.id === msg.id);
-        if (index !== -1) {
-          this.messages[index] = messageBgMail;
+        if (index === -1) {
+          console.error(
+            'processMessageDetailsByGemini: message not found in list id=', msg.id
+          );
+          return
         }
+        const messageToUpdate = this.messages[index];
+        messageToUpdate.geminiResponse = geminiResponse;
         this.changeDetectorRef.detectChanges();
         //t
       },
@@ -138,6 +156,7 @@ export class GmailListComponent implements OnInit {
     );
     return h ? h.value : null;
   }
+
 
   private getPlainTextFromMessage(msg: any, maxLen = 2000): string {
     // try to extract text/plain parts, fallback to stripping HTML
@@ -239,88 +258,9 @@ ${body}
     // this.router.navigate(['/messages', m.id]) ou autre logique
   }
 }
-export class BgMail {
-  id: string;
-  from?: string;
-  subject?: string;
-  snippet?: string;
-  bodyTxt?: string;
-  geminiResponse?: GeminiResponse;
-  constructor(
-    id: string,
-    from?:string,
-    subject?: string,
-    snippet?: string,
-    bodyTxt?: string,
-    geminiResponse?: GeminiResponse
-  ) {
-    this.id = id;
-    this.from = from;
-    this.subject ||= subject;
-    this.snippet ||= snippet;
-    this.bodyTxt ||= bodyTxt;
-    this.geminiResponse ||= geminiResponse;
-
-  }
-  public toString2(): string {
-    if (!this.subject && this.bodyTxt) {
-      return this.id;
-    } else {
-
-      return "Object:  " + this.subject;
-    }
-
-  }
 
 
-  public isOffreEmploi(): boolean {
-    if (this.geminiResponse === undefined) {
-      return false;
-    }
-    if (this.geminiResponse.isJobOffer) {
-      const isJobOffer = this.geminiResponse.isJobOffer;
-      return typeof isJobOffer === 'boolean' &&  isJobOffer;
-    }
-    return false;
-  }
 
-  public getBackgroundColor(): string {
-    if (this.geminiResponse === undefined) {
-      return '#ffffff';;
-    }
-    if (this.isOffreEmploi()) {
-      return '#0e7a27ff'; // vert clair pour les offres d'emploi
-    } else if (this.isPriseDeContact()) {
-      return '#d61b1eff'; // jaune clair pour les prises de contact
-    } else {
-      return '#f8d7da'; // rouge clair pour les autres types de mails
-    } 
-  }
-  public isPriseDeContact(): boolean {
-    if (this.geminiResponse === undefined) {
-      return false;
-    }
-    if (this.geminiResponse.isPriseDeContact) {
-      const isPriseDeContact = this.geminiResponse.isPriseDeContact;
-      return typeof isPriseDeContact === 'boolean' &&  isPriseDeContact;
-    }
-    return false;
-  }
-}
-
-export class GeminiResponse {
-
-    isJobOffer: boolean = false;
-    isPriseDeContact: boolean = false;
-    company: string | undefined;
-    position: string | undefined;
-    salary: string | undefined;
-    location: string | undefined;
-    contact: string | undefined;
-    applyLink: string | undefined;
-    offerDate: string | undefined;
-
-}
 export const reponseAnalyseGmail = {
   type: 'object',
   properties: {
@@ -328,15 +268,15 @@ export const reponseAnalyseGmail = {
       type: 'boolean',
       description: "Ce mail est bien une offre d'emploi (true/false)",
     },
-     isNewsLetter: {
+    isNewsLetter: {
       type: 'boolean',
       description: "Ce mail est bien une new letters non personnelle (true/false)",
     },
-     isPriseDeContact: {
+    isPriseDeContact: {
       type: 'boolean',
       description: "Ce mail est une prise de contact ou une demande de contact (true/false)",
     },
-     isPublicité: {
+    isPublicité: {
       type: 'boolean',
       description: "Ce mail est une publicité (true/false)",
     },
@@ -381,5 +321,5 @@ export const reponseAnalyseGmail = {
       description: "niveau de confiance de l'analyse (0 à 1)",
     },
   },
-  required: ['isJobOffer','isPriseDeContact', 'confidence'],
+  required: ['isJobOffer', 'isPriseDeContact', 'confidence'],
 };
