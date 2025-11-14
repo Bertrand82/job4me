@@ -1,0 +1,8 @@
+<div class="message-item"    [style.backgroundColor]="bgMail.getBackgroundColor()"   (click)="displayModale()" >   
+    
+    
+    <div class="message-content">
+        <div>from : {{ bgMail.fromShort}}</div>
+        {{ bgMail.toString2() }}
+    </div>
+</div>

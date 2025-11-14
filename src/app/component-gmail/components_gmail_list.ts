@@ -1,26 +1,28 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { JsonPipe, CommonModule, NgIf } from '@angular/common';
+import {  CommonModule, NgIf } from '@angular/common';
 import { GisGmailService } from '../services/gis-gmail.service';
 import { BgGemini } from '../services/bg-gemini';
 import { BgMail } from './BgMail';
+import { ComponentGmailMessageItem } from './component_gmail_message/component_gmail_message';
 @Component({
   standalone: true,
   selector: 'app-gmail-list',
-  imports: [JsonPipe, CommonModule, NgIf],
-  templateUrl: './components_gmail.html',
-  styleUrls: ['./components_gmail.css']
+  imports: [ CommonModule, NgIf, ComponentGmailMessageItem],
+  templateUrl: './components_gmail_list.html',
+  styleUrls: ['./components_gmail_list.css']
 })
 
 export class GmailListComponent implements OnInit {
   messages: Array<BgMail> = [];
   selectedMessage: any = null;
   profile: any = null;
+ componentGmailList: any;
 
   constructor(
     private gmail: GisGmailService,
     private changeDetectorRef: ChangeDetectorRef,
     private gemini: BgGemini
-  ) { }
+  ) { this.componentGmailList=this}
 
   ngOnInit() {
     this.gmail.isSignedIn$.subscribe((s) => {
@@ -70,34 +72,37 @@ export class GmailListComponent implements OnInit {
       .then((m) => this.processMessageDetailsByGemini(m))
       .catch((err) => console.error('processMessage:', err));
   }
-  processMessageDetailsByGemini(msg: any): any {
-    console.log('processMessageDetails m:', msg);
-    const from = this.extractHeader(msg, 'From') || '';    
-    const subject = this.extractHeader(msg, 'Subject') || '';
-    const snippet = msg.snippet || '';
-    const msgbodyTxt = this.getPlainTextFromMessage(msg, 3000); // tronque à 3000 chars
-    const index = this.messages.findIndex((m) => m.id === msg.id);
+  processMessageDetailsByGemini(msg2: any): any {
+    console.log('processMessageDetails m:', msg2);
+
+    const index = this.messages.findIndex((m) => m.id === msg2.id);
     if (index === -1) {
       console.error(
-        'processMessageDetailsByGemini: message not found in list id=', msg.id
+        'processMessageDetailsByGemini: message not found in list id=', msg2.id
       );
       return;
     }
     const message = this.messages[index];
-    message.setFrom(from);
-    message.subject = subject;
-    message.snippet = snippet;
-    message.bodyTxt = msgbodyTxt;
+    message.setFrom(this.extractHeader(msg2, 'From') || '');    
+    message.to = this.extractHeader(msg2, 'To') || '';    
+    message.subject = this.extractHeader(msg2, 'Subject') || '';
+    message.snippet = msg2.snippet || '';
+    message.bodyTxt = this.getPlainTextFromMessage(msg2, 3000); // tronque à 3000 chars
+  
     // build prompt
-    const prompt = this.buildGeminiPrompt(subject, snippet, msgbodyTxt);
+    if (!message.isConsistent()){
+      console.log('Message non consistent, skipping Gemini analysis id=', message);
+      return;
+    }
+    const prompt = this.buildGeminiPrompt(message.subject, message.snippet, message.bodyTxt);
     console.log('processMessageDetails prompt:', prompt);
-    
+   
     ///
     this.gemini.generateContent(prompt, reponseAnalyseGmail).subscribe({
       next: (res) => {
-        console.log('responseRequestGemini msg A' + msg.id + ' res:', res);
+        console.log('responseRequestGemini msg A' + msg2.id + ' res:', res);
         console.log(
-          'responseRequestGemini msg B' + msg.id + ' geminiData:',
+          'responseRequestGemini msg B' + message.id + ' geminiData:',
           res.geminiData
         );
         console.log('candidates', res.geminiData.candidates);
@@ -113,25 +118,11 @@ export class GmailListComponent implements OnInit {
         console.log('text: ', textRetour);
         const geminiResponse = JSON.parse(textRetour);
         console.log('obj: ', geminiResponse);
-        const messageBgMail = new BgMail(
-          msg.id,
-          from,
-          subject,
-          snippet,
-          msgbodyTxt,
-          geminiResponse
-        );
+        
         // this.messages.push(messageBgMail);
         // mettre à jour la liste des messages avec la réponse Gemini
-        const index = this.messages.findIndex((m) => m.id === msg.id);
-        if (index === -1) {
-          console.error(
-            'processMessageDetailsByGemini: message not found in list id=', msg.id
-          );
-          return
-        }
-        const messageToUpdate = this.messages[index];
-        messageToUpdate.geminiResponse = geminiResponse;
+        
+        message.geminiResponse = geminiResponse;
         this.changeDetectorRef.detectChanges();
         //t
       },
@@ -194,7 +185,7 @@ export class GmailListComponent implements OnInit {
     return div.textContent || div.innerText || '';
   }
 
-  private buildGeminiPrompt(subject: string, snippet: string, body: string) {
+  private buildGeminiPrompt(subject: string, snippet: string| undefined, body: string) {
     const template = `
 Tu es un extracteur d'offres d'emploi. Réponds uniquement par du JSON strict conforme au schema fourni.
 Message:

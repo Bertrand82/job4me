@@ -1,0 +1,23 @@
+<div>
+  <button (click)="onSignIn()">Sign in</button>
+  <button (click)="onSignOut()">Sign out</button>
+  <div *ngIf="profile">
+    <h3>Connecté : {{ profile.emailAddress }}</h3>
+    <p>Messages total: {{ profile.messagesTotal }}</p>
+  </div>
+  <div>
+    <button (click)="loadMessages()">Charger messages</button>
+    <button (click)="loadMessagesToday()">Charger messages du jour</button>
+    <button (click)="processMessages()">Load Messages du jour and Process</button>
+    <div class="messages-list">
+
+
+      <div *ngFor="let messageGmail of messages">
+        <component-gmail-message-item [gmailListComponent]="componentGmailList"
+          [bgMail]="messageGmail"></component-gmail-message-item>
+      </div>
+
+    </div>
+  </div>
+
+</div>
