@@ -1,5 +1,6 @@
 export class BgMail {
 
+
     id: string;
     from?: string;
     fromShort?: string;
@@ -60,9 +61,13 @@ export class BgMail {
             return '#ffffff';;
         }
         if (this.isOffreEmploi()) {
-            return '#0e7a27ff'; // vert clair pour les offres d'emploi
+            if (this.nbOffresEmplois() ==1 ) {      
+            return '#7a0e3dff'; // vert clair pour les offres d'emploi
+            } else {
+                return '#57af4cff'; // vert plus foncé si plusieurs offres
+            }   
         } else if (this.isPriseDeContact()) {
-            return '#d61b1eff'; // jaune clair pour les prises de contact
+            return '#d61b1eff'; // 
         } else {
             return '#f8d7da'; // rouge clair pour les autres types de mails
         }
@@ -78,12 +83,31 @@ export class BgMail {
         return false;
     }
 
+    public nbOffresEmplois(): number {
+        if (this.geminiResponse === undefined) {
+            return 0;
+        }
+        return this.geminiResponse.nbOffresEmplois || 0;
+    }   
+
     isConsistent(): Boolean {
         // Vérifie que les champs essentiels sont présents
         if (!this.from || (!this.subject && !this.bodyTxt)) {
             return false;
         }
         return true;
+    }
+
+     displayInGmailByMessageId(messageId: string, accountIndex = 0) {
+        if (!messageId) { return; }
+        // construction d'URL : on utilise #all pour être plus général
+        const url = `https://mail.google.com/mail/u/${accountIndex}/#all/${encodeURIComponent(messageId)}`;
+        window.open(url, '_blank');  
+    }
+
+    displayApplyLink() {
+        if (!this.geminiResponse?.applyLink) { return; }
+        window.open(this.geminiResponse?.applyLink, '_blank')
     }
 }
 
@@ -92,6 +116,7 @@ export class GeminiResponse {
 
     isJobOffer: boolean = false;
     isPriseDeContact: boolean = false;
+    nbOffresEmplois: number = 0;
     company: string | undefined;
     position: string | undefined;
     salary: string | undefined;
@@ -99,6 +124,8 @@ export class GeminiResponse {
     contact: string | undefined;
     applyLink: string | undefined;
     offerDate: string | undefined;
+    extraNotes: string | undefined;
+    confidence: number | undefined; 
 
 }
 

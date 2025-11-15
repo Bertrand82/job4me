@@ -1,14 +1,27 @@
-<h1>Détails du message</h1>
+<div><button (click)="onClose()">Fermer</button></div>
+<div>Voir dans gmail: <button (click)="data.displayInGmailByMessageId(data.id)">view</button> </div>
 <div>
-    <div>   Id {{ data.id }}</div>
-    <div>from SHort {{ data.fromShort }}</div>
-    <div>from {{ data.from }}</div>
-    <div>to {{ data.to }}</div> 
-    <div>subject {{ data.subject }}</div>
-    <div>date {{ data.date  }} </div>  
-    <div>snippet {{ data.snippet }}</div>
-    <div>bodyText {{ data.bodyTxt }}</div> 
-    
-    <div>labels {{ data.labels }}</div>
-    <button (click)="onClose()">Fermer</button> 
+    <div> Id {{ data.id }}</div>
+
+    <div>from :{{ data.from }}</div>
+    <div>to :{{ data.to }}</div>
+    <div>subject :{{ data.subject }}</div>
+    <div>date :{{ data.date }} </div>
+    <div>isConsistent :{{ data.isConsistent() }}</div>
+    <div>Offre emploi : {{ data.isOffreEmploi() }}</div>
+    <div>Prise de contact : {{ data.isPriseDeContact() }}</div>
+    <div>Nb Offre emploi : {{ data.nbOffresEmplois() }}</div>
+    <div></div>
+    <div>labels :{{ data.labels }}</div>
+    <div>company :{{ data.geminiResponse?.company }}</div>
+    <div>location :{{ data.geminiResponse?.location }}</div>
+    <div>position :{{ data.geminiResponse?.position}}</div>
+    <div>salary :{{ data.geminiResponse?.salary}}</div>
+    <div>extraNotes :{{ data.geminiResponse?.extraNotes}}</div>
+    <div>confidence :{{ data.geminiResponse?.confidence}}</div>
+    <div>applyLink :{{ data.geminiResponse?.applyLink}} <button (click)="data.displayApplyLink()">Open</button></div>
+    <div>contact :{{ data.geminiResponse?.contact}}</div>
+    <div>offerDate :{{ data.geminiResponse?.offerDate}}</div>
+
+    <button (click)="onClose()">Fermer</button>
 </div>

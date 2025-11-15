@@ -1,8 +1,8 @@
-<div class="message-item"    [style.backgroundColor]="bgMail.getBackgroundColor()"   (click)="displayModale()" >   
+<div class="message-item"    [style.backgroundColor]="bgMail.getBackgroundColor()"   >   
     
     
-    <div class="message-content">
-        <div>from : {{ bgMail.fromShort}}</div>
+    <div class="message-content"  (click)="displayModale()">
+        <div><button (click)="bgMail.displayInGmailByMessageId(bgMail.id)">Open</button> from : {{ bgMail.fromShort}} </div>
         {{ bgMail.toString2() }}
     </div>
 </div>

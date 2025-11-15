@@ -288,8 +288,7 @@ export const reponseAnalyseGmail = {
     salary: { type: 'string', maxLength: 80, description: 'salaire proposé' },
     location: { type: 'string', maxLength: 80, description: 'lieu du poste' },
     contact: {
-      type: 'string',
-      maxLength: 80,
+      type: 'string',     
       description: 'personne à contacter',
     },
     applyLink: {
@@ -311,6 +310,10 @@ export const reponseAnalyseGmail = {
       type: 'number',
       description: "niveau de confiance de l'analyse (0 à 1)",
     },
+    nbOffresEmplois: {
+      type: 'number',
+      description: "nombre d'offres d'emplois détectées dans le mail (0 si aucune)",
+    },
   },
-  required: ['isJobOffer', 'isPriseDeContact', 'confidence'],
+  required: ['isJobOffer', 'isPriseDeContact', 'nbOffresEmplois', 'confidence'],
 };
