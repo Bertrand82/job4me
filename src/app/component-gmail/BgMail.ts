@@ -45,15 +45,8 @@ export class BgMail {
     }
 
 
-    public isOffreEmploi(): boolean {
-        if (this.geminiResponse === undefined) {
-            return false;
-        }
-        if (this.geminiResponse.isJobOffer) {
-            const isJobOffer = this.geminiResponse.isJobOffer;
-            return typeof isJobOffer === 'boolean' && isJobOffer;
-        }
-        return false;
+    public isOffreEmploi(): boolean {        
+        return (this.isLabel("jobOffer")) 
     }
 
     public getBackgroundColor(): string {
@@ -73,14 +66,15 @@ export class BgMail {
         }
     }
     public isPriseDeContact(): boolean {
-        if (this.geminiResponse === undefined) {
+        
+        return this.isLabel("contactRequest");
+    }
+
+    public isLabel(labelToCheck: string): boolean {
+        if (this.geminiResponse === undefined || this.geminiResponse.label === undefined) {
             return false;
         }
-        if (this.geminiResponse.isPriseDeContact) {
-            const isPriseDeContact = this.geminiResponse.isPriseDeContact;
-            return typeof isPriseDeContact === 'boolean' && isPriseDeContact;
-        }
-        return false;
+        return this.geminiResponse.label === labelToCheck;
     }
 
     public nbOffresEmplois(): number {
@@ -113,9 +107,9 @@ export class BgMail {
 
 
 export class GeminiResponse {
+   
 
-    isJobOffer: boolean = false;
-    isPriseDeContact: boolean = false;
+
     nbOffresEmplois: number = 0;
     company: string | undefined;
     position: string | undefined;
@@ -126,7 +120,8 @@ export class GeminiResponse {
     offerDate: string | undefined;
     extraNotes: string | undefined;
     confidence: number | undefined; 
-
+    label: string | undefined;
+   
 }
 
 

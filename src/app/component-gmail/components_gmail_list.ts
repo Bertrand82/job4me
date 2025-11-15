@@ -96,7 +96,7 @@ export class GmailListComponent implements OnInit {
     }
     const prompt = this.buildGeminiPrompt(message.subject, message.snippet, message.bodyTxt);
     console.log('processMessageDetails prompt:', prompt);
-   
+    this.changeDetectorRef.detectChanges();
     ///
     this.gemini.generateContent(prompt, reponseAnalyseGmail).subscribe({
       next: (res) => {
@@ -105,6 +105,11 @@ export class GmailListComponent implements OnInit {
           'responseRequestGemini msg B' + message.id + ' geminiData:',
           res.geminiData
         );
+        if(res.geminiData.error){
+          console.error('Erreur Gemini pour le message id=' + message.id + ' :', res.geminiData.error);
+          this.changeDetectorRef.detectChanges();
+          return;
+        }
         console.log('candidates', res.geminiData.candidates);
         const candidat = res.geminiData.candidates[0];
 
@@ -133,6 +138,7 @@ export class GmailListComponent implements OnInit {
         console.log('err.error', err.error);
         console.log('err.error.error', err.error.error);
         console.log('err.error.error.message', err.error.error.message);
+        this.changeDetectorRef.detectChanges();
       },
     });
 
@@ -255,26 +261,7 @@ ${body}
 export const reponseAnalyseGmail = {
   type: 'object',
   properties: {
-    isJobOffer: {
-      type: 'boolean',
-      description: "Ce mail est bien une offre d'emploi (true/false)",
-    },
-    isNewsLetter: {
-      type: 'boolean',
-      description: "Ce mail est bien une new letters non personnelle (true/false)",
-    },
-    isPriseDeContact: {
-      type: 'boolean',
-      description: "Ce mail est une prise de contact ou une demande de contact (true/false)",
-    },
-    isPublicité: {
-      type: 'boolean',
-      description: "Ce mail est une publicité (true/false)",
-    },
-    isFacture: {
-      type: 'boolean',
-      description: "Ce mail est une facture(true/false)",
-    },
+   
     company: {
       type: 'string',
       maxLength: 80,
@@ -314,6 +301,22 @@ export const reponseAnalyseGmail = {
       type: 'number',
       description: "nombre d'offres d'emplois détectées dans le mail (0 si aucune)",
     },
+     // Nouveau champ "label" : une seule valeur choisie parmi une énumération de labels
+    label: {
+      type: 'string',
+      enum: [
+        'jobOffer',       // une seule offre d'emploi
+        'jobOffers',      // plusieurs offres listées dans le même mail
+        'advertisement',  // publicité / promo
+        'contactRequest', // prise de contact / demande de contact
+        'bank',           // communication bancaire (ex: relevé, alerte)
+        'newsletter',     // newsletter non personnelle
+        'invoice',        // facture
+        'other'           // autre / indéterminé
+      ],
+      description:
+        "Catégorie principale du mail. Utiliser une valeur parmi l'énumération (jobOffer, jobOffers, advertisement, contactRequest, bank, newsletter, invoice, other).",
+    },
   },
-  required: ['isJobOffer', 'isPriseDeContact', 'nbOffresEmplois', 'confidence'],
+  required: [ 'nbOffresEmplois', 'label', 'confidence'],
 };
